@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/horizontal_padding_large"
+    android:paddingLeft="@dimen/horizontal_padding_medium"
+    android:paddingRight="@dimen/horizontal_padding_medium"
+    android:paddingTop="@dimen/horizontal_padding_large" >
+
+    <TextView
+        android:id="@+id/draft_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="@dimen/text_size_large"
+        android:text="哪些面团需要松弛？" />
+
+    <TextView
+        android:id="@+id/your_draft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/draft_title"
+        android:layout_below="@+id/draft_title"
+        android:textColor="@color/text_color_gray"
+        android:layout_marginTop="@dimen/vertical_padding_medium"
+        android:text="sbsbsdbsbsbsbsbsbsbsbsbsbsbsbsbssbsbsbsbsbsbsbsbsbsbsbsbsbsbsbsbs" />
+	
+</RelativeLayout>

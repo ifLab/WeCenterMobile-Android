@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="drawer_item_checked">#f96b03</color>
+    <color name="text_color_black">#ff444444</color>
+    <color name="text_color_white">#ffffffff</color>
+    <color name="bg_white">#ffffffff</color>
+    <color name="item_background_pressed">#ff00a7ff</color>
+    <color name="welcome_bg">#e66c13</color>
+    <color name="fanfan_first">#f96b03</color>
+    <color name="fanfan_second">#f6832f</color>
+    <color name="text_color_light_gray">#eeeeee</color>
+    <color name="rigister_Alpah">#96dddddd</color>
+    <color name="text_color_gray">#999999</color>
+    <color name="text_color_rigister_button_pressed">#dddddd</color>
+    <color name="text_color_really_black">#000000</color>
+    <color name="line">#dcdcdc</color>
+    
+    <color name="background_tab_pressed">#6633B5E5</color>
+</resources>

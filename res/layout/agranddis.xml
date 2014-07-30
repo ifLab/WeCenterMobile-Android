@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+   
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+>
+     
+    <ImageView
+        android:layout_weight="1"
+        android:id="@+id/agree"
+        android:clickable="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/vote_up_normal" />
+     <ImageView
+        android:layout_weight="1"
+        android:clickable="true"
+        android:id="@+id/disagree"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/vote_down_normal" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line" />
+    <TextView
+        android:id="@+id/essence_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/vertical_padding_large"
+        android:paddingLeft="@dimen/horizontal_padding_xlarge"
+        android:paddingTop="@dimen/vertical_padding_large"
+        android:text="家庭烘焙需要哪些基础工具？"
+        android:textSize="@dimen/text_size_large" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/essence_title"
+        android:background="@color/line" />
+
+    <ImageView
+        android:id="@+id/essence_image"
+        android:layout_width="@dimen/avatar_size_small"
+        android:layout_height="@dimen/avatar_size_small"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/line"
+        android:layout_marginLeft="@dimen/horizontal_padding_xlarge"
+        android:layout_marginTop="@dimen/vertical_padding_large"
+        android:src="@drawable/ceshi" />
+
+    <TextView
+        android:id="@+id/praise"
+        android:layout_width="@dimen/avatar_size_small"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/essence_image"
+        android:layout_below="@+id/essence_image"
+        android:layout_marginTop="@dimen/vertical_padding_large"
+        android:background="@android:color/holo_purple"
+        android:text="4"
+        android:textColor="@color/text_color_black" />
+
+    <TextView
+        android:id="@+id/essencejianlve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line"
+        android:layout_marginLeft="@dimen/horizontal_padding_medium"
+        android:layout_marginTop="@dimen/vertical_padding_large"
+        android:layout_toRightOf="@+id/essence_image"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:paddingRight="@dimen/horizontal_padding_xxlarge"
+        android:text="这个问题可以说没有标准答案，不过我可以根据自己初学时的一些准备经验给些建议。电器类：烤箱，电动搅拌器品牌上面个人认为国产的质量较均等，并且可寻的种类也不多，烤箱容量在24L以上，要求带有"
+        android:textColor="@color/text_color_gray"
+        android:textSize="@dimen/text_size_medium" />
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/essencejianlve"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="@color/line" />
+
+</RelativeLayout>

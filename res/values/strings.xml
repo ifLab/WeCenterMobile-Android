@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">fanfan</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="welcome_look_around">随便看看</string>
+    <string name="register_user_name">用  户 名</string>
+    <string name="register_user_name_hint">请输入一个 2-14 位的用户名</string>
+    <string name="register_mail">邮       箱</string>
+    <string name="register_mail_hint">请输入你常用的电子邮箱</string>
+    <string name="register_password">密       码</string>
+    <string name="register_password_hint">请输入 6-16 个字符，区分大小写</string>
+    <string name="register_re_password">确认密码</string>
+    <string name="register_re_password_hint">请确认密码</string>
+    <string name="register_ok">注册</string>
+    <string name="login_user_name">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login_ok">登录</string>
+    <string name="login_no">取消</string>
+
+    <string-array name="drawerliststring">
+        <item>首页</item>
+        <item>发现</item>
+        <item>关注</item>
+        <item>收藏</item>
+        <item>草稿</item>
+        <item>提问</item>
+    </string-array>
+    <string-array name="nologindrawerliststring">
+        <item>关注</item>
+    </string-array>
+
+    <string name="drawer_login">饭饭登录</string>
+    
+    <string name="net_break">网络错误!</string>
+    <string name="get_user_info">获取用户信息失败，请重试!</string>
+
+</resources>

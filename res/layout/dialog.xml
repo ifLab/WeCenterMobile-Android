@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/zan"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:background="@drawable/list_item"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="赞" />
+      <View android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="#dcdcdc"/>
+
+    <Button
+        android:id="@+id/backanswer"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_width="match_parent"
+        android:background="@drawable/list_item"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:text="回复" />
+
+   <View android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="#dcdcdc"/>
+    <Button
+        android:id="@+id/cancel"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/list_item"
+        android:textSize="18sp"
+        android:text="取消" />
+
+</LinearLayout>

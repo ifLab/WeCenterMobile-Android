@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_list_item"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/horizontal_padding_xlarge"
+    android:paddingLeft="@dimen/horizontal_padding_xlarge"
+    android:paddingRight="@dimen/horizontal_padding_xlarge"
+    android:paddingTop="@dimen/vertical_padding_xlarge" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_drawer_home_normal" />
+
+    <TextView
+        android:id="@+id/draweritem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_toRightOf="@id/icon"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="@style/Zhihu.TextAppearance.Title.Main.Large" />
+
+</RelativeLayout>

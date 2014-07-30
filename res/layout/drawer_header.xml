@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/li_user"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/drawer_header_item_height"
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true"
+    android:background="@drawable/bg_list_item"
+    android:paddingLeft="@dimen/horizontal_padding_xlarge" >
+
+    <ImageView
+        android:id="@+id/login_icon"
+        android:layout_width="@dimen/avatar_size_medium"
+        android:layout_height="@dimen/avatar_size_medium"
+        android:src="@drawable/ic_launcher"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_toRightOf="@id/login_icon"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="黄陈"
+        android:textAppearance="@style/Zhihu.TextAppearance.Title.Main.Large" />
+
+</RelativeLayout>
