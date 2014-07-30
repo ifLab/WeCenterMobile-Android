@@ -228,36 +228,6 @@
                 android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
 
-            <LinearLayout
-                android:id="@+id/lv_location"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_location"
-                    android:gravity="center_vertical"
-                    android:text="居住" />
-
-                <TextView
-                    android:id="@+id/tv_location_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="未设置" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:drawableRight="@drawable/ic_more_normal"
-                    android:gravity="center_vertical"
-                    android:text="" />
-            </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"

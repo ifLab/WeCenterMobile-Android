@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.attentionuser.AttentionUser;
 import cn.fanfan.common.AsyncImageGet;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.common.TipsToast;
@@ -20,41 +21,36 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings.Global;
 import android.text.style.UpdateLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class UserInfoActivity extends Activity implements OnClickListener {
+	private Boolean haveFrocus = true;
 	private static TipsToast tipsToast;
-	private String uid;
 	private ImageView iv_avatar;
+	private Button bt_focus;
 	private TextView tv_username;
-	private LinearLayout lv_topics;
 	private TextView tv_topic;
-	private LinearLayout lv_ifocus_person;
 	private TextView tv_ifocus_person;
-	private LinearLayout lv_focusi_person;
 	private TextView tv_focusi_person;
 	private TextView tv_thanks;
 	private TextView tv_votes;
-	private TextView tv_shared;
 	private TextView tv_collect;
-	private LinearLayout lv_replys;
 	private TextView tv_replys;
-	private LinearLayout lv_asks;
 	private TextView tv_asks;
-	private LinearLayout lv_articles;
 	private TextView tv_articles;
-	private LinearLayout lv_news;
 	private TextView tv_news;
-	private LinearLayout lv_search_friens;
+	private String uid;
 	protected String errno;
 	protected String err;
 	protected String user_name;
@@ -67,6 +63,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	protected String agree_count;
 	protected String thanks_count;
 	protected String answer_favorite_count;
+	private LinearLayout lv_topics, lv_replys, lv_search_friens, lv_news,
+			lv_asks, lv_focusi_person, lv_ifocus_person, lv_articles;
+	private int status;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,6 +73,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		Intent intent = this.getIntent();
 		// Bundle bundle = intent.getExtras();
 		uid = intent.getStringExtra("uid");
+		status = intent
+				.getIntExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
 		init();// 初始化
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();
@@ -176,7 +177,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 				});
 	}
 
-
 	protected void updateUI(String avatarurl) {
 		// TODO Auto-generated method stub
 		tv_username.setText(user_name);
@@ -188,8 +188,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tv_collect.setText(answer_favorite_count);
 		tv_replys.setText(answer_count);
 		tv_asks.setText(question_count);
-		if (avatarurl!="null") {
-			AsyncImageGet getAvatar = new AsyncImageGet("http://w.hihwei.com/uploads/avatar/"+avatarurl, iv_avatar);
+		if (avatarurl != "null") {
+			AsyncImageGet getAvatar = new AsyncImageGet(
+					"http://w.hihwei.com/uploads/avatar/" + avatarurl,
+					iv_avatar);
 			getAvatar.execute();
 		}
 	}
@@ -210,7 +212,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 		tv_thanks = (TextView) findViewById(R.id.tv_thanks);
 		tv_votes = (TextView) findViewById(R.id.tv_votes);
-		tv_shared = (TextView) findViewById(R.id.tv_shared);
 		tv_collect = (TextView) findViewById(R.id.tv_collect);
 
 		lv_replys = (LinearLayout) findViewById(R.id.lv_replys);
@@ -229,6 +230,15 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 		lv_search_friens = (LinearLayout) findViewById(R.id.lv_search_friens);
 		lv_search_friens.setOnClickListener(this);
+
+		bt_focus = (Button) findViewById(R.id.bt_focus);
+		bt_focus.setOnClickListener(this);
+		if (status == GlobalVariables.AVAILABLE_EDIT) {
+			bt_focus.setVisibility(View.GONE);
+		} else if (haveFrocus) {
+			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+			bt_focus.setText("取消关注");
+		}
 	}
 
 	@Override
@@ -236,7 +246,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.lv_topics:
-			Intent intent = new Intent(UserInfoActivity.this,TopicActivity.class);
+			Intent intent = new Intent(UserInfoActivity.this,
+					TopicActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.lv_focusi_person:
@@ -244,7 +255,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.lv_ifocus_person:
-			Intent intent1 = new Intent(UserInfoActivity.this,AttentionUser.class);
+			Intent intent1 = new Intent(UserInfoActivity.this,
+					AttentionUser.class);
 			startActivity(intent1);
 			break;
 		case R.id.lv_articles:
@@ -267,9 +279,28 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			Toast.makeText(UserInfoActivity.this, "lv_replys",
 					Toast.LENGTH_SHORT).show();
 			break;
+		case R.id.bt_focus:
+			if (haveFrocus) {
+				haveFrocus = false;
+				bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
+				bt_focus.setText("关注");
+			} else {
+				haveFrocus = true;
+				bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+				bt_focus.setText("取消关注");
+			}
+			changeFrocusStatus();
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void changeFrocusStatus() {
+		// TODO Auto-generated method stub
+		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+		RequestParams frocusStatus = new RequestParams();
+		//发送关注状态，如果失败者toast提醒用户，并更改frocus按钮相关状态
 	}
 
 	private void showTips(int iconResId, int msgResId) {
@@ -288,7 +319,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.userinforedit, menu);
+		if (status == GlobalVariables.AVAILABLE_EDIT) {
+			getMenuInflater().inflate(R.menu.userinforedit, menu);
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
