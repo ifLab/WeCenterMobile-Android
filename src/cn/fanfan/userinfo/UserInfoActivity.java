@@ -242,6 +242,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			bt_focus.setVisibility(View.GONE);
 		} else if (haveFrocus) {
 			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+			bt_focus.setTextColor(android.graphics.Color.BLACK);
 			bt_focus.setText("取消关注");
 		}
 	}
@@ -288,10 +289,12 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			if (haveFrocus) {
 				haveFrocus = false;
 				bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
+				bt_focus.setTextColor(android.graphics.Color.WHITE);
 				bt_focus.setText("关注");
 			} else {
 				haveFrocus = true;
 				bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+				bt_focus.setTextColor(android.graphics.Color.BLACK);
 				bt_focus.setText("取消关注");
 			}
 			changeFrocusStatus();

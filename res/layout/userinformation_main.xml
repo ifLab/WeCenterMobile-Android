@@ -217,6 +217,7 @@
                     android:layout_height="40dp"
                     android:background="@drawable/btn_green_normal"
                     android:textSize="16sp"
+                    android:textColor="#ffffff"
                     android:text="关注" />
             </LinearLayout>
         </LinearLayout>
