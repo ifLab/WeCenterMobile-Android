@@ -17,6 +17,7 @@ import cn.fanfan.common.NetworkState;
 import cn.fanfan.common.TipsToast;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.TopicActivity;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -70,6 +71,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.userinformation_main);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.show();
 		Intent intent = this.getIntent();
 		// Bundle bundle = intent.getExtras();
 		uid = intent.getStringExtra("uid");
@@ -341,6 +346,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			intent.putExtras(bundle);
 			startActivity(intent);
 			return true;
+		}
+		if (id == android.R.id.home) {
+			this.finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -27,14 +27,14 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/avatartest" />
+                    android:src="@drawable/ic_avatar_default" />
 
                 <ImageView
                     android:id="@+id/iv_masklayer"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/iv_masklayer" />
+                    android:src="@drawable/ic_avatar_masker" />
             </FrameLayout>
 
             <LinearLayout
