@@ -165,9 +165,12 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			tv_sex_m_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
 		}
 		// 展示用户生日信息
-		String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
-		tv_birthday_info.setText(date);
-		Log.i("date", date);
+		if (birthday != "null") {
+			String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
+			tv_birthday_info.setText(date);
+			Log.i("date", date);
+		}
+
 		if (avatar_file != null) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
 					"http://w.hihwei.com/uploads/avatar/" + avatar_file,
@@ -245,6 +248,10 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		case R.id.lv_birthday:
 			DialogFragment newFragment = new DatePickerFragment();
 			newFragment.show(getFragmentManager(), "datePicker");
+			break;
+		case R.id.tv_birthday_info:
+			DialogFragment newFragment2 = new DatePickerFragment();
+			newFragment2.show(getFragmentManager(), "datePicker");
 			break;
 		case R.id.lv_business:
 			Toast.makeText(this, "手机端暂不支持更改，请登录网站更改！", Toast.LENGTH_LONG)
@@ -325,6 +332,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 											"网络有点不好哦，再来一次吧！", Toast.LENGTH_LONG)
 											.show();
 								} else {
+									iv_avatar.clearAnimation();
 									AsyncImageGet getAvatarPreview = new AsyncImageGet(
 											preview, iv_avatar);
 									getAvatarPreview.execute();
