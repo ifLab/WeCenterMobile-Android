@@ -14,10 +14,12 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,11 +49,25 @@ public class AttentionUser extends Activity {
 	private int all_pages = 1;
 	private LinearLayout footerLinearLayout;
 	private TextView footText;
+	private String url;
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.attention_listview);
+		Intent intent = getIntent();
+		String UserOrMe = intent.getStringExtra("userorme");
+		if (UserOrMe.equals(GlobalVariables.ATTENEION_ME)) {
+			url = Config.getValue("AttentionMe");
+		}else {
+			url = Config.getValue("AttentionUser");
+		}
 		attentionUserModels = new ArrayList<AttentionUserModel>();
 		imageDownLoader = new ImageDownLoader(AttentionUser.this);
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(AttentionUser.this).inflate(R.layout.next_page_footer,null);
@@ -147,7 +163,7 @@ public class AttentionUser extends Activity {
 		params.put("uid", uid);
 		params.put("page", page);
 		params.put("perpage", String.valueOf(per_page));
-		client.get("http://w.hihwei.com/api/my_focus_user.php", params,
+		client.get(url, params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
@@ -194,6 +210,9 @@ public class AttentionUser extends Activity {
 							if (currentPage == 1) {
 								adapter = new AttentionUserAdapter(AttentionUser.this, imageDownLoader, attentionUserModels);
 								listView.setAdapter(adapter);
+								if (attentionUserModels.size() < per_page) {
+									footText.setText("没有更多数据了！");
+								}
 								currentPage ++;
 							}else {
 								adapter.notifyDataSetChanged();

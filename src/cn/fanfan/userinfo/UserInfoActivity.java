@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.attentionuser.AttentionUser;
 import cn.fanfan.common.AsyncImageGet;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.common.TipsToast;
@@ -240,11 +241,13 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.lv_focusi_person:
-			Toast.makeText(UserInfoActivity.this, "lv_focusi_person",
-					Toast.LENGTH_SHORT).show();
+			Intent intent2 = new Intent(UserInfoActivity.this,AttentionUser.class);
+			intent2.putExtra("userorme", GlobalVariables.ATTENEION_ME);
+			startActivity(intent2);
 			break;
 		case R.id.lv_ifocus_person:
 			Intent intent1 = new Intent(UserInfoActivity.this,AttentionUser.class);
+			intent1.putExtra("userorme", GlobalVariables.ATTENTION_USER);
 			startActivity(intent1);
 			break;
 		case R.id.lv_articles:
