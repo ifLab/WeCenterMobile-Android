@@ -206,16 +206,22 @@ public class Question extends FragmentActivity {
 			//showDialog();
 			break;
 		case R.id.publish:
-			String quesdetil =  ((Detilfrang) text2).getTextString().getText().toString();
-            String question = ((Quesfrang) text1).getTextString().getText().toString();
-            String questag = ((Tagfrang) text3).getTextString().getText().toString();
-            RequestParams params = new RequestParams();
-            params.put("question_content", question);
-            params.put("question_detail", quesdetil);
-			params.put("attach_access_key", attach_access_key);
-			attach_access_key = md5(getAttachKey());
-            params.put("topics", questag);
-            quespost(params);
+			try {
+				String quesdetil =  ((Detilfrang) text2).getTextString().getText().toString();
+	            String question = ((Quesfrang) text1).getTextString().getText().toString();
+	            String questag = ((Tagfrang) text3).getTextString().getText().toString();
+	            RequestParams params = new RequestParams();
+	            params.put("question_content", question);
+	            params.put("question_detail", quesdetil);
+				params.put("attach_access_key", attach_access_key);
+				attach_access_key = md5(getAttachKey());
+	            params.put("topics", questag);
+	            quespost(params);
+			} catch (Exception e) {
+				// TODO: handle exception
+				Toast.makeText(this, "请完善内容", Toast.LENGTH_LONG);
+			}
+			
 			break;
 		default:
 			break;
