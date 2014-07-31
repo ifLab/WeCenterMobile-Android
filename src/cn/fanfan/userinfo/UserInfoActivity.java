@@ -239,7 +239,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		bt_focus = (Button) findViewById(R.id.bt_focus);
 		bt_focus.setOnClickListener(this);
 		if (status == GlobalVariables.AVAILABLE_EDIT) {
-			bt_focus.setVisibility(View.GONE);
+			bt_focus.setVisibility(View.INVISIBLE);
 		} else if (haveFrocus) {
 			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 			bt_focus.setTextColor(android.graphics.Color.BLACK);
