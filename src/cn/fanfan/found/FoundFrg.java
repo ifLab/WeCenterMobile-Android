@@ -1,8 +1,5 @@
 package cn.fanfan.found;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.fanfan.main.R;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -27,9 +24,9 @@ public class FoundFrg extends Fragment {
 	 private int bmpW;// 动画图片宽度
 	 private int itemcount = 4;
 	 private ViewPager viewPager;
-	 private List<Fragment> listViews; // Tab页面列表
 	 private ImageView cursor;// 动画图片
 	 private TextView t1, t2, t3,t4;// 页卡头标
+	 private FoundPageAdapter foundPageAdapter;
 	 public FoundFrg() {
 		// TODO Auto-generated constructor stub
 	}
@@ -56,16 +53,9 @@ public class FoundFrg extends Fragment {
 	     t4.setOnClickListener(new MyOnClickListener(3));
 	    }
 	 private void InitViewPager() {
-	        listViews = new ArrayList<Fragment>();
-	        Fragment text1 = new FoundPager();
-	        Fragment text2 = new FoundPager();
-	        Fragment text3 = new FoundPager();
-	        Fragment text4 = new FoundPager();
-	        listViews.add(text1);
-	        listViews.add(text2);
-	        listViews.add(text3);
-	        listViews.add(text4);
-	        viewPager.setAdapter(new FoundPageAdapter(getActivity().getSupportFragmentManager(),listViews));
+
+	        foundPageAdapter = new FoundPageAdapter(getActivity().getSupportFragmentManager());
+	        viewPager.setAdapter(foundPageAdapter);
 	        viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
 	    }
 	 private void InitImageView() {
@@ -92,23 +82,22 @@ public class FoundFrg extends Fragment {
 	        }
 	    };
 	    public class FoundPageAdapter extends FragmentStatePagerAdapter{
-			public List<Fragment> mListViews;
+	
 	        
-	        public FoundPageAdapter(FragmentManager fm,List<Fragment> mListViews) {
+	        public FoundPageAdapter(FragmentManager fm) {
 				// TODO Auto-generated constructor stub
 	        	super(fm);
-	        	this.mListViews = mListViews;
 			}
 	     
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return mListViews.size();
+				return 4;
 			}
 			@Override
 			public Fragment getItem(int arg0) {
 				// TODO Auto-generated method stub
-				Fragment fragment = mListViews.get(arg0);
+				Fragment fragment = new FoundPager();
 				Bundle args = new Bundle();
 				String mod;
 				switch (arg0) {

@@ -49,9 +49,6 @@ public class Login extends Activity {
 		myCookieStore = new PersistentCookieStore(Login.this);
 		client.setCookieStore(myCookieStore);
 		params = new RequestParams();
-		/*params.put("user_name", "747877331@qq.com");
-		params.put("password", "xzy5805191");
-		login();*/
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
