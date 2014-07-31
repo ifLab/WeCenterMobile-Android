@@ -79,7 +79,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		// Bundle bundle = intent.getExtras();
 		uid = intent.getStringExtra("uid");
 		status = intent
-				.getIntExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
+				.getIntExtra("status", GlobalVariables.AVAILABLE_EDIT);
 		init();// ≥ı ºªØ
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();

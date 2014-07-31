@@ -45,6 +45,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -381,6 +384,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 												"网络有点不好哦，再来一次吧！",
 												Toast.LENGTH_LONG).show();
 									} else {
+										iv_avatar.clearAnimation();
 										AsyncImageGet getAvatarPreview = new AsyncImageGet(
 												preview, iv_avatar);
 										getAvatarPreview.execute();
@@ -405,6 +409,14 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 
 	private void upLoadAnim() {
 		iv_avatar.setImageResource(R.drawable.ic_loading);
+		RotateAnimation animation = new RotateAnimation(0, 359,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		LinearInterpolator linearInterpolator = new LinearInterpolator();
+		animation.setDuration(1000);
+		animation.setInterpolator(linearInterpolator);
+		animation.setRepeatCount(-1);
+		iv_avatar.startAnimation(animation);
 	}
 
 	/* datepicker的回调 处理用户设定生日后的操作 */
