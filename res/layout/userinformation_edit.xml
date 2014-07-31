@@ -20,13 +20,13 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/avatartest" />
+                android:src="@drawable/ic_avatar_default" />
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:src="@drawable/iv_masklayer" />
+                android:src="@drawable/ic_avatar_masker" />
         </FrameLayout>
 
         <LinearLayout
@@ -228,42 +228,6 @@
                 android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
 
-            <LinearLayout
-                android:id="@+id/lv_location"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_location"
-                    android:gravity="center_vertical"
-                    android:text="居住" />
-
-                <TextView
-                    android:id="@+id/tv_location_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="未设置" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:drawableRight="@drawable/ic_more_normal"
-                    android:gravity="center_vertical"
-                    android:text="" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
-                android:background="#DCE0DD" />
         </LinearLayout>
     </LinearLayout>
 

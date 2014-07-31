@@ -43,4 +43,7 @@ public class FanfanSharedPreferences {
 	public String getUserName(String defaultUserName) {
 		return sharedPreferences.getString("userName", defaultUserName);
 	}
+	public SharedPreferences.Editor getSharedPreferences(){
+		return sharedPreferences.edit();
+	}
 }

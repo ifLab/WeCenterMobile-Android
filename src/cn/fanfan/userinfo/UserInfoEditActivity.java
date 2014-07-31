@@ -25,6 +25,7 @@ import cn.fanfan.common.CompressAvata;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
 import android.R.string;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
@@ -44,6 +45,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,32 +58,32 @@ import android.widget.Toast;
 
 public class UserInfoEditActivity extends Activity implements OnClickListener,
 		DatePickerDialog.OnDateSetListener {
-	private String uid, signature, avatarpath, avatar_file;
 	private int sex;// sex (int，1：男 2：女 3：保密)
-	private String birthday;// unix时间戳
+	private String birthday, errno, err, job_id, user_name, uid, signature,
+			avatarpath, avatar_file;// birthday为unix时间戳
 	private ImageView iv_avatar;
 	private EditText et_username, et_introduction;
-	private LinearLayout lv_birthday, lv_business, lv_location;
+	private LinearLayout lv_birthday, lv_business;
 	private TextView tv_sex_f, tv_sex_m, tv_sex_f_background,
-			tv_sex_m_background, tv_birthday_info, tv_business_info,
-			tv_location_info;
+			tv_sex_m_background, tv_birthday_info, tv_business_info;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 	private Uri avatarUri;
-	SelectPicPopupWindow menuWindow;// 点击头像弹出选择拍照或者选择图库的弹出菜单
-	protected String errno;
-	protected String err;
-	protected String job_id;
-	protected String user_name;
+	private SelectPicPopupWindow menuWindow;// 点击头像弹出选择拍照或者选择图库的弹出菜单
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.userinformation_edit);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.show();
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		uid = bundle.getString("uid");
 		avatar_file = bundle.getString("avatar_file");
-		init();// 初始化
+		init();// 图形界面初始化
+
 		NetworkState networkState = new NetworkState();
 		if (networkState.isNetworkConnected(UserInfoEditActivity.this)) {
 			getUserProfile();
@@ -88,6 +92,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		}
 	}
 
+	// 获取用户资料
 	private void getUserProfile() {
 		// TODO Auto-generated method stub
 		AsyncHttpClient getUserInfo = new AsyncHttpClient();
@@ -160,9 +165,12 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			tv_sex_m_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
 		}
 		// 展示用户生日信息
-		String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
-		tv_birthday_info.setText(date);
-		Log.i("date", date);
+		if (birthday != "null") {
+			String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
+			tv_birthday_info.setText(date);
+			Log.i("date", date);
+		}
+
 		if (avatar_file != null) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
 					"http://w.hihwei.com/uploads/avatar/" + avatar_file,
@@ -187,27 +195,23 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		et_introduction = (EditText) findViewById(R.id.et_introduction);
 		lv_birthday = (LinearLayout) findViewById(R.id.lv_birthday);
 		lv_business = (LinearLayout) findViewById(R.id.lv_business);
-		lv_location = (LinearLayout) findViewById(R.id.lv_location);
 		tv_sex_f = (TextView) findViewById(R.id.tv_sex_f);
 		tv_sex_m = (TextView) findViewById(R.id.tv_sex_m);
 		tv_sex_f_background = (TextView) findViewById(R.id.tv_sex_f_background);
 		tv_sex_m_background = (TextView) findViewById(R.id.tv_sex_m_background);
 		tv_birthday_info = (TextView) findViewById(R.id.tv_birthday_info);
 		tv_business_info = (TextView) findViewById(R.id.tv_business_info);
-		tv_location_info = (TextView) findViewById(R.id.tv_location_info);
 		iv_avatar.setOnClickListener(this);
 		et_username.setOnClickListener(this);
 		et_introduction.setOnClickListener(this);
 		lv_birthday.setOnClickListener(this);
 		lv_business.setOnClickListener(this);
-		lv_location.setOnClickListener(this);
 		tv_sex_f_background.setOnClickListener(this);
 		tv_sex_m_background.setOnClickListener(this);
 		tv_sex_m.setOnClickListener(this);
 		tv_sex_f.setOnClickListener(this);
 		tv_birthday_info.setOnClickListener(this);
 		tv_business_info.setOnClickListener(this);
-		tv_location_info.setOnClickListener(this);
 	}
 
 	/* 主界面的view的监听 及处理 */
@@ -245,11 +249,11 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			DialogFragment newFragment = new DatePickerFragment();
 			newFragment.show(getFragmentManager(), "datePicker");
 			break;
-		case R.id.lv_business:
-			Toast.makeText(this, "手机端暂不支持更改，请登录网站更改！", Toast.LENGTH_LONG)
-					.show();
+		case R.id.tv_birthday_info:
+			DialogFragment newFragment2 = new DatePickerFragment();
+			newFragment2.show(getFragmentManager(), "datePicker");
 			break;
-		case R.id.lv_location:
+		case R.id.lv_business:
 			Toast.makeText(this, "手机端暂不支持更改，请登录网站更改！", Toast.LENGTH_LONG)
 					.show();
 			break;
@@ -328,6 +332,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 											"网络有点不好哦，再来一次吧！", Toast.LENGTH_LONG)
 											.show();
 								} else {
+									iv_avatar.clearAnimation();
 									AsyncImageGet getAvatarPreview = new AsyncImageGet(
 											preview, iv_avatar);
 									getAvatarPreview.execute();
@@ -387,6 +392,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 												"网络有点不好哦，再来一次吧！",
 												Toast.LENGTH_LONG).show();
 									} else {
+										iv_avatar.clearAnimation();
 										AsyncImageGet getAvatarPreview = new AsyncImageGet(
 												preview, iv_avatar);
 										getAvatarPreview.execute();
@@ -411,6 +417,14 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 
 	private void upLoadAnim() {
 		iv_avatar.setImageResource(R.drawable.ic_loading);
+		RotateAnimation animation = new RotateAnimation(0, 359,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		LinearInterpolator linearInterpolator = new LinearInterpolator();
+		animation.setDuration(1000);
+		animation.setInterpolator(linearInterpolator);
+		animation.setRepeatCount(-1);
+		iv_avatar.startAnimation(animation);
 	}
 
 	/* datepicker的回调 处理用户设定生日后的操作 */
@@ -452,6 +466,10 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					.hideSoftInputFromWindow(et_username.getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
 			upDateProfile();
+			this.finish();
+		}
+		if (id == android.R.id.home) {
+			this.finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

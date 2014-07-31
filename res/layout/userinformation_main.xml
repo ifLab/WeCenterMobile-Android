@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:orientation="vertical" >
 
@@ -27,20 +27,20 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/avatartest" />
+                    android:src="@drawable/ic_avatar_default" />
 
                 <ImageView
                     android:id="@+id/iv_masklayer"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/iv_masklayer" />
+                    android:src="@drawable/ic_avatar_masker" />
             </FrameLayout>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical" >
 
                 <TextView
@@ -166,59 +166,59 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/tv_thanks"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_thank"
                     android:drawablePadding="5dp"
                     android:text="0"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_votes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_vote_normal"
                     android:drawablePadding="5dp"
                     android:text="0"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_collect"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_collect"
                     android:drawablePadding="5dp"
                     android:text="0"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_shared"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_shared"
-                    android:drawablePadding="5dp"
-                    android:text="0"
-                    android:textSize="16dp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/bt_focus"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_green_normal"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:text="关注" />
             </LinearLayout>
         </LinearLayout>
 
@@ -323,8 +323,6 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
-
-           
 
             <LinearLayout
                 android:id="@+id/lv_news"

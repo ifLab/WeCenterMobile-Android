@@ -38,12 +38,14 @@ public class MainActivity extends FragmentActivity implements
 	private CharSequence mTitle;
 	private String[] draweritems;
 	private int touchTimes = 0;
+	private FanfanSharedPreferences sharedPreferences;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(
+		sharedPreferences = new FanfanSharedPreferences(
 				MainActivity.this);
+		System.out.println(sharedPreferences.getLogInStatus(false)+"$%^&*(*&%$#$%^&*(");
 		if (!sharedPreferences.getLogInStatus(false)) {
 			draweritems = this.getResources().getStringArray(
 					R.array.nologindrawerliststring);
@@ -118,7 +120,11 @@ public class MainActivity extends FragmentActivity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.logout) {
+			sharedPreferences.getSharedPreferences().clear();
+			Intent intent = new Intent(this, MainActivity.class);  
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
+            startActivity(intent); 
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
