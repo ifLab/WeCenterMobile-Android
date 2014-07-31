@@ -208,6 +208,9 @@ public class Fragment_topic extends Fragment {
 						if (currentPage == 1) {
 							adapter = new FragmenTopicAdapter(getActivity(),topicModels,mImageDownLoader);
 							listView.setAdapter(adapter);
+							if (topicModels.size()<per_page) {
+								footText.setText("没有更多数据了！");
+							}
 							currentPage++;
 						}else {
 							//adapter.add(topicModels);

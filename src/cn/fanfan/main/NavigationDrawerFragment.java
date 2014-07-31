@@ -81,6 +81,7 @@ public class NavigationDrawerFragment extends Fragment {
 	
 	private int prePosition = 0;
 	private int currentPosition = 0;
+	private String userNameString;
 
 	private ImageView login_icon;
 	public NavigationDrawerFragment() {
@@ -119,13 +120,16 @@ public class NavigationDrawerFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
+		if (GlobalVariables.uSER_IMAGE_URL != null) {
+			(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
+		}
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
 		uid = sharedPreferences.getUid("1");
+		userNameString = sharedPreferences.getUserName("");
 		LinearLayout linearLayout = (LinearLayout) inflater.inflate(
 				R.layout.fragment_navigation_drawer, null);
 		login_header = (LinearLayout) linearLayout
@@ -135,7 +139,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerListView = (ListView) linearLayout.findViewById(R.id.draw_list);
 		login_icon = (ImageView)user_header.findViewById(R.id.login_icon);
 		TextView userName = (TextView)user_header.findViewById(R.id.name);
-		userName.setText(GlobalVariables.USER_NAME);
+		userName.setText(userNameString);
 		user_header.setOnClickListener(new OnClickListener() {
 			
 			@Override

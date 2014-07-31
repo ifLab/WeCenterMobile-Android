@@ -49,9 +49,9 @@ public class Login extends Activity {
 		myCookieStore = new PersistentCookieStore(Login.this);
 		client.setCookieStore(myCookieStore);
 		params = new RequestParams();
-		params.put("user_name", "747877331@qq.com");
+		/*params.put("user_name", "747877331@qq.com");
 		params.put("password", "xzy5805191");
-		login();
+		login();*/
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -98,6 +98,7 @@ public class Login extends Activity {
 						FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(Login.this);
 						sharedPreferences.setUid(uid);
 						sharedPreferences.setLogInStatus(true);
+						sharedPreferences.setUserName(user_name);
 						Intent intent = new Intent(Login.this,MainActivity.class);
 						startActivity(intent);
 						Toast.makeText(Login.this, "µÇÂ¼³É¹¦", Toast.LENGTH_SHORT).show();

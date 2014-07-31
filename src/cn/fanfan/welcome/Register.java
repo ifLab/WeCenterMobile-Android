@@ -77,7 +77,7 @@ public class Register extends Activity {
 			String result = "!";
 			try {
 				result = netLoad.PostInformation("http://w.hihwei.com/api/register.php", map);
-				System.out.println(result);
+				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

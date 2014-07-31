@@ -22,6 +22,15 @@ public class Welcome extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(Welcome.this);
+		boolean LoginStatus = fanfanSharedPreferences.getLogInStatus(false);
+		String uid = fanfanSharedPreferences.getUid("");
+		String userName = fanfanSharedPreferences.getUserName("");
+		if (LoginStatus != false && !uid.equals("") && !userName.equals("")) {
+			Intent intent = new Intent(Welcome.this,MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.welcome);
 		init();

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /*
- * 
+ * 目前已有数据：用户名，登录状态，uid
  */
 public class FanfanSharedPreferences {
 	private SharedPreferences sharedPreferences;
