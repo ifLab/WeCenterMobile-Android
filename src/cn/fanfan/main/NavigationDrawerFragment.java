@@ -82,6 +82,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private int prePosition = 0;
 	private int currentPosition = 0;
 
+	private ImageView login_icon;
 	public NavigationDrawerFragment() {
 	}
 
@@ -115,6 +116,12 @@ public class NavigationDrawerFragment extends Fragment {
 	}
 
 	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
+	}
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
@@ -126,10 +133,9 @@ public class NavigationDrawerFragment extends Fragment {
 		user_header = (RelativeLayout) linearLayout
 				.findViewById(R.id.drawer_header_user);
 		mDrawerListView = (ListView) linearLayout.findViewById(R.id.draw_list);
-		ImageView login_icon = (ImageView)user_header.findViewById(R.id.login_icon);
+		login_icon = (ImageView)user_header.findViewById(R.id.login_icon);
 		TextView userName = (TextView)user_header.findViewById(R.id.name);
 		userName.setText(GlobalVariables.USER_NAME);
-		(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
 		user_header.setOnClickListener(new OnClickListener() {
 			
 			@Override
