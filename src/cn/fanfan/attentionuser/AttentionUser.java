@@ -18,6 +18,7 @@ import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
+import cn.fanfan.userinfo.UserInfoActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -90,7 +91,10 @@ public class AttentionUser extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent(AttentionUser.this,UserInfoActivity.class);
+				intent.putExtra("uid", attentionUserModels.get(position).getUid());
+				intent.putExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
+				startActivity(intent);
 			}
 		});
 		listView.setOnScrollListener(new OnScrollListener() {
