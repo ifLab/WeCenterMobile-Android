@@ -23,6 +23,7 @@ import cn.fanfan.common.AsyncFileUpLoad.CallBack;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.CompressAvata;
 import cn.fanfan.common.Config;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
 import android.R.string;
@@ -325,6 +326,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							@Override
 							public void callBack(String preview, String err,
 									String errno) {
+								GlobalVariables.uSER_IMAGE_URL = preview;
 								Log.i("callbackinfo", preview);
 								Log.i("err", err);
 								Log.i("errno", errno);
