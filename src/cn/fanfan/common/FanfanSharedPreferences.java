@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /*
- * 目前已有数据：用户名，登录状态，uid
+ * 目前已有数据：用户名，登录状态，uid,密码
  */
 public class FanfanSharedPreferences {
 	private SharedPreferences sharedPreferences;
@@ -20,6 +20,13 @@ public class FanfanSharedPreferences {
 		editor = sharedPreferences.edit();
 	}
 
+	public void setPasswd(String passwd){
+		editor.putString("passwd", passwd).commit();
+	}
+	
+	public String getPasswd(String defaultUserName){
+		return sharedPreferences.getString("passwd", defaultUserName);
+	}
 	public void setUid(String uid) {
 		editor.putString("uid", uid).commit();
 	}
@@ -43,7 +50,11 @@ public class FanfanSharedPreferences {
 	public String getUserName(String defaultUserName) {
 		return sharedPreferences.getString("userName", defaultUserName);
 	}
-	public SharedPreferences.Editor getSharedPreferences(){
-		return sharedPreferences.edit();
+	public void clear(){
+		editor.clear();
+		editor.remove("logInStatus");
+		editor.remove("uid");
+		editor.remove("userName");
+		editor.commit();
 	}
 }

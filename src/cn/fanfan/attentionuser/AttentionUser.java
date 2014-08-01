@@ -76,7 +76,7 @@ public class AttentionUser extends Activity {
 		isFirstEnter = true;
 		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(
 				AttentionUser.this);
-		uid = fanfanSharedPreferences.getUid("1");
+		uid = fanfanSharedPreferences.getUid("");
 		init();
 		getInformation("1");
 	}
@@ -84,17 +84,17 @@ public class AttentionUser extends Activity {
 	private void init() {
 		// TODO Auto-generated method stub
 		listView = (ListView) findViewById(R.id.attention_user);
-		listView.addFooterView(footerLinearLayout);
+		listView.addFooterView(footerLinearLayout,"aa",false);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(AttentionUser.this,UserInfoActivity.class);
-				intent.putExtra("uid", attentionUserModels.get(position).getUid());
-				intent.putExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
-				startActivity(intent);
+					Intent intent = new Intent(AttentionUser.this,UserInfoActivity.class);
+					intent.putExtra("uid", attentionUserModels.get(position).getUid());
+					intent.putExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
+					startActivity(intent);
 			}
 		});
 		listView.setOnScrollListener(new OnScrollListener() {

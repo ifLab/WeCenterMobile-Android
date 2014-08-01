@@ -92,10 +92,13 @@ public class Login extends Activity {
 						String avatar_file = jsonObject2.getString("avatar_file");
 						GlobalVariables.USER_NAME = user_name;
 						GlobalVariables.uSER_IMAGE_URL = avatar_file;
+						
 						FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(Login.this);
 						sharedPreferences.setUid(uid);
 						sharedPreferences.setLogInStatus(true);
 						sharedPreferences.setUserName(user_name);
+						sharedPreferences.setPasswd(passwdEditText.getText().toString());
+						
 						Intent intent = new Intent(Login.this,MainActivity.class);
 						startActivity(intent);
 						Toast.makeText(Login.this, "µÇÂ¼³É¹¦", Toast.LENGTH_SHORT).show();

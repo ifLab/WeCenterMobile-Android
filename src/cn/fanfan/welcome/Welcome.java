@@ -1,5 +1,7 @@
 package cn.fanfan.welcome;
 
+import com.loopj.android.http.PersistentCookieStore;
+
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
@@ -22,11 +24,14 @@ public class Welcome extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		PersistentCookieStore cookieStore = new PersistentCookieStore(Welcome.this);
 		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(Welcome.this);
 		boolean LoginStatus = fanfanSharedPreferences.getLogInStatus(false);
 		String uid = fanfanSharedPreferences.getUid("");
 		String userName = fanfanSharedPreferences.getUserName("");
-		if (LoginStatus != false && !uid.equals("") && !userName.equals("")) {
+		String passwd = fanfanSharedPreferences.getPasswd("");
+		if (LoginStatus != false && !uid.equals("") && !passwd.equals("")&&!userName.equals("") && cookieStore.getCookies().size() != 0) {
 			Intent intent = new Intent(Welcome.this,MainActivity.class);
 			startActivity(intent);
 			finish();

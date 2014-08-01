@@ -2,6 +2,14 @@ package cn.fanfan.main;
 
 import java.util.ArrayList;
 
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
@@ -17,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -90,7 +97,9 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		if (GlobalVariables.uSER_IMAGE_URL != null) {
+			Login();
+		}
 		// Read in the flag indicating whether or not the user has demonstrated
 		// awareness of the
 		// drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -123,6 +132,48 @@ public class NavigationDrawerFragment extends Fragment {
 		if (GlobalVariables.uSER_IMAGE_URL != null) {
 			(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
 		}
+	}
+	private void Login(){
+		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams requestParams = new RequestParams();
+		requestParams.put("user_name", sharedPreferences.getUserName(""));
+		requestParams.put("password", sharedPreferences.getPasswd(""));
+		String url = Config.getValue("LoginUrl");
+		client.post(url,requestParams,new AsyncHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+				try {
+					JSONObject jsonObject = new JSONObject(new String(arg2));
+					int errno = jsonObject.getInt("errno");
+					if (errno == -1) {
+						String err = jsonObject.getString("err");
+						if (err.equals("请输入正确的账号或密码")) {
+					
+							Toast.makeText(getActivity(), "您的账号或密码已经修改，请重新登录", Toast.LENGTH_SHORT).show();
+						}
+					}else {
+						String rsm = jsonObject.getString("rsm");
+						JSONObject jsonObject2 = new JSONObject(rsm);
+						String avatar_file = jsonObject2.getString("avatar_file");
+						GlobalVariables.uSER_IMAGE_URL = avatar_file;
+						(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,10 +1,24 @@
 package cn.fanfan.main;
 
+import org.apache.http.Header;
+import org.apache.http.cookie.Cookie;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
+
+import cn.fanfan.common.AsyncImageGet;
+import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.draft.Draft;
 import cn.fanfan.found.FoundFrg;
 import cn.fanfan.question.Question;
 import cn.fanfan.topic.Fragment_topic;
+import cn.fanfan.welcome.Login;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -45,14 +59,15 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 		sharedPreferences = new FanfanSharedPreferences(
 				MainActivity.this);
-		System.out.println(sharedPreferences.getLogInStatus(false)+"$%^&*(*&%$#$%^&*(");
 		if (!sharedPreferences.getLogInStatus(false)) {
 			draweritems = this.getResources().getStringArray(
 					R.array.nologindrawerliststring);
 		} else {
 			draweritems = this.getResources().getStringArray(
 					R.array.drawerliststring);
+			//Login();
 		}
+		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
@@ -121,7 +136,17 @@ public class MainActivity extends FragmentActivity implements
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.logout) {
-			sharedPreferences.getSharedPreferences().clear();
+			sharedPreferences.clear();
+			PersistentCookieStore cookieStore = new PersistentCookieStore(MainActivity.this);
+			for (Cookie cookie : cookieStore.getCookies()) {
+				System.out.println(cookie.getName()+"------------------>"+cookie.getValue());
+			}
+			System.out.println(cookieStore.getCookies().size());
+			cookieStore.clear();
+			System.out.println(cookieStore.getCookies().size());
+			for (Cookie cookie : cookieStore.getCookies()) {
+				System.out.println(cookie.getName()+"------------------>"+cookie.getValue());
+			}
 			Intent intent = new Intent(this, MainActivity.class);  
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
             startActivity(intent); 
