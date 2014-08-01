@@ -10,11 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * 自定义提示Toast
- * 
- * @author xm
- */
 public class TipsToast extends Toast {
 
     public TipsToast(Context context) {
@@ -30,7 +25,6 @@ public class TipsToast extends Toast {
         tv.setText(text);
 
         result.setView(v);
-        // setGravity方法用于设置位置，此处为垂直居中
         result.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         result.setDuration(duration);
 

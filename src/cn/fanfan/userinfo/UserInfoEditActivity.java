@@ -22,6 +22,8 @@ import cn.fanfan.common.AsyncFileUpLoad;
 import cn.fanfan.common.AsyncFileUpLoad.CallBack;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.CompressAvata;
+import cn.fanfan.common.Config;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
 import android.R.string;
@@ -98,7 +100,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		AsyncHttpClient getUserInfo = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("uid", uid);
-		getUserInfo.get("http://w.hihwei.com/api/profile.php", params,
+		getUserInfo.get(Config.getValue("ProfileUrl"), params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
@@ -173,7 +175,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 
 		if (avatar_file != null) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
-					"http://w.hihwei.com/uploads/avatar/" + avatar_file,
+					Config.getValue("AvatarPrefixUrl") + avatar_file,
 					iv_avatar);
 			getAvatar.execute();
 		}
@@ -318,12 +320,13 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 				CompressAvata compressAvata = new CompressAvata(avatarpath);// 压缩处理。
 				AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
 						UserInfoEditActivity.this,
-						"http://w.hihwei.com/?/api/account/avatar_upload/",
+						Config.getValue("AvatarUploadUrl"),
 						compressAvata.getCompressAvatarPath(), new CallBack() {
 							/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
 							@Override
 							public void callBack(String preview, String err,
 									String errno) {
+								GlobalVariables.uSER_IMAGE_URL = preview;
 								Log.i("callbackinfo", preview);
 								Log.i("err", err);
 								Log.i("errno", errno);
@@ -375,7 +378,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					upLoadAnim();// 上传时的动画
 					AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
 							UserInfoEditActivity.this,
-							"http://w.hihwei.com/?/api/account/avatar_upload/",
+							Config.getValue("AvatarUploadUrl"),
 							compressAvata.getCompressAvatarPath(),
 							new CallBack() {
 								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
@@ -486,7 +489,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		UpParams.put("signature", signature);
 		UpParams.put("job_id", job_id);
 		UpParams.put("birthday", birthday);
-		upLoadProfile.post("http://w.hihwei.com/api/profile_setting.php",
+		upLoadProfile.post(Config.getValue("ProfileSettingUrl"),
 				UpParams, new AsyncHttpResponseHandler() {
 
 					@Override

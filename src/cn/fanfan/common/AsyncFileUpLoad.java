@@ -38,10 +38,10 @@ public class AsyncFileUpLoad {
 		NetworkState networkState = new NetworkState();
 
 		client = new AsyncHttpClient();
-		// myCookieStore = new PersistentCookieStore(context);
-		client.setCookieStore(GlobalVariables.COOKIE_Store);
+		PersistentCookieStore mCookieStore = new PersistentCookieStore(context);
+		client.setCookieStore(mCookieStore);
 		if (networkState.isNetworkConnected(context)) {
-			// Login();
+			Login();
 			upLoad(callBack);
 		} else {
 			showTips(R.drawable.tips_error, R.string.net_break);
@@ -58,7 +58,7 @@ public class AsyncFileUpLoad {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//client.setTimeout(5000);
+		// client.setTimeout(5000);
 		client.post(url, params1, new AsyncHttpResponseHandler() {
 
 			@Override
@@ -98,37 +98,39 @@ public class AsyncFileUpLoad {
 				preview = null;
 				err = null;
 				errno = "x";
-				//callBack.callBack(preview, err, errno);
+				// callBack.callBack(preview, err, errno);
 				Log.i("upLoadOnFailure", responseContent + "---Failure");
 			}
 		});
 	}
 
-	/* 先登录获得cookie ， 此处待改。 */
-	// private void Login() {
-	// RequestParams params = new RequestParams();
-	// params.put("user_name", "xxxxx");
-	// params.put("password", "xzy5805191");
-	// client.post(context,
-	// "http://w.hihwei.com/?/api/account/login_process/", params,
-	// new AsyncHttpResponseHandler() {
-	//
-	// @Override
-	// public void onSuccess(int statusCode, Header[] headers,
-	// byte[] responseBody) {
-	// responseContent = new String(responseBody);
-	// Log.i("LoginSuccess", responseContent + "---Success");
-	// }
-	//
-	// @Override
-	// public void onFailure(int statusCode, Header[] headers,
-	// byte[] responseBody, Throwable error) {
-	// // TODO Auto-generated method stub
-	// responseContent = new String(responseBody);
-	// Log.i("LoninOnFailure", responseContent + "---Failure");
-	// }
-	// });
-	// }
+	/* 先再次登录获得刷新cookie 。 */
+	private void Login() {
+		RequestParams params = new RequestParams();
+		FanfanSharedPreferences user = new FanfanSharedPreferences(context);
+		params.put("user_name", user.getUserName(""));// 待改
+		params.put("password", user.getPasswd(""));// 待改
+		client.post(context,
+				"http://w.hihwei.com/?/api/account/login_process/", params,
+				new AsyncHttpResponseHandler() {
+
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							byte[] responseBody) {
+						responseContent = new String(responseBody);
+						Log.i("LoginSuccess", responseContent + "---Success");
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							byte[] responseBody, Throwable error) {
+						// TODO Auto-generated method stub
+						responseContent = new String(responseBody);
+						Log.i("LoninOnFailure", responseContent + "---Failure");
+						showTips(R.drawable.tips_error, R.string.login_wrong);
+					}
+				});
+	}
 
 	/* 网络异常将弹出的提醒 */
 	private void showTips(int iconResId, int msgResId) {
