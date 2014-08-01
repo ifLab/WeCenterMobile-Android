@@ -148,7 +148,7 @@ public class MainActivity extends FragmentActivity implements
 				System.out.println(cookie.getName()+"------------------>"+cookie.getValue());
 			}
 			Intent intent = new Intent(this, MainActivity.class);  
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent); 
 			return true;
 		}
@@ -212,5 +212,16 @@ public class MainActivity extends FragmentActivity implements
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		if (GlobalVariables.ISFANFANLOGIN = true) {
+			finish();
+			GlobalVariables.ISFANFANLOGIN = false;
+		}
+		
 	}
 }

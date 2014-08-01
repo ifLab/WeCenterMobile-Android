@@ -97,7 +97,8 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (GlobalVariables.uSER_IMAGE_URL != null) {
+		//System.out.println(GlobalVariables.uSER_IMAGE_URL);
+		if (GlobalVariables.uSER_IMAGE_URL == null) {
 			Login();
 		}
 		// Read in the flag indicating whether or not the user has demonstrated
@@ -184,7 +185,7 @@ public class NavigationDrawerFragment extends Fragment {
 		LinearLayout linearLayout = (LinearLayout) inflater.inflate(
 				R.layout.fragment_navigation_drawer, null);
 		login_header = (LinearLayout) linearLayout
-				.findViewById(R.id.drawer_header_log);
+				.findViewById(R.id.drawer_header_log_in);
 		user_header = (RelativeLayout) linearLayout
 				.findViewById(R.id.drawer_header_user);
 		mDrawerListView = (ListView) linearLayout.findViewById(R.id.draw_list);
@@ -192,12 +193,22 @@ public class NavigationDrawerFragment extends Fragment {
 		TextView userName = (TextView)user_header.findViewById(R.id.name);
 		userName.setText(userNameString);
 		user_header.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "sb1", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(getActivity(),UserInfoActivity.class);
+				intent.putExtra("uid", uid);
+				GlobalVariables.ISFANFANLOGIN = true;
+				startActivity(intent);
+			}
+		});
+		login_header.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),UserInfoActivity.class);
-				intent.putExtra("uid", uid);
+				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.Login.class);
 				startActivity(intent);
 			}
 		});
@@ -209,9 +220,6 @@ public class NavigationDrawerFragment extends Fragment {
 						prePosition = currentPosition;
 						currentPosition = position;
 						selectItem(position);
-						/*Toast.makeText(getActivity(), position + "",
-								Toast.LENGTH_SHORT).show();*/
-						
 					}
 				});
 		Resources resources = getActivity().getResources();

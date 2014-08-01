@@ -14,7 +14,7 @@
             layout="@layout/drawer_header" />
 
         <include
-            android:id="@+id/drawer_header_log"
+            android:id="@+id/drawer_header_log_in"
             layout="@layout/drawer__header_login" />
     </FrameLayout>
 

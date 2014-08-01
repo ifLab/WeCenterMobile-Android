@@ -79,4 +79,11 @@ public class Welcome extends Activity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		finish();
+		super.onStop();
+	}
 }

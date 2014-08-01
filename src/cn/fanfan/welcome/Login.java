@@ -83,7 +83,7 @@ public class Login extends Activity {
 						Toast.makeText(Login.this, err, Toast.LENGTH_SHORT).show();
 					}else {
 						
-						GlobalVariables.COOKIE_Store = myCookieStore;
+						//GlobalVariables.COOKIE_Store = myCookieStore;
 						String rsm = jsonObject.getString("rsm");
 						//System.out.println(rsm);
 						JSONObject jsonObject2 = new JSONObject(rsm);
@@ -102,6 +102,7 @@ public class Login extends Activity {
 						Intent intent = new Intent(Login.this,MainActivity.class);
 						startActivity(intent);
 						Toast.makeText(Login.this, "µÇÂ¼³É¹¦", Toast.LENGTH_SHORT).show();
+						finish();
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

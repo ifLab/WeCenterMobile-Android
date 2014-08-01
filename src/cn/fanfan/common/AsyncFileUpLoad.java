@@ -36,12 +36,11 @@ public class AsyncFileUpLoad {
 		this.url = url;
 		file = new File(filePath);
 		NetworkState networkState = new NetworkState();
-
 		client = new AsyncHttpClient();
 		PersistentCookieStore mCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(mCookieStore);
 		if (networkState.isNetworkConnected(context)) {
-			Login();
+			//Login();
 			upLoad(callBack);
 		} else {
 			showTips(R.drawable.tips_error, R.string.net_break);
@@ -108,8 +107,8 @@ public class AsyncFileUpLoad {
 	private void Login() {
 		RequestParams params = new RequestParams();
 		FanfanSharedPreferences user = new FanfanSharedPreferences(context);
-		params.put("user_name", user.getUserName(""));// ´ý¸Ä
-		params.put("password", user.getPasswd(""));// ´ý¸Ä
+		params.put("user_name", user.getUserName(""));
+		params.put("password", user.getPasswd(""));
 		client.post(context,
 				"http://w.hihwei.com/?/api/account/login_process/", params,
 				new AsyncHttpResponseHandler() {
