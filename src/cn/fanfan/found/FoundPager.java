@@ -2,13 +2,16 @@ package cn.fanfan.found;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
 import cn.fanfan.common.Config;
 import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
@@ -21,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -43,7 +47,9 @@ public class FoundPager extends Fragment {
 	private int total_row;
 	private LinearLayout footerLinearLayout;
 	private TextView footText;
+	private Bundle bundle;
 	private String type;
+	private String commend;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -54,7 +60,10 @@ public class FoundPager extends Fragment {
 		imageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
 		footText = (TextView)footerLinearLayout.findViewById(R.id.footer_text);	
-		type = "new";
+		bundle = getArguments();
+		type = bundle.getString("type");
+		commend = bundle.getString("commend");
+		System.out.println(type+"````````````````"+commend);
 		isFirstEnter = true;
 		listView.addFooterView(footerLinearLayout);
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -134,10 +143,11 @@ public class FoundPager extends Fragment {
 	}
 	private void getInformation(String page){
 		RequestParams params = new RequestParams();
-		String url = "http://w.hihwei.com/?/api/explore/";
+		String url = Config.getValue("FoundList");
 		AsyncHttpClient client = new AsyncHttpClient();
 		params.put("page", page);
 		params.put("sort_type", type);
+		params.put("is_recommend", commend);
 		client.get(url, params,new AsyncHttpResponseHandler(){
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
@@ -159,7 +169,7 @@ public class FoundPager extends Fragment {
 						JSONObject object = jsonObject.getJSONObject("user_info");
 						founditem.setName(object.getString("user_name"));
 						founditem.setAvatar_file(object.getString("avatar_file"));
-						
+						founditem.setUid(object.getString("uid"));
 						newlist.add(founditem);
 					} 			
 				} catch (JSONException e) {

@@ -8,6 +8,7 @@ public class Founditem {
 	private int view_count;
 	private String avatar_file;
 	private String question_id;
+	private String uid;
 
 	public Founditem() {
 		// TODO Auto-generated constructor stub
@@ -64,6 +65,12 @@ public class Founditem {
 	}
 	public void setQuestion_id(String question_id) {
 		this.question_id = question_id;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 }

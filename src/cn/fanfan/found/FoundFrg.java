@@ -99,25 +99,29 @@ public class FoundFrg extends Fragment {
 				// TODO Auto-generated method stub
 				Fragment fragment = new FoundPager();
 				Bundle args = new Bundle();
-				String mod;
+				String type,commend;
 				switch (arg0) {
 				case 0:
-					mod = "0";
+					type = "new";
+					commend = "0";
 					break;
 				case 1:
-					mod = "1";
+					type = null;
+					commend = "1";
 					break;
 				case 2:
-					mod = "2";
+					type = "hot";
+					commend = "0";
 					break;
 				case 3:
-					mod = "2";
+					type = "unresponsive";
+					commend = "0";
 					break;
 				default:
 					return null;
 				}
-				args.putString("mod", mod);
-				args.putString("id", "0");
+				args.putString("type", type);
+				args.putString("commend", commend);
 				fragment.setArguments(args);
 				return fragment;
 			}
