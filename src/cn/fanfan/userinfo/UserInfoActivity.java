@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.attentionuser.AttentionUser;
 import cn.fanfan.common.AsyncImageGet;
+import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.common.NetworkState;
@@ -117,7 +118,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		AsyncHttpClient getUserInfo = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("uid", uid);
-		getUserInfo.get("http://w.hihwei.com/api/user.php", params,
+		getUserInfo.get(Config.getValue("UserInfoUrl"), params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
@@ -158,13 +159,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							answer_count = rsmcontent.getString("answer_count");
 							Log.i("answer_favorite_count",
 									answer_favorite_count);
-							// 处理完json后下载用户头像
-							// AsyncImageGet asyncImageGet = new
-							// AsyncImageGet(avatar_file,
-							// iv_avatar);
-							// asyncImageGet.execute();
-							// updateUI展示用户资料
-							// getUserAvatar(avatar_file);
+							
+							// 处理完JSON后updateUI展示用户资料
 							updateUI(avatar_file);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -193,9 +189,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tv_collect.setText(answer_favorite_count);
 		tv_replys.setText(answer_count);
 		tv_asks.setText(question_count);
+		// 下载用户头像
 		if (avatarurl != "null") {
 			AsyncImageGet getAvatar = new AsyncImageGet(
-					"http://w.hihwei.com/uploads/avatar/" + avatarurl,
+					Config.getValue("AvatarPrefixUrl") + avatarurl,
 					iv_avatar);
 			getAvatar.execute();
 		}
