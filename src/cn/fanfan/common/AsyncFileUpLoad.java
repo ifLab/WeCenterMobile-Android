@@ -38,7 +38,6 @@ public class AsyncFileUpLoad {
 		NetworkState networkState = new NetworkState();
 
 		client = new AsyncHttpClient();
-		// myCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(GlobalVariables.COOKIE_Store);
 		if (networkState.isNetworkConnected(context)) {
 			// Login();
