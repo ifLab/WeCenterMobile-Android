@@ -57,7 +57,12 @@ public class Fragment_topic extends Fragment {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_topic, container, false);
 		final FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
-		uid = sharedPreferences.getUid("1");
+		//uid = sharedPreferences.getUid("1");
+		Intent intent = getActivity().getIntent();
+		uid = intent.getStringExtra("uid");
+		if (uid == null) {
+			uid = sharedPreferences.getUid("");
+		}
 		topicModels = new ArrayList<TopicModel>();
 		mImageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
@@ -115,7 +120,7 @@ public class Fragment_topic extends Fragment {
 				}
 			}
 		});
-		getTopicModels(sharedPreferences.getUid("1"));
+		getTopicModels(uid);
 		return view;
 	}
 
