@@ -198,7 +198,6 @@ public class NavigationDrawerFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(),UserInfoActivity.class);
 				intent.putExtra("uid", uid);
-				GlobalVariables.ISFANFANLOGIN = true;
 				startActivity(intent);
 			}
 		});
@@ -208,6 +207,7 @@ public class NavigationDrawerFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.Login.class);
+				GlobalVariables.ISFANFANLOGIN = true;
 				startActivity(intent);
 			}
 		});

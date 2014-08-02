@@ -45,9 +45,9 @@ public class TopicDetail extends FragmentActivity {
 		tabs.setTextSize((int) TypedValue.applyDimension(
 				TypedValue.COMPLEX_UNIT_SP, 16, dm));
 		// 设置Tab Indicator的颜色
-		tabs.setIndicatorColor(Color.parseColor("#45c01a"));
+		tabs.setIndicatorColor(Color.parseColor("#f96b03"));
 		// 设置选中Tab文字的颜色 (这是我自定义的一个方法)
-		tabs.setSelectedTextColor(Color.parseColor("#45c01a"));
+		tabs.setSelectedTextColor(Color.parseColor("#f96b03"));
 		// 取消点击Tab时的背景色
 		tabs.setTabBackground(0);
 	}

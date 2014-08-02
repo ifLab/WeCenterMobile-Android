@@ -59,6 +59,8 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 		sharedPreferences = new FanfanSharedPreferences(
 				MainActivity.this);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
 		if (!sharedPreferences.getLogInStatus(false)) {
 			draweritems = this.getResources().getStringArray(
 					R.array.nologindrawerliststring);
@@ -217,12 +219,11 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		super.onStop();
-		System.out.println("GlobalVariables.ISFANFANLOGIN------------->"+GlobalVariables.ISFANFANLOGIN);
-		if (GlobalVariables.ISFANFANLOGIN = true) {
+		if (GlobalVariables.ISFANFANLOGIN == true) {
 			GlobalVariables.ISFANFANLOGIN = false;
 			finish();
+		}else {
 		}
-		
+		super.onStop();
 	}
 }
