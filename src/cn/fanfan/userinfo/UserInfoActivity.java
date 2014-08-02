@@ -15,7 +15,6 @@ import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
-import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.common.TipsToast;
 import cn.fanfan.main.R;
@@ -25,8 +24,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings.Global;
-import android.text.style.UpdateLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,9 +49,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private TextView tv_collect;
 	private TextView tv_replys;
 	private TextView tv_asks;
-	private TextView tv_articles;
-	private TextView tv_news;
-	private TextView tv_focusi_person_comment,tv_ifocus_person_comment,tv_topic_comment;
+	private TextView tv_articles, tv_news;
+	private TextView tv_focusi_person_comment, tv_ifocus_person_comment,
+			tv_topic_comment;
 	private String uid;
 	protected String errno;
 	protected String err;
@@ -72,19 +69,32 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			lv_asks, lv_focusi_person, lv_ifocus_person, lv_articles;
 	private int status;
 	private AsyncHttpClient asyncHttpClient;
+	private FanfanSharedPreferences ffGetUid;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.userinformation_main);
+		// 添加返回按钮到ActionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.show();
-		Intent intent = this.getIntent();
 		// Bundle bundle = intent.getExtras();
+		// 获取其他activity的传进来的值。
+		Intent intent = this.getIntent();
 		uid = intent.getStringExtra("uid");
-		status = intent.getIntExtra("status", GlobalVariables.AVAILABLE_EDIT);
-		init();// 初始化
+		status = intent
+				.getIntExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
+		// 判断UID是不是本机上已登录用户，如果是可以编辑并隐藏关注按钮。否则，隐藏编辑按钮显示关注按钮。
+		ffGetUid = new FanfanSharedPreferences(this);
+		Log.i("getUid", ffGetUid.getUid("nullxx"));
+		Log.i("UID", uid);
+		if (uid.equals(ffGetUid.getUid(""))) {
+			status = GlobalVariables.AVAILABLE_EDIT;
+		}
+		System.out.print(status);
+		init();// 初始化界面
+		// 获取网络状态，根据网络状态操作
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();
 			if (networkState.isNetworkConnected(UserInfoActivity.this)) {
@@ -93,29 +103,66 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 				showTips(R.drawable.tips_error, R.string.net_break);
 			}
 
+		}
+	}
+
+	// 初始化界面
+	private void init() {
+		// TODO Auto-generated method stub
+		iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
+		tv_username = (TextView) findViewById(R.id.tv_username);
+		lv_topics = (LinearLayout) findViewById(R.id.lv_topics);
+		lv_topics.setOnClickListener(this);
+		tv_topic = (TextView) findViewById(R.id.tv_topic);
+		lv_ifocus_person = (LinearLayout) findViewById(R.id.lv_ifocus_person);
+		lv_ifocus_person.setOnClickListener(this);
+		tv_ifocus_person = (TextView) findViewById(R.id.tv_ifocus_person);
+		lv_focusi_person = (LinearLayout) findViewById(R.id.lv_focusi_person);
+		lv_focusi_person.setOnClickListener(this);
+		tv_focusi_person = (TextView) findViewById(R.id.tv_focusi_person);
+
+		tv_thanks = (TextView) findViewById(R.id.tv_thanks);
+		tv_votes = (TextView) findViewById(R.id.tv_votes);
+		tv_collect = (TextView) findViewById(R.id.tv_collect);
+
+		lv_replys = (LinearLayout) findViewById(R.id.lv_replys);
+		lv_replys.setOnClickListener(this);
+		tv_replys = (TextView) findViewById(R.id.tv_replys);
+		lv_asks = (LinearLayout) findViewById(R.id.lv_asks);
+		lv_asks.setOnClickListener(this);
+		tv_asks = (TextView) findViewById(R.id.tv_asks);
+		lv_articles = (LinearLayout) findViewById(R.id.lv_articles);
+		lv_articles.setOnClickListener(this);
+		tv_articles = (TextView) findViewById(R.id.tv_articles);
+
+		lv_news = (LinearLayout) findViewById(R.id.lv_news);
+		lv_news.setOnClickListener(this);
+		tv_news = (TextView) findViewById(R.id.tv_news);
+
+		lv_search_friens = (LinearLayout) findViewById(R.id.lv_search_friens);
+		lv_search_friens.setOnClickListener(this);
+
+		bt_focus = (Button) findViewById(R.id.bt_focus);
+		bt_focus.setOnClickListener(this);
+		tv_focusi_person_comment = (TextView) findViewById(R.id.tv_focusi_person_comment);
+		tv_ifocus_person_comment = (TextView) findViewById(R.id.tv_ifocus_person_comment);
+		tv_topic_comment = (TextView) findViewById(R.id.tv_topic_comment);
+		// 判断本机上已登录用户，如果是可以编辑并隐藏关注按钮。否则，隐藏编辑按钮显示关注按钮。
+		if (status == GlobalVariables.AVAILABLE_EDIT) {
+			bt_focus.setVisibility(View.INVISIBLE);
 		} else {
-			Toast.makeText(UserInfoActivity.this, "未登录请先登录", Toast.LENGTH_SHORT)
-					.show();
-			/* uid为null 跳转至登录Activity */
-			// Intent intent = new Intent();
-			// intent.setClass(MainActivity.this, UserInfo.class);
-			// intent.putExtra("uid", "2");
-			// startActivity(intent);
+			tv_focusi_person_comment.setText("关注他的人");
+			tv_ifocus_person_comment.setText("他关注的人");
+			tv_topic_comment.setText("他关注的话题");
+		}
+		if (haveFrocus) {
+			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+			bt_focus.setTextColor(android.graphics.Color.BLACK);
+			bt_focus.setText("取消关注");
 		}
 	}
 
-	protected void onResume() {
-		super.onResume();
-		if (uid != null) {
-			NetworkState networkState = new NetworkState();
-			if (networkState.isNetworkConnected(UserInfoActivity.this)) {
-				getUserInfo();
-			} else {
-				showTips(R.drawable.tips_error, R.string.net_break);
-			}
-		}
-	}
-
+	// 获取用户数据,并解析
 	private void getUserInfo() {
 		// TODO Auto-generated method stub
 		AsyncHttpClient getUserInfo = new AsyncHttpClient();
@@ -181,6 +228,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 				});
 	}
 
+	// 获取数据并解析后更新界面
 	protected void updateUI(String avatarurl) {
 		// TODO Auto-generated method stub
 		tv_username.setText(user_name);
@@ -200,61 +248,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private void init() {
-		// TODO Auto-generated method stub
-		iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
-		tv_username = (TextView) findViewById(R.id.tv_username);
-		lv_topics = (LinearLayout) findViewById(R.id.lv_topics);
-		lv_topics.setOnClickListener(this);
-		tv_topic = (TextView) findViewById(R.id.tv_topic);
-		lv_ifocus_person = (LinearLayout) findViewById(R.id.lv_ifocus_person);
-		lv_ifocus_person.setOnClickListener(this);
-		tv_ifocus_person = (TextView) findViewById(R.id.tv_ifocus_person);
-		lv_focusi_person = (LinearLayout) findViewById(R.id.lv_focusi_person);
-		lv_focusi_person.setOnClickListener(this);
-		tv_focusi_person = (TextView) findViewById(R.id.tv_focusi_person);
-
-		tv_thanks = (TextView) findViewById(R.id.tv_thanks);
-		tv_votes = (TextView) findViewById(R.id.tv_votes);
-		tv_collect = (TextView) findViewById(R.id.tv_collect);
-
-		lv_replys = (LinearLayout) findViewById(R.id.lv_replys);
-		lv_replys.setOnClickListener(this);
-		tv_replys = (TextView) findViewById(R.id.tv_replys);
-		lv_asks = (LinearLayout) findViewById(R.id.lv_asks);
-		lv_asks.setOnClickListener(this);
-		tv_asks = (TextView) findViewById(R.id.tv_asks);
-		lv_articles = (LinearLayout) findViewById(R.id.lv_articles);
-		lv_articles.setOnClickListener(this);
-		tv_articles = (TextView) findViewById(R.id.tv_articles);
-
-		lv_news = (LinearLayout) findViewById(R.id.lv_news);
-		lv_news.setOnClickListener(this);
-		tv_news = (TextView) findViewById(R.id.tv_news);
-
-		lv_search_friens = (LinearLayout) findViewById(R.id.lv_search_friens);
-		lv_search_friens.setOnClickListener(this);
-
-		bt_focus = (Button) findViewById(R.id.bt_focus);
-		bt_focus.setOnClickListener(this);
-		tv_focusi_person_comment=(TextView) findViewById(R.id.tv_focusi_person_comment);
-		tv_ifocus_person_comment=(TextView) findViewById(R.id.tv_ifocus_person_comment);
-		tv_topic_comment=(TextView) findViewById(R.id.tv_topic_comment);
-		FanfanSharedPreferences ffGetUid = new FanfanSharedPreferences(this);
-		if (status == GlobalVariables.AVAILABLE_EDIT) {
-			bt_focus.setVisibility(View.INVISIBLE);
-		} else if(uid!=ffGetUid.getUid(" ")){
-			tv_focusi_person_comment.setText("关注他的人");
-			tv_ifocus_person_comment.setText("他关注的人");
-			tv_topic_comment.setText("他关注的话题");
-		}
-		if (haveFrocus) {
-			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
-			bt_focus.setTextColor(android.graphics.Color.BLACK);
-			bt_focus.setText("取消关注");
-		}
-	}
-
+	// 所有主界面元素的监听事件的处理
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -361,6 +355,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 				});
 	}
 
+	// 提示模块
 	private void showTips(int iconResId, int msgResId) {
 		if (tipsToast != null) {
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -375,6 +370,19 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tipsToast.setText(msgResId);
 	}
 
+	// 重新返回时再次获取用户信息
+	protected void onResume() {
+		super.onResume();
+		if (uid != null) {
+			NetworkState networkState = new NetworkState();
+			if (networkState.isNetworkConnected(UserInfoActivity.this)) {
+				getUserInfo();
+			} else {
+				showTips(R.drawable.tips_error, R.string.net_break);
+			}
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (status == GlobalVariables.AVAILABLE_EDIT) {
@@ -384,6 +392,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	// 对ActinBar编辑按钮的处理
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
