@@ -80,6 +80,7 @@
                             android:text="0" />
 
                         <TextView
+                            android:id="@+id/tv_topic_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="我关注的话题"
@@ -111,6 +112,7 @@
                             android:text="0" />
 
                         <TextView
+                            android:id="@+id/tv_ifocus_person_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="我关注的人"
@@ -142,6 +144,7 @@
                             android:text="0" />
 
                         <TextView
+                                android:id="@+id/tv_focusi_person_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="关注我的人"

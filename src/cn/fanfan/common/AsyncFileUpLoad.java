@@ -41,7 +41,6 @@ public class AsyncFileUpLoad {
 		PersistentCookieStore mCookieStore = new PersistentCookieStore(context);
 		client.setCookieStore(mCookieStore);
 		if (networkState.isNetworkConnected(context)) {
-			Login();
 			upLoad(callBack);
 		} else {
 			showTips(R.drawable.tips_error, R.string.net_break);
@@ -105,32 +104,32 @@ public class AsyncFileUpLoad {
 	}
 
 	/* 先再次登录获得刷新cookie 。 */
-	private void Login() {
-		RequestParams params = new RequestParams();
-		FanfanSharedPreferences user = new FanfanSharedPreferences(context);
-		params.put("user_name", user.getUserName(""));// 待改
-		params.put("password", user.getPasswd(""));// 待改
-		client.post(context,
-				"http://w.hihwei.com/?/api/account/login_process/", params,
-				new AsyncHttpResponseHandler() {
-
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							byte[] responseBody) {
-						responseContent = new String(responseBody);
-						Log.i("LoginSuccess", responseContent + "---Success");
-					}
-
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							byte[] responseBody, Throwable error) {
-						// TODO Auto-generated method stub
-						responseContent = new String(responseBody);
-						Log.i("LoninOnFailure", responseContent + "---Failure");
-						showTips(R.drawable.tips_error, R.string.login_wrong);
-					}
-				});
-	}
+//	private void Login() {
+//		RequestParams params = new RequestParams();
+//		FanfanSharedPreferences user = new FanfanSharedPreferences(context);
+//		params.put("user_name", user.getUserName(""));
+//		params.put("password", user.getPasswd(""));
+//		client.post(context,
+//				Config.getValue("LoginUrl"), params,
+//				new AsyncHttpResponseHandler() {
+//
+//					@Override
+//					public void onSuccess(int statusCode, Header[] headers,
+//							byte[] responseBody) {
+//						responseContent = new String(responseBody);
+//						Log.i("LoginSuccess", responseContent + "---Success");
+//					}
+//
+//					@Override
+//					public void onFailure(int statusCode, Header[] headers,
+//							byte[] responseBody, Throwable error) {
+//						// TODO Auto-generated method stub
+//						responseContent = new String(responseBody);
+//						Log.i("LoninOnFailure", responseContent + "---Failure");
+//						showTips(R.drawable.tips_error, R.string.login_wrong);
+//					}
+//				});
+//	}
 
 	/* 网络异常将弹出的提醒 */
 	private void showTips(int iconResId, int msgResId) {

@@ -7,11 +7,13 @@ import org.json.JSONTokener;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.attentionuser.AttentionUser;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
+import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.common.NetworkState;
@@ -52,6 +54,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private TextView tv_asks;
 	private TextView tv_articles;
 	private TextView tv_news;
+	private TextView tv_focusi_person_comment,tv_ifocus_person_comment,tv_topic_comment;
 	private String uid;
 	protected String errno;
 	protected String err;
@@ -68,6 +71,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private LinearLayout lv_topics, lv_replys, lv_search_friens, lv_news,
 			lv_asks, lv_focusi_person, lv_ifocus_person, lv_articles;
 	private int status;
+	private AsyncHttpClient asyncHttpClient;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,8 +83,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		Intent intent = this.getIntent();
 		// Bundle bundle = intent.getExtras();
 		uid = intent.getStringExtra("uid");
-		status = intent
-				.getIntExtra("status", GlobalVariables.AVAILABLE_EDIT);
+		status = intent.getIntExtra("status", GlobalVariables.AVAILABLE_EDIT);
 		init();// 初始化
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();
@@ -159,7 +162,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							answer_count = rsmcontent.getString("answer_count");
 							Log.i("answer_favorite_count",
 									answer_favorite_count);
-							
+
 							// 处理完JSON后updateUI展示用户资料
 							updateUI(avatar_file);
 						} catch (JSONException e) {
@@ -192,8 +195,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		// 下载用户头像
 		if (avatarurl != "null") {
 			AsyncImageGet getAvatar = new AsyncImageGet(
-					Config.getValue("AvatarPrefixUrl") + avatarurl,
-					iv_avatar);
+					Config.getValue("AvatarPrefixUrl") + avatarurl, iv_avatar);
 			getAvatar.execute();
 		}
 	}
@@ -235,9 +237,18 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 		bt_focus = (Button) findViewById(R.id.bt_focus);
 		bt_focus.setOnClickListener(this);
+		tv_focusi_person_comment=(TextView) findViewById(R.id.tv_focusi_person_comment);
+		tv_ifocus_person_comment=(TextView) findViewById(R.id.tv_ifocus_person_comment);
+		tv_topic_comment=(TextView) findViewById(R.id.tv_topic_comment);
+		FanfanSharedPreferences ffGetUid = new FanfanSharedPreferences(this);
 		if (status == GlobalVariables.AVAILABLE_EDIT) {
 			bt_focus.setVisibility(View.INVISIBLE);
-		} else if (haveFrocus) {
+		} else if(uid!=ffGetUid.getUid(" ")){
+			tv_focusi_person_comment.setText("关注他的人");
+			tv_ifocus_person_comment.setText("他关注的人");
+			tv_topic_comment.setText("他关注的话题");
+		}
+		if (haveFrocus) {
 			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 			bt_focus.setTextColor(android.graphics.Color.BLACK);
 			bt_focus.setText("取消关注");
@@ -254,12 +265,14 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.lv_focusi_person:
-			Intent intent2 = new Intent(UserInfoActivity.this,AttentionUser.class);
+			Intent intent2 = new Intent(UserInfoActivity.this,
+					AttentionUser.class);
 			intent2.putExtra("userorme", GlobalVariables.ATTENEION_ME);
 			startActivity(intent2);
 			break;
 		case R.id.lv_ifocus_person:
-			Intent intent1 = new Intent(UserInfoActivity.this,AttentionUser.class);
+			Intent intent1 = new Intent(UserInfoActivity.this,
+					AttentionUser.class);
 			intent1.putExtra("userorme", GlobalVariables.ATTENTION_USER);
 			startActivity(intent1);
 			break;
@@ -304,9 +317,45 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 	private void changeFrocusStatus() {
 		// TODO Auto-generated method stub
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-		RequestParams frocusStatus = new RequestParams();
-		//发送关注状态，如果失败者toast提醒用户，并更改frocus按钮相关状态
+		asyncHttpClient = new AsyncHttpClient();
+		PersistentCookieStore mCookieStore = new PersistentCookieStore(this);
+		asyncHttpClient.setCookieStore(mCookieStore);
+		RequestParams followStatus = new RequestParams();
+		// 发送关注状态，如果失败提醒用户，并更改frocus按钮相关状态
+		followStatus.put("uid", uid);// 所要取消关注的uid
+		asyncHttpClient.get(Config.getValue("ChangeFollowStatus"),
+				followStatus, new AsyncHttpResponseHandler() {
+
+					@Override
+					public void onSuccess(int arg0, Header[] arg1,
+							byte[] responseBody) {
+						// TODO Auto-generated method stub
+						String responseContent = new String(responseBody);
+						Log.i("changeFrocusStatus", responseContent
+								+ "---Success");
+					}
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1,
+							byte[] responseBody, Throwable arg3) {
+						// TODO Auto-generated method stub
+						String responseContent = new String(responseBody);
+						Log.i("changeFrocusStatus", responseContent
+								+ "---Failure");
+						// 更改按钮状态
+						if (haveFrocus) {
+							haveFrocus = false;
+							bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
+							bt_focus.setTextColor(android.graphics.Color.WHITE);
+							bt_focus.setText("关注");
+						} else {
+							haveFrocus = true;
+							bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+							bt_focus.setTextColor(android.graphics.Color.BLACK);
+							bt_focus.setText("取消关注");
+						}
+					}
+				});
 	}
 
 	private void showTips(int iconResId, int msgResId) {
