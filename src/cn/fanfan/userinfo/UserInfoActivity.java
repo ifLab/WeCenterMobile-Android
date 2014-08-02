@@ -262,17 +262,20 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		case R.id.lv_topics:
 			Intent intent = new Intent(UserInfoActivity.this,
 					TopicActivity.class);
+			intent.putExtra("uid", uid);
 			startActivity(intent);
 			break;
 		case R.id.lv_focusi_person:
 			Intent intent2 = new Intent(UserInfoActivity.this,
 					AttentionUser.class);
 			intent2.putExtra("userorme", GlobalVariables.ATTENEION_ME);
+			intent2.putExtra("uid", uid);
 			startActivity(intent2);
 			break;
 		case R.id.lv_ifocus_person:
 			Intent intent1 = new Intent(UserInfoActivity.this,
 					AttentionUser.class);
+			intent1.putExtra("uid", uid);
 			intent1.putExtra("userorme", GlobalVariables.ATTENTION_USER);
 			startActivity(intent1);
 			break;
