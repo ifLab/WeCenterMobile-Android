@@ -56,6 +56,7 @@ public class Fragment_topic extends Fragment {
 	private TextView footText;
 	
 	private int isFocus;
+	private Bundle bundle;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -63,13 +64,20 @@ public class Fragment_topic extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_topic, container, false);
 		final FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
 		//uid = sharedPreferences.getUid("1");
+		
 		Intent intent = getActivity().getIntent();
-		Bundle bundle= getArguments();
-		isFocus = bundle.getInt("isFocus", GlobalVariables.FOCUS_TOPIC);
 		uid = intent.getStringExtra("uid");
 		if (uid == null) {
 			uid = sharedPreferences.getUid("10");
 		}
+		
+		bundle= getArguments();
+		if (bundle == null) {
+			isFocus = GlobalVariables.FOCUS_TOPIC;
+		}else {
+			isFocus = bundle.getInt("isFocus", GlobalVariables.FOCUS_TOPIC);
+		}
+		
 		topicModels = new ArrayList<TopicModel>();
 		mImageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
@@ -252,7 +260,9 @@ public class Fragment_topic extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((MainActivity) activity).onSectionAttached(getArguments().getInt(
-				"position"));
+		if (bundle != null) {
+			((MainActivity) activity).onSectionAttached(getArguments().getInt(
+					"position"));
+		}
 	}
 }
