@@ -64,6 +64,7 @@ public class AttentionUser extends Activity {
 		setContentView(R.layout.attention_listview);
 		Intent intent = getIntent();
 		String UserOrMe = intent.getStringExtra("userorme");
+		uid = intent.getStringExtra("uid");
 		if (UserOrMe.equals(GlobalVariables.ATTENEION_ME)) {
 			url = Config.getValue("AttentionMe");
 		}else {
@@ -76,7 +77,7 @@ public class AttentionUser extends Activity {
 		isFirstEnter = true;
 		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(
 				AttentionUser.this);
-		uid = fanfanSharedPreferences.getUid("");
+		//uid = fanfanSharedPreferences.getUid("");
 		init();
 		getInformation("1");
 	}

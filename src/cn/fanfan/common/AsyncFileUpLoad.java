@@ -103,34 +103,6 @@ public class AsyncFileUpLoad {
 		});
 	}
 
-	/* 先再次登录获得刷新cookie 。 */
-	private void Login() {
-		RequestParams params = new RequestParams();
-		FanfanSharedPreferences user = new FanfanSharedPreferences(context);
-		params.put("user_name", user.getUserName(""));
-		params.put("password", user.getPasswd(""));
-		client.post(context,
-				"http://w.hihwei.com/?/api/account/login_process/", params,
-				new AsyncHttpResponseHandler() {
-
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							byte[] responseBody) {
-						responseContent = new String(responseBody);
-						Log.i("LoginSuccess", responseContent + "---Success");
-					}
-
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							byte[] responseBody, Throwable error) {
-						// TODO Auto-generated method stub
-						responseContent = new String(responseBody);
-						Log.i("LoninOnFailure", responseContent + "---Failure");
-						showTips(R.drawable.tips_error, R.string.login_wrong);
-					}
-				});
-	}
-
 	/* 网络异常将弹出的提醒 */
 	private void showTips(int iconResId, int msgResId) {
 		if (tipsToast != null) {

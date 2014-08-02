@@ -218,9 +218,10 @@ public class MainActivity extends FragmentActivity implements
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		System.out.println("GlobalVariables.ISFANFANLOGIN------------->"+GlobalVariables.ISFANFANLOGIN);
 		if (GlobalVariables.ISFANFANLOGIN = true) {
-			finish();
 			GlobalVariables.ISFANFANLOGIN = false;
+			finish();
 		}
 		
 	}
