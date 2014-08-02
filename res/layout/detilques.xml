@@ -71,22 +71,23 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/question_contents"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
             android:paddingLeft="12dp"
             android:paddingRight="15dp"
             android:paddingTop="8dp"
-            android:text="黄花菜怎么煮？哈哈哈哈哈哈哈哈哈哈"
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/question_detail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:paddingTop="8dp"
-            android:text="早市看到这个，买回来不知道怎么煮，求大虾指导～,哈哈哈，哈哈哈，哈哈哈"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -111,6 +112,7 @@
             android:gravity="center_vertical" >
 
             <TextView
+                android:id="@+id/focus_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_followers"
@@ -119,6 +121,7 @@
                 android:textColor="#C4C4C4" />
 
             <TextView
+                android:id="@+id/answer_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

@@ -85,8 +85,7 @@ public class FoundAdapter extends BaseAdapter{
 						// TODO Auto-generated method stub
 						Intent intent = new Intent();
 						intent.setClass(context, UserInfoActivity.class);
-						System.out.println(newitems.get(arg0).getQuestion_id()+" 123");
-						intent.putExtra("uid", "13");
+						intent.putExtra("uid", newitems.get(arg0).getUid());
 						context.startActivity(intent);
 					}
 				});

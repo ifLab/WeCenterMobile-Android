@@ -14,9 +14,10 @@
         android:paddingRight="15dp"
         android:paddingTop="8dp" >
          <ImageView 
+             android:id="@+id/userimage"
              android:layout_width="30dp"
              android:layout_height="30dp"
-             android:src="@drawable/ic_launcher"/>
+             android:src="@drawable/logo"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,10 +25,11 @@
             android:layout_weight="1" >
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="fanfan"
+            
              />
         </LinearLayout>
          <LinearLayout
@@ -73,18 +75,28 @@
             android:paddingLeft="12dp"
             android:paddingRight="15dp"
             android:paddingTop="8dp"
-            android:text="黄花菜怎么煮？哈哈哈哈哈哈哈哈哈哈"
             android:textSize="18sp" />
         <TextView
+            android:id="@+id/answerdetil"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:lineSpacingExtra="5dp"
             android:paddingTop="8dp"
-            android:text="早市看到这个，买回来不知道怎么煮，求大虾指导～,哈哈哈，哈哈哈，哈哈哈,早市看到这个，买回来不知道怎么煮，求大虾指导～,哈哈哈，哈哈哈，哈哈哈"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:lineSpacingExtra="5dp"
+            android:paddingTop="8dp"
+            android:textSize="15sp" />
     </LinearLayout>
    </ScrollView>
    <View

@@ -21,6 +21,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
+import cn.fanfan.common.Config;
 import cn.fanfan.common.MyProgressDialog;
 import cn.fanfan.main.R;
 import cn.fanfan.question.Bimp;
@@ -233,7 +234,7 @@ public class WriteAnswer extends Activity {
 	}
     public void postpic(RequestParams params,String id,String attach) {
         
-    	String url = "http://w.hihwei.com/?/api/publish/attach_upload/?id="+id+"&attach_access_key="+attach;
+    	String url = Config.getValue("PostPic")+"?id="+id+"&attach_access_key="+attach;
 		client.post(url, params, new AsyncHttpResponseHandler(){
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
@@ -283,7 +284,7 @@ public class WriteAnswer extends Activity {
 		});
 		}
     public void postanswer(RequestParams params) {
-		String url = "http://w.hihwei.com/?/api/publish/save_answer/";
+		String url = Config.getValue("PostAnswer");
 		client.post(url, params, new AsyncHttpResponseHandler(){
 			@Override
 			public void onStart() {

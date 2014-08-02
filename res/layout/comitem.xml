@@ -12,19 +12,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
          <ImageView
-           android:id="@+id/imageView1"
+           android:id="@+id/userpic"
            android:layout_width="30dp"
            android:layout_height="30dp"
-           android:src="@drawable/ic_launcher" />
+           android:src="@drawable/logo" />
 
          <TextView
+             android:id="@+id/agree"
              android:layout_width="30dp"
              android:layout_height="wrap_content"
              android:gravity="center"
              android:layout_marginTop="10dp"
              android:background="#FF7C47"
              android:textColor="#FFFFFF"
-             android:text="100" />
+             android:text="0" />
         
     </LinearLayout>
     <LinearLayout 
@@ -35,12 +36,13 @@
          <TextView 
              android:id="@+id/name"
              android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:text="fanfan"/>
+             android:layout_height="wrap_content"/>
          <TextView 
+             android:id="@+id/content"
+             android:ellipsize="end"
+             android:maxLines="4"
              android:layout_width="fill_parent"
              android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:text="做法式海绵蛋糕时会将蛋黃加细砂糖用打蛋器"/>
+             android:layout_marginTop="10dp"/>
     </LinearLayout>
 </LinearLayout>

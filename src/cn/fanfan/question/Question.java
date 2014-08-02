@@ -4,26 +4,18 @@ package cn.fanfan.question;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.client.CookieStore;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-
-
-
 
 import cn.fanfan.common.MyProgressDialog;
 import cn.fanfan.main.R;
@@ -38,6 +30,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import cn.fanfan.common.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -56,7 +49,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +58,6 @@ public class Question extends FragmentActivity {
     private CookieStore myCookieStore; 
     private cn.fanfan.common.MyProgressDialog progressDialog;
     private int attach_id ;
-	private Bitmap pic;
 	private float offset = 0;// ����ͼƬƫ����
 	private int currIndex = 0;// ��ǰҳ�����
 	private int bmpW;// ����ͼƬ���
@@ -79,7 +70,6 @@ public class Question extends FragmentActivity {
 	Fragment text1;
 	Fragment text2;
 	Fragment text3;
-	private Map<String, String> pathlink;
 	private ActionBar actionBar;
 	private static String attach_access_key ;
 	@SuppressLint("NewApi")
@@ -89,8 +79,8 @@ public class Question extends FragmentActivity {
 		super.onCreate(arg0);
 		setContentView(R.layout.quespagr);
 		actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
-		pathlink = new HashMap<String, String>();
 		text1 = new Quesfrang();
 		text2 = new Detilfrang();
 		text3 = new Tagfrang();
@@ -136,15 +126,15 @@ public class Question extends FragmentActivity {
 		}
 	};
 	 private void InitImageView() {
-			Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.a);// ��ȡͼƬ���
+			Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.a);
 			bmpW = pic.getWidth();
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
-			float screenW = dm.widthPixels;// ��ȡ�ֱ��ʿ�
-			offset = (screenW / itemcount - bmpW) / 2;// ����ƫ����
+			float screenW = dm.widthPixels;
+			offset = (screenW / itemcount - bmpW) / 2;
 			Matrix matrix = new Matrix();;
 			matrix.postTranslate(offset, 0);
-			cursor.setImageMatrix(matrix);// ���ö�����ʼλ��
+			cursor.setImageMatrix(matrix);
 		}
 	private void InitViewPager() {
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -175,24 +165,6 @@ public class Question extends FragmentActivity {
 		public Fragment getItem(int arg0) {
 			// TODO Auto-generated method stub
 			Fragment fragment = mListViews.get(arg0);
-			Bundle args = new Bundle();
-			String mod;
-			switch (arg0) {
-			case 0:
-				mod = "0";
-				break;
-			case 1:
-				mod = "1";
-				break;
-			case 2:
-				mod = "2";
-				break;
-			default:
-				return null;
-			}
-			args.putString("mod", mod);
-			args.putString("id", "0");
-			fragment.setArguments(args);
 			return fragment;
 		}
 	}
@@ -201,9 +173,8 @@ public class Question extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
-		case R.id.postp:
-			destoryBimap();
-			//showDialog();
+		case android.R.id.home:
+			finish();
 			break;
 		case R.id.publish:
 			try {
@@ -219,7 +190,8 @@ public class Question extends FragmentActivity {
 	            quespost(params);
 			} catch (Exception e) {
 				// TODO: handle exception
-				Toast.makeText(this, "请完善内容", Toast.LENGTH_LONG);
+				e.printStackTrace();
+				Toast.makeText(this, "请完善内容", Toast.LENGTH_LONG).show();;
 			}
 			
 			break;
@@ -238,18 +210,10 @@ public class Question extends FragmentActivity {
 	   @Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		    	// TODO Auto-generated method stub
-		    	  super.onActivityResult(requestCode, resultCode, data);
-		    	  System.out.println(1111);
-		    	  System.out.println(requestCode+"   qqqqq   "+resultCode);
-		    	  System.out.println(photoUri);
 		    	  switch (requestCode) {
 				case 0:
 					if (resultCode!= RESULT_CANCELED && null!= data) {
-						System.out.println(3333);
 						Uri uri = data.getData();
-						System.out.println(2222);
-						System.out.println(uri.getPath() + ")))");
-
 						String[] pojo = { MediaStore.Images.Media.DATA };
 						Cursor cursor = getContentResolver().query(uri, pojo, null, null,
 								null);
@@ -311,7 +275,7 @@ public class Question extends FragmentActivity {
 	}
 	   public void postpic(RequestParams params,String id,String attach) {
 		      
-	    	String url = "http://w.hihwei.com/?/api/publish/attach_upload/?id="+id+"&attach_access_key="+attach;
+	    	String url = Config.getValue("PostPic")+"?id="+id+"&attach_access_key="+attach;
 			client.post(url, params, new AsyncHttpResponseHandler(){
 				@Override
 				public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
@@ -357,7 +321,7 @@ public class Question extends FragmentActivity {
 			
 			}
 	   public void quespost(RequestParams params) {
-	    	String url = "http://w.hihwei.com/?/api/publish/publish_question/";
+	    	String url = Config.getValue("PostQuestion");
 			client.post(url, params, new AsyncHttpResponseHandler(){
 				
 				@Override
@@ -466,13 +430,6 @@ public class Question extends FragmentActivity {
 			}
 
 		}
-		 private void destoryBimap() { 
-		        if (pic != null && !pic.isRecycled()) { 
-		            //pic.recycle(); 
-		            pic = null; 
-		        } 
-		    } 
-		
 		 protected void onDestroy() {
 
 				FileUtils.deleteDir(FileUtils.SDPATH);
@@ -481,16 +438,4 @@ public class Question extends FragmentActivity {
 				super.onDestroy();
 			}
 
-}
-@SuppressWarnings("serial")
-class SerializableMap implements Serializable {
-	private Map<String,String> map;
-	public Map<String,String> getMap()
-	{
-		return map;
-	}
-	public void setMap(Map<String,String> map)
-	{
-		this.map=map;
-	}
 }
