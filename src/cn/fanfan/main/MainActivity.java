@@ -1,24 +1,13 @@
 package cn.fanfan.main;
 
-import org.apache.http.Header;
 import org.apache.http.cookie.Cookie;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
-import com.loopj.android.http.RequestParams;
-
-import cn.fanfan.common.AsyncImageGet;
-import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.draft.Draft;
 import cn.fanfan.found.FoundFrg;
 import cn.fanfan.question.Question;
 import cn.fanfan.topic.Fragment_topic;
-import cn.fanfan.welcome.Login;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -69,7 +58,6 @@ public class MainActivity extends FragmentActivity implements
 					R.array.drawerliststring);
 			//Login();
 		}
-		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
@@ -83,18 +71,31 @@ public class MainActivity extends FragmentActivity implements
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		if (position == 1) {
+		if (position == 0) {
+			Fragment fragment = new Fragment_topic();
+			Bundle bundle = new Bundle();
+			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
+			bundle.putInt("position", position+1);
+			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction()
-			.replace(R.id.container, (new FoundFrg())).commit();
-			mTitle = draweritems[position];
+					.replace(R.id.container, fragment).commit();
+		}else if (position == 1) {
+				fragmentManager.beginTransaction()
+				.replace(R.id.container, (new FoundFrg())).commit();
+				mTitle = draweritems[position];
 		}else if (position == 2) {
-			fragmentManager.beginTransaction()
-					.replace(R.id.container, (new Fragment_topic())).commit();
-			mTitle = draweritems[position];
+				Fragment fragment = new Fragment_topic();
+				Bundle bundle = new Bundle();
+				bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
+				bundle.putInt("position", position+1);
+				fragment.setArguments(bundle);
+				fragmentManager.beginTransaction()
+						.replace(R.id.container, fragment).commit();
+				mTitle = draweritems[position];
 		} else if (position ==4) {
-			fragmentManager.beginTransaction()
-			.replace(R.id.container, (new Draft())).commit();
-			mTitle = draweritems[position];
+				fragmentManager.beginTransaction()
+				.replace(R.id.container, (new Draft())).commit();
+				mTitle = draweritems[position];
 		}else if (position == 5) {
 			Intent intent = new Intent(MainActivity.this,Question.class);
 			startActivity(intent);
@@ -140,15 +141,7 @@ public class MainActivity extends FragmentActivity implements
 		if (id == R.id.logout) {
 			sharedPreferences.clear();
 			PersistentCookieStore cookieStore = new PersistentCookieStore(MainActivity.this);
-			for (Cookie cookie : cookieStore.getCookies()) {
-				System.out.println(cookie.getName()+"------------------>"+cookie.getValue());
-			}
-			System.out.println(cookieStore.getCookies().size());
 			cookieStore.clear();
-			System.out.println(cookieStore.getCookies().size());
-			for (Cookie cookie : cookieStore.getCookies()) {
-				System.out.println(cookie.getName()+"------------------>"+cookie.getValue());
-			}
 			Intent intent = new Intent(this, MainActivity.class);  
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent); 

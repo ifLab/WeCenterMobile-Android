@@ -8,4 +8,6 @@ public class GlobalVariables {
 	public static int AVAILABLE_EDIT = 0;
 	public static int DISAVAILABLE_EDIT = 1;
 	public static boolean ISFANFANLOGIN = false;
+	public static int HOT_TOPIC = 0;
+	public static int FOCUS_TOPIC = 1;
 }

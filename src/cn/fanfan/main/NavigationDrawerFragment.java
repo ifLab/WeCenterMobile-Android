@@ -97,8 +97,8 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//System.out.println(GlobalVariables.uSER_IMAGE_URL);
 		if (GlobalVariables.uSER_IMAGE_URL == null) {
+			System.out.println("login");
 			Login();
 		}
 		// Read in the flag indicating whether or not the user has demonstrated
@@ -146,13 +146,13 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
+				System.out.println(new String(arg2));
 				try {
 					JSONObject jsonObject = new JSONObject(new String(arg2));
 					int errno = jsonObject.getInt("errno");
 					if (errno == -1) {
 						String err = jsonObject.getString("err");
 						if (err.equals("请输入正确的账号或密码")) {
-					
 							Toast.makeText(getActivity(), "您的账号或密码已经修改，请重新登录", Toast.LENGTH_SHORT).show();
 						}
 					}else {
@@ -172,7 +172,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
 				// TODO Auto-generated method stub
-				
+				System.out.println(new String(arg2));
 			}
 		});
 	}

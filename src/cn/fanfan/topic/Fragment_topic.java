@@ -10,12 +10,16 @@ import org.json.JSONObject;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
+import cn.fanfan.common.GlobalVariables;
+import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -51,6 +55,7 @@ public class Fragment_topic extends Fragment {
 	private LinearLayout footerLinearLayout;
 	private TextView footText;
 	
+	private int isFocus;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -59,9 +64,11 @@ public class Fragment_topic extends Fragment {
 		final FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
 		//uid = sharedPreferences.getUid("1");
 		Intent intent = getActivity().getIntent();
+		Bundle bundle= getArguments();
+		isFocus = bundle.getInt("isFocus", GlobalVariables.FOCUS_TOPIC);
 		uid = intent.getStringExtra("uid");
 		if (uid == null) {
-			uid = sharedPreferences.getUid("");
+			uid = sharedPreferences.getUid("10");
 		}
 		topicModels = new ArrayList<TopicModel>();
 		mImageDownLoader = new ImageDownLoader(getActivity());
@@ -155,13 +162,16 @@ public class Fragment_topic extends Fragment {
 	}
 	
 	private void getTopicModels(String uid) {
-		//RequestParams params = new RequestParams();
-		//params.put("id", "focus");
-		//params.put("page", page);
+		RequestParams params = new RequestParams();
+		if (isFocus == GlobalVariables.FOCUS_TOPIC) {
+			params.put("uid", uid);
+		}
+		params.put("page", currentPage);
+		params.put("per_page", per_page);
 		AsyncHttpClient client = new AsyncHttpClient();
 		//PersistentCookieStore cookieStore = new PersistentCookieStore(getActivity());
 		//client.setCookieStore(cookieStore);
-		client.get("http://w.hihwei.com/api/my_focus_topic.php?page="+currentPage+"&uid="+uid+"&per_page="+per_page, null, new AsyncHttpResponseHandler() {
+		client.get("http://w.hihwei.com/api/my_focus_topic.php", params, new AsyncHttpResponseHandler() {
 			
 			
 			@Override
@@ -175,10 +185,12 @@ public class Fragment_topic extends Fragment {
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				try {
+					//System.out.println(new String(arg2));
 					JSONObject jsonObject = new JSONObject(new String(arg2));
 					int errno = jsonObject.getInt("errno");
 					if (errno == -1) {
 						String err = jsonObject.getString("err");
+						//System.out.println(err);
 						Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
 					}else {
 						String rsm = jsonObject.getString("rsm");
@@ -237,5 +249,10 @@ public class Fragment_topic extends Fragment {
 			}
 		});
 	}
-
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((MainActivity) activity).onSectionAttached(getArguments().getInt(
+				"position"));
+	}
 }
