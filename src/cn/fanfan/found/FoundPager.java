@@ -159,22 +159,31 @@ public class FoundPager extends Fragment {
 		            total_row = (rsm.getInt("total_rows"));
 					JSONArray rows = rsm.getJSONArray("rows");
 		            for (int i = 0; i < rows.length(); i++) {
+
 						JSONObject jsonObject = rows.getJSONObject(i);
 						Founditem founditem = new Founditem();
-						founditem.setQuestion_id(jsonObject.getString("question_id"));
-						founditem.setQuestion(jsonObject.getString("question_content"));
-						founditem.setAnswer_count(jsonObject.getInt("answer_count"));
-						founditem.setFocus_count(jsonObject.getInt("focus_count"));
-						founditem.setView_count(jsonObject.getInt("view_count"));
-						JSONObject object = jsonObject.getJSONObject("user_info");
-						founditem.setName(object.getString("user_name"));
-						founditem.setAvatar_file(object.getString("avatar_file"));
-						founditem.setUid(object.getString("uid"));
-						newlist.add(founditem);
+						String post_type = jsonObject.getString("post_type");
+						if (post_type.equals("question")) {
+							founditem.setQuestion_id(jsonObject.getString("question_id"));
+							founditem.setQuestion(jsonObject.getString("question_content"));
+							founditem.setAnswer_count(jsonObject.getInt("answer_count"));
+							founditem.setFocus_count(jsonObject.getInt("focus_count"));
+							founditem.setView_count(jsonObject.getInt("view_count"));
+							JSONObject object = jsonObject.getJSONObject("user_info");
+							founditem.setName(object.getString("user_name"));
+							founditem.setAvatar_file(object.getString("avatar_file"));
+							founditem.setUid(object.getString("uid"));
+							newlist.add(founditem);
+						} else {
+                            
+						}
+						
+						
 					} 			
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 				if (currentPage == 1) {
 					adapter = new FoundAdapter(newlist, getActivity(),imageDownLoader);

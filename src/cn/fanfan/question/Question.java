@@ -126,15 +126,15 @@ public class Question extends FragmentActivity {
 		}
 	};
 	 private void InitImageView() {
-			Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.a);// ��ȡͼƬ���
+			Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.a);
 			bmpW = pic.getWidth();
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
-			float screenW = dm.widthPixels;// ��ȡ�ֱ��ʿ�
-			offset = (screenW / itemcount - bmpW) / 2;// ����ƫ����
+			float screenW = dm.widthPixels;
+			offset = (screenW / itemcount - bmpW) / 2;
 			Matrix matrix = new Matrix();;
 			matrix.postTranslate(offset, 0);
-			cursor.setImageMatrix(matrix);// ���ö�����ʼλ��
+			cursor.setImageMatrix(matrix);
 		}
 	private void InitViewPager() {
 		viewPager = (ViewPager) findViewById(R.id.pager);
