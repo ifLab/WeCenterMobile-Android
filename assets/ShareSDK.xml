@@ -39,6 +39,7 @@
         SortId="1" />
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+     <!-- 测试ShareSDK的AppId -->
 
     <QZone
         AppId="1101781069"
@@ -78,7 +79,7 @@
         AppKey="iOR4LAP8Maxou4FN"
         Enable="true"
         Id="5"
-        ShareByAppClient="true"
+        ShareByAppClient="false"
         SortId="5" />
 
     <Douban

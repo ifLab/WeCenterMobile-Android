@@ -2,15 +2,24 @@ package cn.fanfan.detilques;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import cn.fanfan.common.Config;
 import cn.fanfan.common.GetUserNamImage;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.TextShow;
 import cn.fanfan.main.R;
+import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoEditActivity;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +31,8 @@ import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,6 +42,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Detilques extends Activity {
 	private ListView comlist;
@@ -40,6 +52,8 @@ public class Detilques extends Activity {
 			answercount;
 	private AsyncHttpClient client;
 	private TextShow textShow;
+	private String question_content;// 标题
+	private String question_id;// 问题id
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +92,9 @@ public class Detilques extends Activity {
 		GetQuestion("2");
 	}
 
-	private void GetQuestion(String question_id) {
+	private void GetQuestion(String questionId) {
 		String url = "http://w.hihwei.com/?/api/question/question/?id="
-				+ question_id;
+				+ questionId;
 		client.get(url, new AsyncHttpResponseHandler() {
 
 			@Override
@@ -104,8 +118,8 @@ public class Detilques extends Activity {
 					answercount.setText(answer_count);
 					JSONArray question_topics = rsm
 							.getJSONArray("question_topics");
-					String question_id = question_info.getString("question_id");
-					String question_content = question_info
+					question_id = question_info.getString("question_id");
+					question_content = question_info
 							.getString("question_content");
 					String question_detail = question_info
 							.getString("question_detail");
@@ -236,4 +250,48 @@ public class Detilques extends Activity {
 		}
 	}
 
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.share, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.share) {
+			showShare();
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	// 分享
+	private void showShare() {
+		ShareSDK.initSDK(this);
+		OnekeyShare oks = new OnekeyShare();
+		// 关闭sso授权
+		oks.disableSSOWhenAuthorize();
+
+		// 分享时Notification的图标和文字
+		oks.setNotification(R.drawable.ic_launcher,
+				getString(R.string.app_name));
+		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+		oks.setTitle(question_content);
+		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+		oks.setTitleUrl(Config.getValue("ShareQuestionUrl" + question_id));
+		// text是分享文本，所有平台都需要这个字段
+		oks.setText(question_content+"  ");
+		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+		oks.setImagePath("/sdcard/test.jpg");
+		// url仅在微信（包括好友和朋友圈）中使用
+		oks.setUrl(Config.getValue("ShareQuestionUrl" + question_id));
+		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
+		oks.setComment("  ");
+		// site是分享此内容的网站名称，仅在QQ空间使用
+		oks.setSite(getString(R.string.app_name));
+		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
+		oks.setSiteUrl(Config.getValue("ShareQuestionUrl" + question_id));
+
+		// 启动分享GUI
+		oks.show(this);
+	}
 }
