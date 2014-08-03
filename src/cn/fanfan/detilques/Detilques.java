@@ -1,6 +1,7 @@
 package cn.fanfan.detilques;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -10,7 +11,6 @@ import org.json.JSONObject;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GlobalVariables;
@@ -36,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -51,6 +52,7 @@ public class Detilques extends Activity {
 	private TextView addanswer, questiontitle, questiondetil, focus,
 			answercount;
 	private AsyncHttpClient client;
+	private String questionid;
 	private TextShow textShow;
 	private String question_content;// 标题
 	private String question_id;// 问题id
@@ -63,6 +65,8 @@ public class Detilques extends Activity {
 		client = new AsyncHttpClient();
 		comlist = (ListView) findViewById(R.id.comlist);
 		comlists = new ArrayList<AnswerItem>();
+		Intent intent = getIntent();
+		questionid = intent.getStringExtra("questionid");
 		comlist.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -70,6 +74,7 @@ public class Detilques extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
+				intent.putExtra("answerid", comlists.get(arg2).getAnswer_id());
 				intent.setClass(Detilques.this, Answer.class);
 				startActivity(intent);
 			}
@@ -85,11 +90,12 @@ public class Detilques extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
+				intent.putExtra("questionid", questionid);
 				intent.setClass(Detilques.this, WriteAnswer.class);
 				startActivity(intent);
 			}
 		});
-		GetQuestion("2");
+		GetQuestion(questionid);
 	}
 
 	private void GetQuestion(String questionId) {
@@ -114,7 +120,7 @@ public class Detilques extends Activity {
 					JSONObject question_info = rsm
 							.getJSONObject("question_info");
 					String answer_count = rsm.getString("answer_count");
-					JSONObject answers = rsm.getJSONObject("answers");
+
 					answercount.setText(answer_count);
 					JSONArray question_topics = rsm
 							.getJSONArray("question_topics");
@@ -128,22 +134,27 @@ public class Detilques extends Activity {
 					DisplayMetrics dm = new DisplayMetrics();
 					getWindowManager().getDefaultDisplay().getMetrics(dm);
 					float screenW = dm.widthPixels;
-					textShow = new TextShow(question_detail, questiondetil,
-							screenW);
+					textShow = new TextShow(JSONTokener(question_detail),
+							questiondetil, screenW);
 					textShow.execute();
 					focus.setText(focus_count);
-					for (int i = 0; i < Integer.valueOf(answer_count); i++) {
-						JSONObject answer = answers.getJSONObject(String
-								.valueOf(i + 1));
-						AnswerItem answerItem = new AnswerItem();
-						answerItem.setAnswer_id(answer.getString("answer_id"));
-						answerItem.setAnswer_content(answer
-								.getString("answer_content"));
-						answerItem.setAgree_count(answer
-								.getString("agree_count"));
-						answerItem.setUid(answer.getString("uid"));
-						comlists.add(answerItem);
+					if (!answer_count.equals("0")) {
+						JSONObject answers = rsm.getJSONObject("answers");
+						for (int i = 0; i < Integer.valueOf(answer_count); i++) {
+							JSONObject answer = answers.getJSONObject(String
+									.valueOf(i + 1));
+							AnswerItem answerItem = new AnswerItem();
+							answerItem.setAnswer_id(answer
+									.getString("answer_id"));
+							answerItem.setAnswer_content(answer
+									.getString("answer_content"));
+							answerItem.setAgree_count(answer
+									.getString("agree_count"));
+							answerItem.setUid(answer.getString("uid"));
+							comlists.add(answerItem);
+						}
 					}
+
 					adapter = new ComAdapter(comlists, Detilques.this);
 					comlist.setAdapter(adapter);
 				} catch (JSONException e) {
@@ -153,6 +164,14 @@ public class Detilques extends Activity {
 			}
 
 		});
+	}
+
+	public static String JSONTokener(String in) {
+		// consume an optional byte order mark (BOM) if it exists
+		if (in != null && in.startsWith("\ufeff")) {
+			in = in.substring(1);
+		}
+		return in;
 	}
 
 	class ComAdapter extends BaseAdapter {
@@ -277,19 +296,19 @@ public class Detilques extends Activity {
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
 		oks.setTitle(question_content);
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-		oks.setTitleUrl(Config.getValue("ShareQuestionUrl" )+ question_id);
+		oks.setTitleUrl(Config.getValue("ShareQuestionUrl") + question_id);
 		// text是分享文本，所有平台都需要这个字段
-		oks.setText(question_content+"  ");
+		oks.setText(question_content + "  ");
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		oks.setImagePath("/sdcard/test.jpg");
 		// url仅在微信（包括好友和朋友圈）中使用
-		oks.setUrl(Config.getValue("ShareQuestionUrl" )+ question_id);
+		oks.setUrl(Config.getValue("ShareQuestionUrl") + question_id);
 		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
 		oks.setComment("  ");
 		// site是分享此内容的网站名称，仅在QQ空间使用
 		oks.setSite(getString(R.string.app_name));
 		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
-		oks.setSiteUrl(Config.getValue("ShareQuestionUrl" )+ question_id);
+		oks.setSiteUrl(Config.getValue("ShareQuestionUrl") + question_id);
 
 		// 启动分享GUI
 		oks.show(this);

@@ -73,6 +73,7 @@ public class FoundPager extends Fragment {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
+				intent.putExtra("questionid", newlist.get(arg2).getQuestion_id());
 				intent.setClass(getActivity(), Detilques.class);
 				startActivity(intent);
 			}

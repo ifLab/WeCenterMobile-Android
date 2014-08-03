@@ -46,8 +46,8 @@ public class TextShow extends AsyncTask<String, Integer, Spanned> {
 					Bitmap bm = BitmapFactory.decodeStream(is);
 					d = new BitmapDrawable(bm);
 					float so = ((float)(bm.getHeight())/bm.getWidth());
-					float h =  (screenW-40)*so;
-					d.setBounds(0, 0,(int)screenW-40 ,(int)h);
+					float h =  (screenW-100)*so;
+					d.setBounds(0, 0,(int)(screenW-100),(int)h);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
