@@ -19,7 +19,7 @@
         SortId="2"
         AppId="1101781069"
         AppKey="iOR4LAP8Maxou4FN"
-        ShareByAppClient="true"
+        ShareByAppClient="false"
         Enable="true" />
     
     <Wechat
