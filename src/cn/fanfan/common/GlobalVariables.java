@@ -10,4 +10,5 @@ public class GlobalVariables {
 	public static boolean ISFANFANLOGIN = false;
 	public static int HOT_TOPIC = 0;
 	public static int FOCUS_TOPIC = 1;
+	public static boolean IsLogin = true;
 }

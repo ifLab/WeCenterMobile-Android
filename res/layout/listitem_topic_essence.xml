@@ -46,14 +46,15 @@
         android:layout_alignLeft="@+id/essence_image"
         android:layout_below="@+id/essence_image"
         android:layout_marginTop="@dimen/vertical_padding_large"
-        android:background="@android:color/holo_purple"
+        android:background="@color/fanfan_second"
         android:text="4"
-        android:textColor="@color/text_color_black" />
+        android:gravity="center"
+        android:textColor="@color/text_color_white" />
 
     <TextView
         android:id="@+id/essencejianlve"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="78dp"
         android:layout_below="@id/line"
         android:layout_marginLeft="@dimen/horizontal_padding_medium"
         android:layout_marginTop="@dimen/vertical_padding_large"

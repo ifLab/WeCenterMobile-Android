@@ -1,6 +1,5 @@
 package cn.fanfan.main;
 
-import org.apache.http.cookie.Cookie;
 import com.loopj.android.http.PersistentCookieStore;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
@@ -72,13 +71,21 @@ public class MainActivity extends FragmentActivity implements
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		if (position == 0) {
-			Fragment fragment = new Fragment_topic();
-			Bundle bundle = new Bundle();
-			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
-			bundle.putInt("position", position+1);
-			fragment.setArguments(bundle);
-			fragmentManager.beginTransaction()
-					.replace(R.id.container, fragment).commit();
+				if (!GlobalVariables.IsLogin) {
+					Fragment fragment = new Fragment_topic();
+					Bundle bundle = new Bundle();
+					bundle.putInt("isFocus", GlobalVariables.HOT_TOPIC);
+					bundle.putInt("position", position+1);
+					fragment.setArguments(bundle);
+					fragmentManager.beginTransaction()
+							.replace(R.id.container, fragment).commit();
+				}else {
+					fragmentManager
+					.beginTransaction()
+					.replace(R.id.container,
+							PlaceholderFragment.newInstance(position + 1))
+					.commit();
+				}
 		}else if (position == 1) {
 				fragmentManager.beginTransaction()
 				.replace(R.id.container, (new FoundFrg())).commit();

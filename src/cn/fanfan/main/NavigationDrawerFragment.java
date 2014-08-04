@@ -97,6 +97,8 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(getActivity());
+		GlobalVariables.IsLogin = fanfanSharedPreferences.getLogInStatus(false);
 		if (GlobalVariables.uSER_IMAGE_URL == null) {
 			System.out.println("login");
 			Login();

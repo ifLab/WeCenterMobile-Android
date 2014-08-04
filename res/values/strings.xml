@@ -35,7 +35,7 @@
         <item>提问</item>
     </string-array>
     <string-array name="nologindrawerliststring">
-        <item>关注</item>
+        <item>热门话题</item>
     </string-array>
 
     <string name="drawer_login">饭饭登录</string>

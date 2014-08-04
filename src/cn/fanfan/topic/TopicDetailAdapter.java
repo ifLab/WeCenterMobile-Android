@@ -10,10 +10,12 @@ public class TopicDetailAdapter extends FragmentPagerAdapter {
 	
 	private final String[] titles = { "话题资料", "精华" };
 	private String topic_id;
+	private int isFocus;
 	
-	public TopicDetailAdapter(FragmentManager fm,String topic_id) {
+	public TopicDetailAdapter(FragmentManager fm,String topic_id,int isFocus) {
 		super(fm);
 		this.topic_id = topic_id;
+		this.isFocus = isFocus;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -24,10 +26,14 @@ public class TopicDetailAdapter extends FragmentPagerAdapter {
 			TopicDtailFirst topicDtailFirst = new TopicDtailFirst();
 			Bundle bundle = new Bundle();
 			bundle.putString("topic_id", topic_id);
+			bundle.putInt("isFocus", isFocus);
 			topicDtailFirst.setArguments(bundle);
 			return topicDtailFirst;
 		}else {
 			TopicDetailSecond topicDetailSecond = new TopicDetailSecond();
+			Bundle bundle = new Bundle();
+			bundle.putString("topic_id", topic_id);
+			topicDetailSecond.setArguments(bundle);
 			return topicDetailSecond;
 		}
 	}

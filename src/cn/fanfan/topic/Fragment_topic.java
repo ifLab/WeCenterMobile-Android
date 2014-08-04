@@ -95,6 +95,7 @@ public class Fragment_topic extends Fragment {
 				if (position<topicModels.size()) {
 					Intent intent = new Intent(getActivity(), TopicDetail.class);
 					intent.putExtra("topic_id", topicModels.get(position).getTopicId());
+					intent.putExtra("isFocus", isFocus);
 					//System.out.println(topicModels.get(position).getTopicId()+"!!");
 					startActivity(intent);
 				}
@@ -171,15 +172,19 @@ public class Fragment_topic extends Fragment {
 	
 	private void getTopicModels(String uid) {
 		RequestParams params = new RequestParams();
+		String url = "";
 		if (isFocus == GlobalVariables.FOCUS_TOPIC) {
 			params.put("uid", uid);
+			url = Config.getValue("Focus_topic");
+		}else {
+			url = Config.getValue("Hot_topic");
 		}
 		params.put("page", currentPage);
 		params.put("per_page", per_page);
 		AsyncHttpClient client = new AsyncHttpClient();
 		//PersistentCookieStore cookieStore = new PersistentCookieStore(getActivity());
 		//client.setCookieStore(cookieStore);
-		client.get("http://w.hihwei.com/api/my_focus_topic.php", params, new AsyncHttpResponseHandler() {
+		client.get(url, params, new AsyncHttpResponseHandler() {
 			
 			
 			@Override

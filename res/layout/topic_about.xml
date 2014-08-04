@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/register" />
+                android:src="@drawable/ic_avatar_default" />
             
         </FrameLayout>
 

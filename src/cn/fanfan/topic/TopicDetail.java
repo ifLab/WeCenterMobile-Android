@@ -21,11 +21,12 @@ public class TopicDetail extends FragmentActivity {
 		setContentView(R.layout.topic_detail);
 		Intent intent = getIntent();
 		String topic_id = intent.getStringExtra("topic_id");
+		int isFocus= intent.getIntExtra("isFocus", 10);
 		//System.out.println("topic_id-------------->"+topic_id);
 		dm = getResources().getDisplayMetrics();
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-		pager.setAdapter(new TopicDetailAdapter(getSupportFragmentManager(),topic_id));
+		pager.setAdapter(new TopicDetailAdapter(getSupportFragmentManager(),topic_id,isFocus));
 		tabs.setViewPager(pager);
 		setTabsValue();
 	}

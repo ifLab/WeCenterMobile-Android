@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.main.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ public class TopicDtailFirst extends Fragment {
 	private Button topic_about_follow;
 	private String topic_id;
 	private int has_focus;
+	private int isFocus;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +42,7 @@ public class TopicDtailFirst extends Fragment {
 		View view = inflater.inflate(R.layout.topic_about, container, false);
 		Bundle bundle = getArguments();
 		topic_id = bundle.getString("topic_id");
+		isFocus = bundle.getInt("isFocus");
 		//System.out.println(topic_id);
 		init(view);
 		getTopicDetailFirst(topic_id);
@@ -55,6 +58,9 @@ public class TopicDtailFirst extends Fragment {
 		topic_about_topic_detail = (TextView)view.findViewById(R.id.topic_about_topic_detail);
 		topic_about_followers = (TextView)view.findViewById(R.id.topic_about_followers);
 		topic_about_follow = (Button)view.findViewById(R.id.topic_about_follow);
+		if (isFocus == GlobalVariables.HOT_TOPIC) {
+			topic_about_follow.setVisibility(View.GONE);
+		}
 		topic_about_follow.setOnClickListener(new OnClickListener() {
 			
 			@Override
