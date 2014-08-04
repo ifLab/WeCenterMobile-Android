@@ -9,7 +9,7 @@
         SortId="1"
         AppKey="3758958382"
         AppSecret="debc20c4c2302d60acafe2c487e3c273"
-        RedirectUrl="http://www.sharesdk.cn"
+        RedirectUrl="http://www.fanfan.cn/appredirect"
         ShareByAppClient="false"
         Enable="true" />
 
@@ -19,7 +19,7 @@
         SortId="2"
         AppId="1101781069"
         AppKey="iOR4LAP8Maxou4FN"
-        ShareByAppClient="false"
+        ShareByAppClient="true"
         Enable="true" />
     
     <Wechat
@@ -50,7 +50,7 @@
         SortId="6"
         ApiKey="0df7ea862f9517de29e7bf928ebf479a"
         Secret="e63c096669caf62a"
-        RedirectUri="http://www.sharesdk.cn"
+        RedirectUri="http://www.fanfan.cn/appredirect"
         Enable="true" />
     
 </DevInfor>
