@@ -8,8 +8,10 @@ import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -82,6 +84,14 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 		(new AsyncImageGet(Config.getValue("AvatarPrefixUrl")+datas.get(position).getAvatar_file(), viewHolder.essence_image)).execute();
 		//System.out.println(Config.getValue("AvatarPrefixUrl")+datas.get(position).getAvatar_file());
 		viewHolder.praise.setText(datas.get(position).getAgree_count()+"");
+		viewHolder.essence_image.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		return convertView;
 	}
 	
