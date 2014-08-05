@@ -86,8 +86,7 @@ public class WriteAnswer extends Activity {
     	actionBar = getActionBar();
     	actionBar.show();
     	Intent intent = getIntent();
-    	//question_id = intent.getStringExtra("question_id");
-    	question_id = "25";
+    	question_id = intent.getStringExtra("questionid");
     	attach_access_key = md5(getAttachKey());
     	dp = getResources().getDimension(R.dimen.dp);
     	editText = (EditText)findViewById(R.id.answerdetil);
@@ -121,6 +120,7 @@ public class WriteAnswer extends Activity {
 			 params.put("attach_access_key", attach_access_key);
 			 attach_access_key = md5(getAttachKey());
              postanswer(params);
+             finish();
 			break;
 		default:
 			break;

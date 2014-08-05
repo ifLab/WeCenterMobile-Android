@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DevInfor>
+    <ShareSDK 
+        AppKey = "24c0213a08ae"/> <!-- 修改成在sharesdk后台注册的应用的appkey"-->
+    
+    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+    <SinaWeibo
+        Id="1"
+        SortId="1"
+        AppKey="3758958382"
+        AppSecret="debc20c4c2302d60acafe2c487e3c273"
+        RedirectUrl="http://www.fanfan.cn/appredirect"
+        ShareByAppClient="false"
+        Enable="true" />
+
+    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+    <QZone
+        Id="2"
+        SortId="2"
+        AppId="1101781069"
+        AppKey="iOR4LAP8Maxou4FN"
+        ShareByAppClient="false"
+        Enable="true" />
+    
+    <Wechat
+        Id="3"
+        SortId="3"
+        AppId="wx275336297091e08b"
+        BypassApproval="false"
+        Enable="true" />
+    
+    <WechatMoments
+        Id="4"
+        SortId="4"
+        AppId="wx275336297091e08b"
+        BypassApproval="false"
+        Enable="true" />
+        
+	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+	<QQ
+        Id="5"
+        SortId="5"
+        AppId="1101781069"
+        AppKey="iOR4LAP8Maxou4FN"
+        ShareByAppClient="false"
+        Enable="true" />
+    
+    <Douban
+        Id="6"
+        SortId="6"
+        ApiKey="0df7ea862f9517de29e7bf928ebf479a"
+        Secret="e63c096669caf62a"
+        RedirectUri="http://www.fanfan.cn/appredirect"
+        Enable="true" />
+    
+</DevInfor>

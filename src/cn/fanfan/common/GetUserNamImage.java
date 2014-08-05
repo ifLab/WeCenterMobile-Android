@@ -3,13 +3,16 @@ package cn.fanfan.common;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -43,8 +46,16 @@ public class GetUserNamImage {
 						JSONObject rsm = jsonObject.getJSONObject("rsm");
 						String user_name = rsm.getString("user_name");
 						String avatar_file = rsm.getString("avatar_file");
+						String mImageUrl = Config.getValue("userImageBaseUrl")+avatar_file;
 						ImageDownLoader downLoader = new ImageDownLoader(context);
-						downLoader.getBitmap("http://w.hihwei.com/uploads/avatar/"+avatar_file, new onImageLoaderListener() {
+						 Bitmap bitmap = downLoader.getBitmapFromMemCache(mImageUrl.replaceAll("[^\\w]", ""));
+							if (bitmap != null) {
+								userimage.setImageBitmap(bitmap);
+							} else {
+								userimage.setImageDrawable(context.getResources()
+										.getDrawable(R.drawable.logo));
+							}
+						downLoader.getBitmap(mImageUrl, new onImageLoaderListener() {
 							
 							public void onImageLoader(Bitmap bitmap, String url) {
 								// TODO Auto-generated method stub

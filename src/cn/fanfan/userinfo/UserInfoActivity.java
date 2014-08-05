@@ -21,6 +21,7 @@ import cn.fanfan.main.R;
 import cn.fanfan.topic.TopicActivity;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class UserInfoActivity extends Activity implements OnClickListener {
-	private Boolean haveFrocus = true;
+	private int haveFrocus = 0;// 1是已关注 。0未关注
 	private static TipsToast tipsToast;
 	private ImageView iv_avatar;
 	private Button bt_focus;
@@ -106,6 +107,21 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * @param context
+	 *            所在要启动的activity
+	 * @param uid
+	 *            需要查看信息的用户uid，
+	 * @param status
+	 *            是否是本机已登录用户
+	 */
+	public static void actionStar(Context context, String uid, int status) {
+		Intent mIntent = new Intent(context, UserInfoActivity.class);
+		mIntent.putExtra("uid", uid);
+		mIntent.putExtra("status", status);
+		context.startActivity(mIntent);
+	}
+
 	// 初始化界面
 	private void init() {
 		// TODO Auto-generated method stub
@@ -155,7 +171,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			tv_ifocus_person_comment.setText("他关注的人");
 			tv_topic_comment.setText("他关注的话题");
 		}
-		if (haveFrocus) {
+		if (haveFrocus == 1) {
 			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 			bt_focus.setTextColor(android.graphics.Color.BLACK);
 			bt_focus.setText("取消关注");
@@ -166,6 +182,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private void getUserInfo() {
 		// TODO Auto-generated method stub
 		AsyncHttpClient getUserInfo = new AsyncHttpClient();
+		PersistentCookieStore mCookieStore = new PersistentCookieStore(this);
+		getUserInfo.setCookieStore(mCookieStore);
+
 		RequestParams params = new RequestParams();
 		params.put("uid", uid);
 		getUserInfo.get(Config.getValue("UserInfoUrl"), params,
@@ -207,6 +226,17 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							answer_favorite_count = rsmcontent
 									.getString("answer_favorite_count");
 							answer_count = rsmcontent.getString("answer_count");
+							haveFrocus = rsmcontent.getInt("has_focus");
+							if (haveFrocus == 1) {
+								bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+								bt_focus.setTextColor(android.graphics.Color.BLACK);
+								bt_focus.setText("取消关注");
+							} else {
+								bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
+								bt_focus.setTextColor(android.graphics.Color.WHITE);
+								bt_focus.setText("关注");
+							}
+							Log.i("has_focus", haveFrocus + " ");
 							Log.i("answer_favorite_count",
 									answer_favorite_count);
 
@@ -214,7 +244,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							updateUI(avatar_file);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							showTips(R.drawable.tips_error, R.string.net_break);
 
 						}
 					}
@@ -294,13 +324,13 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.bt_focus:
-			if (haveFrocus) {
-				haveFrocus = false;
+			if (haveFrocus == 1) {
+				haveFrocus = 0;
 				bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
 				bt_focus.setTextColor(android.graphics.Color.WHITE);
 				bt_focus.setText("关注");
 			} else {
-				haveFrocus = true;
+				haveFrocus = 1;
 				bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 				bt_focus.setTextColor(android.graphics.Color.BLACK);
 				bt_focus.setText("取消关注");
@@ -340,13 +370,13 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 						Log.i("changeFrocusStatus", responseContent
 								+ "---Failure");
 						// 更改按钮状态
-						if (haveFrocus) {
-							haveFrocus = false;
+						if (haveFrocus == 1) {
+							haveFrocus = 0;
 							bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
 							bt_focus.setTextColor(android.graphics.Color.WHITE);
 							bt_focus.setText("关注");
 						} else {
-							haveFrocus = true;
+							haveFrocus = 1;
 							bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 							bt_focus.setTextColor(android.graphics.Color.BLACK);
 							bt_focus.setText("取消关注");

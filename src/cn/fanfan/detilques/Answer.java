@@ -44,7 +44,8 @@ public class Answer extends Activity implements OnClickListener {
 		zanorno = (TextView) findViewById(R.id.zanorno);
 		addcom = (Button) findViewById(R.id.addcom);
 		client = new AsyncHttpClient();
-		answer_id = "4";
+		Intent intent = getIntent();
+		answer_id = intent.getStringExtra("answerid");
 		answerdetil = (TextView) findViewById(R.id.answerdetil);
 		time = (TextView) findViewById(R.id.time);
 		name = (TextView)findViewById(R.id.username);
@@ -184,7 +185,7 @@ public class Answer extends Activity implements OnClickListener {
 						System.out.println(outputtime);
 						time.setText(outputtime);
 						namImage.getuserinfo(uid,name,userimage);
-						textShow = new TextShow(answer_content, answerdetil,
+						textShow = new TextShow(JSONTokener(answer_content), answerdetil,
 								screenW);
 						textShow.execute();
 						zanorno.setText(agree_count);
@@ -207,5 +208,12 @@ public class Answer extends Activity implements OnClickListener {
 				Toast.makeText(Answer.this, "ªÒ»° ß∞‹", Toast.LENGTH_LONG).show();
 			}
 		});
+	}
+	public static String JSONTokener(String in) {
+		 // consume an optional byte order mark (BOM) if it exists
+		 if (in != null && in.startsWith("\ufeff")) {
+		 in = in.substring(1);
+		 }
+		 return in;
 	}
 }
