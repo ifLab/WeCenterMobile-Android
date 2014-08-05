@@ -69,11 +69,11 @@ public class FileUtils {
 		
 		for (File file : dir.listFiles()) {
 			if (file.isFile())
-				file.delete(); // 删除�?有文�?
+				file.delete(); 
 			else if (file.isDirectory())
-				deleteDir(path); // 递规的方式删除文件夹
+				deleteDir(path); 
 		}
-		dir.delete();// 删除目录本身
+		dir.delete();
 	}
 
 	public static boolean fileIsExists(String path) {

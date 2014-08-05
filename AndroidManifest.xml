@@ -104,6 +104,9 @@
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
         <activity android:name="cn.fanfan.topic.BestAnswers"></activity>
+        <activity android:name="cn.fanfan.detilques.TopicAbout">
+            
+        </activity>
     </application>
 
 </manifest>

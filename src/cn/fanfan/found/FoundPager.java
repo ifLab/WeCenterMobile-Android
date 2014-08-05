@@ -65,7 +65,7 @@ public class FoundPager extends Fragment {
 		commend = bundle.getString("commend");
 		System.out.println(type+"````````````````"+commend);
 		isFirstEnter = true;
-		listView.addFooterView(footerLinearLayout);
+		listView.addFooterView(footerLinearLayout, "", false);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -84,13 +84,12 @@ public class FoundPager extends Fragment {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				// TODO Auto-generated method stub
 				if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE&&(mFirstVisibleItem + mVisibleItemCount == totalItem)) {
-					if (total_row != 0) {
-						System.out.println(currentPage+" @@@@@@");
+					if (total_row == 10) {
 						getInformation(String.valueOf(currentPage));
 					}else {
-						footText.setText("没有更多数据了");
+						//footText.setText("没有更多数据了");
 						//footerLinearLayout.setVisibility(View.GONE);
-						//listView.removeFooterView(footerLinearLayout);
+						listView.removeFooterView(footerLinearLayout);
 					}
 				}
 				if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
@@ -158,6 +157,9 @@ public class FoundPager extends Fragment {
 					JSONObject all = new JSONObject(string);
 					JSONObject rsm = all.getJSONObject("rsm");
 		            total_row = (rsm.getInt("total_rows"));
+		            if (total_row < 10) {
+						listView.removeFooterView(footerLinearLayout);
+					}
 					JSONArray rows = rsm.getJSONArray("rows");
 		            for (int i = 0; i < rows.length(); i++) {
 
