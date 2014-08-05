@@ -2,20 +2,28 @@ package cn.fanfan.detilques;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.apache.http.Header;
 import org.json.JSONObject;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import cn.fanfan.common.GetUserNamImage;
+import cn.fanfan.common.GetUserNamImage.onLoaderListener;
 import cn.fanfan.common.TextShow;
 import cn.fanfan.main.R;
+import cn.fanfan.userinfo.UserInfoActivity;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,12 +43,16 @@ public class Answer extends Activity implements OnClickListener {
 	private TextShow textShow;
 	private ImageView userimage;
 	private GetUserNamImage namImage;
+	private String uid;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.answer);
+    	ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.show();
 		zanorno = (TextView) findViewById(R.id.zanorno);
 		addcom = (Button) findViewById(R.id.addcom);
 		client = new AsyncHttpClient();
@@ -49,7 +61,29 @@ public class Answer extends Activity implements OnClickListener {
 		answerdetil = (TextView) findViewById(R.id.answerdetil);
 		time = (TextView) findViewById(R.id.time);
 		name = (TextView)findViewById(R.id.username);
+		name.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.putExtra("uid", uid);
+				intent.setClass(Answer.this, UserInfoActivity.class);
+				startActivity(intent);
+			}
+		});
 		userimage = (ImageView)findViewById(R.id.userimage);
+		userimage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.putExtra("uid", uid);
+				intent.setClass(Answer.this, UserInfoActivity.class);
+				startActivity(intent);
+			}
+		});
 		namImage = new GetUserNamImage(this);
 		addcom.setOnClickListener(this);
 		zanorno.setOnClickListener(this);
@@ -170,25 +204,44 @@ public class Answer extends Activity implements OnClickListener {
 						String answer_content = rsm.getString("answer_content");
 						String add_time = rsm.getString("add_time");
 						String agree_count = rsm.getString("agree_count");
-						String uid = rsm.getString("uid");
+						 uid = rsm.getString("uid");
 						String comment_count = rsm.getString("comment_count");
-						DisplayMetrics dm = new DisplayMetrics();
-						getWindowManager().getDefaultDisplay().getMetrics(dm);
-						float screenW = dm.widthPixels;
+						addcom.setText("Ìí¼ÓÆÀÂÛ  "+comment_count);
 						Date date = new Date();
 						long current = date.getTime();
 						System.out.println(current);
 						Date date2 = new Date(Long.valueOf(add_time));
 						// date2.setTime(current-Long.valueOf(add_time));
-						String outputtime = format.format(date2);
-						
+						String outputtime = format.format(date2);						
 						System.out.println(outputtime);
 						time.setText(outputtime);
-						namImage.getuserinfo(uid,name,userimage);
-						textShow = new TextShow(JSONTokener(answer_content), answerdetil,
-								screenW);
+						DisplayMetrics dm = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(dm);
+						float screenW = dm.widthPixels;
+						textShow = new TextShow(JSONTokener(answer_content), answerdetil,Answer.this
+							,screenW);
 						textShow.execute();
 						zanorno.setText(agree_count);
+						namImage.getuserinfo(uid,name,userimage,new onLoaderListener() {
+							
+							@Override
+							public void onPicLoader(Bitmap bitmap, ImageView userimage) {
+								// TODO Auto-generated method stub
+								if (bitmap != null) {
+									userimage.setImageBitmap(bitmap);
+								} else {
+									userimage.setImageDrawable(Answer.this.getResources()
+											.getDrawable(R.drawable.logo));
+								}
+							}
+							
+							@Override
+							public void onNameLoader(String name, TextView username) {
+								// TODO Auto-generated method stub
+								username.setText(name);
+							}
+						});
+						
 					} else {
                         String err = jsonObject.getString("err");
                         Toast.makeText(Answer.this, err, Toast.LENGTH_LONG).show();
@@ -216,4 +269,16 @@ public class Answer extends Activity implements OnClickListener {
 		 }
 		 return in;
 	}
+	 public boolean onOptionsItemSelected(MenuItem item) {
+			// TODO Auto-generated method stub
+			switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				break;
+
+			default:
+				break;
+			}
+			return super.onOptionsItemSelected(item);
+		}
 }

@@ -103,27 +103,6 @@ public class ImageDownLoader {
 	
 	private Bitmap getBitmapFromUrl(String url){
 		Bitmap bitmap = null;
-		/*HttpURLConnection connection = null;
-		try {
-			URL imageUrl = new URL(url);
-			connection = (HttpURLConnection)imageUrl.openConnection();
-			connection.setConnectTimeout(10 * 1000);
-			connection.setReadTimeout(10*1000);
-			connection.setDoInput(true);
-			connection.setDoOutput(true);
-			bitmap = BitmapFactory.decodeStream(connection.getInputStream());
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-			if (connection != null) {
-				connection.disconnect();
-			}
-		}*/
 		ImageGet imageGet = new ImageGet();
 		bitmap = imageGet.LoadPictureFromUrl(url);
 		return bitmap;

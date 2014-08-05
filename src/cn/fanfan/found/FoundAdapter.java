@@ -71,8 +71,11 @@ public class FoundAdapter extends BaseAdapter{
 			 hodler.awsner_count.setText(String.valueOf(newitems.get(arg0).getAnswer_count()));
 			 hodler.focus_count.setText(String.valueOf(newitems.get(arg0).getFocus_count()));
 			 hodler.view_count.setText(String.valueOf(newitems.get(arg0).getView_count()));
-			 Bitmap bitmap = imageDownLoader.getBitmapFromMemCache(mImageUrl.replaceAll("[^\\w]", ""));
+			
+			 Bitmap bitmap = imageDownLoader.getCacheBitmap(mImageUrl.replaceAll("[^\\w]", ""));
+			 System.out.println(bitmap);
 				if (bitmap != null) {
+					
 					hodler.userimage.setImageBitmap(bitmap);
 				} else {
 					hodler.userimage.setImageDrawable(context.getResources()

@@ -311,6 +311,18 @@ public class WriteAnswer extends Activity {
 				progressDialog.hideAndCancle();
                 if (errno == 1) {
                 	Toast.makeText(WriteAnswer.this, "»Ø´ð³É¹¦£¡", Toast.LENGTH_LONG).show();
+                	Intent intent = new Intent();
+                	intent.putExtra("questionid", question_id);
+                	intent.setClass(WriteAnswer.this, Detilques.class);
+                	startActivity(intent);
+                	Thread.currentThread();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					finish();
 				}
                 if (errno == -1) {
                 	Toast.makeText(WriteAnswer.this, err, Toast.LENGTH_LONG).show();

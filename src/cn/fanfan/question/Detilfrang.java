@@ -114,7 +114,7 @@ public class Detilfrang extends Fragment {
 		});
 
 		selectimg_horizontalScrollView.getViewTreeObserver()
-				.addOnPreDrawListener(// �������
+				.addOnPreDrawListener(
 						new OnPreDrawListener() {
 							public boolean onPreDraw() {
 								selectimg_horizontalScrollView.scrollTo(width,
@@ -237,23 +237,19 @@ public class Detilfrang extends Fragment {
 		}
 
 		/**
-		 * ListView Item����
+
 		 */
 		public View getView(int position, View convertView, ViewGroup parent) {
 			final int sign = position;
-			// �Զ�����ͼ
 			ViewHolder holder = null;
 			if (convertView == null) {
 				holder = new ViewHolder();
-				// ��ȡlist_item�����ļ�����ͼ
 
 				convertView = listContainer.inflate(
 						R.layout.item_published_grida, null);
 
-				// ��ȡ�ؼ�����
 				holder.image = (ImageView) convertView
 						.findViewById(R.id.item_grida_image);
-				// ���ÿؼ�����convertView
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
