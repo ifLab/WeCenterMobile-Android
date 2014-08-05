@@ -26,7 +26,7 @@ public class Test extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.welcome);
+		setContentView(R.layout.best_answer);
 		//button = (Button)findViewById(R.id.login);
 			// TODO: handle exception
 		//imageView = (ImageView)findViewById(R.id.imageView1);

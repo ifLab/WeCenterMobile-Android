@@ -115,10 +115,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	 * @param status
 	 *            是否是本机已登录用户
 	 */
-	public static void actionStar(Context context, String uid, int status) {
+	public static void actionStar(Context context, String uid) {
 		Intent mIntent = new Intent(context, UserInfoActivity.class);
 		mIntent.putExtra("uid", uid);
-		mIntent.putExtra("status", status);
 		context.startActivity(mIntent);
 	}
 

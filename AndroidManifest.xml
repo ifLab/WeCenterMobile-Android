@@ -103,6 +103,7 @@
             android:name="cn.fanfan.detilques.WriteAnswer"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
+        <activity android:name="cn.fanfan.topic.BestAnswers"></activity>
     </application>
 
 </manifest>

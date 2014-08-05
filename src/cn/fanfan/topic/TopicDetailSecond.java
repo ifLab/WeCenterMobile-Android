@@ -14,11 +14,14 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class TopicDetailSecond extends Fragment {
@@ -38,6 +41,24 @@ public class TopicDetailSecond extends Fragment {
 		Bundle bundle = getArguments();
 		topic_id = bundle.getString("topic_id");
 		getData();
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(),BestAnswers.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("question_id", datas.get(position).getQuestion_id());
+				bundle.putString("question_content", datas.get(position).getQuestion_content());
+				bundle.putString("avatar_file", datas.get(position).getAvatar_file());
+				bundle.putInt("agree_count", datas.get(position).getAgree_count());
+				bundle.putString("answer_content", datas.get(position).getAnswer_content());
+				intent.putExtra("question", bundle);
+				startActivity(intent);
+			}
+			
+		});
 		return view;
 	}
 

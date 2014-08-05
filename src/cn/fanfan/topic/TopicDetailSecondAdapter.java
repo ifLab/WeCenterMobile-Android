@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
+import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
 		if (convertView == null) {
@@ -89,7 +90,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+				UserInfoActivity.actionStar(context, String.valueOf(datas.get(position).getUid()));
 			}
 		});
 		return convertView;
