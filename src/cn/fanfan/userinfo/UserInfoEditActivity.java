@@ -355,7 +355,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 				if (data != null) {
 					avatarUri = data.getData();
 					Log.i("avatarUri", avatarUri.getPath());
-					/* 根据uir在media数据库查询到真实的文件路径 */
+					/* 根据uri在media数据库查询到真实的文件路径 */
 
 					String[] proj = { MediaStore.Images.Media.DATA };
 					CursorLoader loader = new CursorLoader(

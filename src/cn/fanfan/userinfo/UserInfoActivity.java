@@ -21,6 +21,7 @@ import cn.fanfan.main.R;
 import cn.fanfan.topic.TopicActivity;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -104,6 +105,21 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			}
 
 		}
+	}
+
+	/**
+	 * @param context
+	 *            所在要启动的activity
+	 * @param uid
+	 *            需要查看信息的用户uid，
+	 * @param status
+	 *            是否是本机已登录用户
+	 */
+	public static void actionStar(Context context, String uid, int status) {
+		Intent mIntent = new Intent(context, UserInfoActivity.class);
+		mIntent.putExtra("uid", uid);
+		mIntent.putExtra("status", status);
+		context.startActivity(mIntent);
 	}
 
 	// 初始化界面
@@ -228,7 +244,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							updateUI(avatar_file);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							showTips(R.drawable.tips_error, R.string.net_break);
 
 						}
 					}
