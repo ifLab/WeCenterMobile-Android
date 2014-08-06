@@ -24,17 +24,10 @@ public class CompressAvata {
 		int h = newOpts.outHeight;
 		float hh = 400f;
 		float ww = 240f;
-		int be = 8;// be=1±íÊ¾²»Ëõ·Å
-		// // if (w > h && w > ww) {// Èç¹û¿í¶È´óµÄ»°¸ù¾Ý¿í¶È¹Ì¶¨´óÐ¡Ëõ·Å
-		// // be = (int) (newOpts.outWidth / ww);
-		// // } else if (w < h && h > hh) {// Èç¹û¸ß¶È¸ßµÄ»°¸ù¾Ý¿í¶È¹Ì¶¨´óÐ¡Ëõ·Å
-		// // be = (int) (newOpts.outHeight / hh);
-		// // }
-		// if (be <= 0)
-		// be = 1;
-		newOpts.inSampleSize = be;// ÉèÖÃËõ·Å±ÈÀý
+		int be = 8;// be=1ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		newOpts.inSampleSize = be;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½
 		bitmap = BitmapFactory.decodeFile(avatarPath, newOpts);
-		Bitmap Cbitmap = compressByCutQuality(bitmap);// Ñ¹ËõºÃ±ÈÀý´óÐ¡ºóÔÙ½øÐÐÖÊÁ¿Ñ¹Ëõ
+		Bitmap Cbitmap = compressByCutQuality(bitmap);// Ñ¹ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½Ù½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½
 		String path = Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED) ? Environment
 				.getExternalStorageDirectory().getPath() + "/fanfan" : null
@@ -43,7 +36,7 @@ public class CompressAvata {
 		if (!foldFile.exists()) {
 			foldFile.mkdir();
 		}
-		
+
 		compressAvatarPath = path + File.separator + "avatarImageMin.jpg";
 		File file = new File(path + File.separator + "avatarImageMin.jpg");
 		try {
@@ -55,10 +48,10 @@ public class CompressAvata {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("ÅÄÕÕÑ¹Ëõ", "Ê§°Ü");
+			Log.i("ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½", "Ê§ï¿½ï¿½");
 		}
 
-		// bitmap±£´æ
+		// bitmapï¿½ï¿½ï¿½ï¿½
 	}
 
 	public String getCompressAvatarPath() {
@@ -80,15 +73,15 @@ public class CompressAvata {
 
 	private Bitmap compressByCutQuality(Bitmap image) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		image.compress(Bitmap.CompressFormat.JPEG, 90, baos);// ÖÊÁ¿Ñ¹Ëõ·½·¨£¬ÕâÀï100±íÊ¾²»Ñ¹Ëõ£¬°ÑÑ¹ËõºóµÄÊý¾Ý´æ·Åµ½baosÖÐ
+		image.compress(Bitmap.CompressFormat.JPEG, 90, baos);
 		int options = 80;
-		while (baos.toByteArray().length / 1024 > 512) { // Ñ­»·ÅÐ¶ÏÈç¹ûÑ¹ËõºóÍ¼Æ¬ÊÇ·ñ´óÓÚ512kb,´óÓÚ¼ÌÐøÑ¹Ëõ
-			baos.reset();// ÖØÖÃbaos¼´Çå¿Õbaos
-			image.compress(Bitmap.CompressFormat.JPEG, options, baos);// ÕâÀïÑ¹Ëõoptions%£¬°ÑÑ¹ËõºóµÄÊý¾Ý´æ·Åµ½baosÖÐ
-			options -= 10;// Ã¿´Î¶¼¼õÉÙ10
+		while (baos.toByteArray().length / 1024 > 512) {
+			baos.reset();
+			image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+			options -= 10;
 		}
-		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// °ÑÑ¹ËõºóµÄÊý¾Ýbaos´æ·Åµ½ByteArrayInputStreamÖÐ
-		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// °ÑByteArrayInputStreamÊý¾ÝÉú³ÉÍ¼Æ¬
+		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
 		return bitmap;
 
 	}

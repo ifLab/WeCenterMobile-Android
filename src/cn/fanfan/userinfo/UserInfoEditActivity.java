@@ -1,6 +1,7 @@
 package cn.fanfan.userinfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
+import cn.fanfan.question.Bimp;
 import android.R.string;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -72,6 +74,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 	private Uri avatarUri;
 	private SelectPicPopupWindow menuWindow;// 点击头像弹出选择拍照或者选择图库的弹出菜单
+	private String newAvatarPath;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -175,8 +178,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 
 		if (avatar_file != null) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
-					Config.getValue("AvatarPrefixUrl") + avatar_file,
-					iv_avatar);
+					Config.getValue("AvatarPrefixUrl") + avatar_file, iv_avatar);
 			getAvatar.execute();
 		}
 	}
@@ -317,32 +319,46 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			if (resultCode == RESULT_OK) {
 				// 拍照头像照片成功后上传头像
 				upLoadAnim();
-				CompressAvata compressAvata = new CompressAvata(avatarpath);// 压缩处理。
-				AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
-						UserInfoEditActivity.this,
-						Config.getValue("AvatarUploadUrl"),
-						compressAvata.getCompressAvatarPath(), new CallBack() {
-							/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
-							@Override
-							public void callBack(String preview, String err,
-									String errno) {
-								GlobalVariables.uSER_IMAGE_URL = preview;
-								Log.i("callbackinfo", preview);
-								Log.i("err", err);
-								Log.i("errno", errno);
-								if (errno == "x") {
-									Toast.makeText(UserInfoEditActivity.this,
-											"网络有点不好哦，再来一次吧！", Toast.LENGTH_LONG)
-											.show();
-								} else {
-									iv_avatar.clearAnimation();
-									AsyncImageGet getAvatarPreview = new AsyncImageGet(
-											preview, iv_avatar);
-									getAvatarPreview.execute();
-								}
+				// CompressAvata compressAvata = new
+				// CompressAvata(avatarpath);// 压缩处理。
+				// compressAvata.getCompressAvatarPath()
+				try {
+					newAvatarPath = Bimp.revitionImageSize(avatarpath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(UserInfoEditActivity.this, "选择照片失败，请重新选择。",
+							Toast.LENGTH_LONG).show();
+					e.printStackTrace();
+				}
+				if (newAvatarPath != null) {
+					AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
+							UserInfoEditActivity.this,
+							Config.getValue("AvatarUploadUrl"), newAvatarPath,
+							new CallBack() {
+								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
+								@Override
+								public void callBack(String preview,
+										String err, String errno) {
+									GlobalVariables.uSER_IMAGE_URL = preview;
+									Log.i("callbackinfo", preview);
+									Log.i("err", err);
+									Log.i("errno", errno);
+									if (errno == "x") {
+										Toast.makeText(
+												UserInfoEditActivity.this,
+												"网络有点不好哦，再来一次吧！",
+												Toast.LENGTH_LONG).show();
+									} else {
+										iv_avatar.clearAnimation();
+										AsyncImageGet getAvatarPreview = new AsyncImageGet(
+												preview, iv_avatar);
+										getAvatarPreview.execute();
+									}
 
-							}
-						});
+								}
+							});
+				}
+
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the Pick avatar
 			} else {
@@ -368,18 +384,21 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					avatarpath = cursor.getString(column_index);
 
 					// 获取完路径
-					CompressAvata compressAvata = new CompressAvata(avatarpath);// 压缩处理。
-					// if (compressAvata.isConformSize()) {
-					// Log.i("符合大小", "ok");
-					// } else {
-					// Log.i("no符合大小", "ok");
-					// }
-					// 上传头像
 					upLoadAnim();// 上传时的动画
+					try {
+						newAvatarPath = Bimp.revitionImageSize(avatarpath);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						Toast.makeText(UserInfoEditActivity.this,
+								"选择照片失败，请重新选择。", Toast.LENGTH_LONG).show();
+						e.printStackTrace();
+					}
+					if (avatarpath != null) {
+
+					}
 					AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
 							UserInfoEditActivity.this,
-							Config.getValue("AvatarUploadUrl"),
-							compressAvata.getCompressAvatarPath(),
+							Config.getValue("AvatarUploadUrl"), newAvatarPath,
 							new CallBack() {
 								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
 								@Override
@@ -489,8 +508,8 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		UpParams.put("signature", signature);
 		UpParams.put("job_id", job_id);
 		UpParams.put("birthday", birthday);
-		upLoadProfile.post(Config.getValue("ProfileSettingUrl"),
-				UpParams, new AsyncHttpResponseHandler() {
+		upLoadProfile.post(Config.getValue("ProfileSettingUrl"), UpParams,
+				new AsyncHttpResponseHandler() {
 
 					@Override
 					public void onSuccess(int arg0, Header[] arg1,
