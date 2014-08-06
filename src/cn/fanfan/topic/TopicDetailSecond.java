@@ -13,6 +13,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
+import cn.fanfan.detilques.Answer;
 import cn.fanfan.main.R;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -47,21 +49,14 @@ public class TopicDetailSecond extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),BestAnswers.class);
-				Bundle bundle = new Bundle();
-				bundle.putInt("question_id", datas.get(position).getQuestion_id());
-				bundle.putString("question_content", datas.get(position).getQuestion_content());
-				bundle.putString("avatar_file", datas.get(position).getAvatar_file());
-				bundle.putInt("agree_count", datas.get(position).getAgree_count());
-				bundle.putString("answer_content", datas.get(position).getAnswer_content());
-				intent.putExtra("question", bundle);
+				Intent intent = new Intent(getActivity(),Answer.class);
+				intent.putExtra("answerid", String.valueOf(datas.get(position).getAnswer_id()));
 				startActivity(intent);
 			}
 			
 		});
 		return view;
 	}
-
 	public void getData() {
 		String url = Config.getValue("topic_best_answer");
 		RequestParams params = new RequestParams();

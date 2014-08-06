@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity implements
 				fragmentManager.beginTransaction()
 				.replace(R.id.container, (new Draft())).commit();
 				mTitle = draweritems[position];
-		}else if (position == 5) {
+		}else if (position == 3) {
 			Intent intent = new Intent(MainActivity.this,Question.class);
 			startActivity(intent);
 		}else {

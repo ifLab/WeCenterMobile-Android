@@ -85,7 +85,7 @@
             android:paddingRight="20dp"
             android:lineSpacingExtra="5dp"
             android:paddingTop="8dp"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
         <TextView
             android:id="@+id/time"
             android:layout_width="fill_parent"
