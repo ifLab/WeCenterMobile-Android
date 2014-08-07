@@ -1,10 +1,12 @@
 package cn.fanfan.main;
 
 import com.loopj.android.http.PersistentCookieStore;
+
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.draft.Draft;
 import cn.fanfan.found.FoundFrg;
+import cn.fanfan.homepage.HomePageActivity;
 import cn.fanfan.question.Question;
 import cn.fanfan.topic.Fragment_topic;
 import android.app.Activity;
@@ -41,12 +43,12 @@ public class MainActivity extends FragmentActivity implements
 	private String[] draweritems;
 	private int touchTimes = 0;
 	private FanfanSharedPreferences sharedPreferences;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		sharedPreferences = new FanfanSharedPreferences(
-				MainActivity.this);
+		sharedPreferences = new FanfanSharedPreferences(MainActivity.this);
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowHomeEnabled(false);
 		if (!sharedPreferences.getLogInStatus(false)) {
@@ -55,7 +57,7 @@ public class MainActivity extends FragmentActivity implements
 		} else {
 			draweritems = this.getResources().getStringArray(
 					R.array.drawerliststring);
-			//Login();
+			// Login();
 		}
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
@@ -71,47 +73,50 @@ public class MainActivity extends FragmentActivity implements
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		if (position == 0) {
-				if (!GlobalVariables.IsLogin) {
-					Fragment fragment = new Fragment_topic();
-					Bundle bundle = new Bundle();
-					bundle.putInt("isFocus", GlobalVariables.HOT_TOPIC);
-					bundle.putInt("position", position+1);
-					fragment.setArguments(bundle);
-					fragmentManager.beginTransaction()
-							.replace(R.id.container, fragment).commit();
-				}else {
-					fragmentManager
+			if (!GlobalVariables.IsLogin) {
+				Fragment fragment = new Fragment_topic();
+				Bundle bundle = new Bundle();
+				bundle.putInt("isFocus", GlobalVariables.HOT_TOPIC);
+				bundle.putInt("position", position + 1);
+				fragment.setArguments(bundle);
+				fragmentManager.beginTransaction()
+						.replace(R.id.container, fragment).commit();
+			} else {
+				// fragmentManager
+				// .beginTransaction()
+				// .replace(R.id.container,
+				// PlaceholderFragment.newInstance(position + 1))
+				// .commit();
+				Intent intent1 = new Intent(MainActivity.this,
+						HomePageActivity.class);
+				startActivity(intent1);
+			}
+		} else if (position == 1) {
+			fragmentManager.beginTransaction()
+					.replace(R.id.container, (new FoundFrg())).commit();
+			mTitle = draweritems[position];
+		} else if (position == 2) {
+			Fragment fragment = new Fragment_topic();
+			Bundle bundle = new Bundle();
+			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
+			bundle.putInt("position", position + 1);
+			fragment.setArguments(bundle);
+			fragmentManager.beginTransaction()
+					.replace(R.id.container, fragment).commit();
+			mTitle = draweritems[position];
+		} else if (position == 4) {
+			fragmentManager.beginTransaction()
+					.replace(R.id.container, (new Draft())).commit();
+			mTitle = draweritems[position];
+		} else if (position == 3) {
+			Intent intent = new Intent(MainActivity.this, Question.class);
+			startActivity(intent);
+		} else {
+			fragmentManager
 					.beginTransaction()
 					.replace(R.id.container,
 							PlaceholderFragment.newInstance(position + 1))
 					.commit();
-				}
-		}else if (position == 1) {
-				fragmentManager.beginTransaction()
-				.replace(R.id.container, (new FoundFrg())).commit();
-				mTitle = draweritems[position];
-		}else if (position == 2) {
-				Fragment fragment = new Fragment_topic();
-				Bundle bundle = new Bundle();
-				bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
-				bundle.putInt("position", position+1);
-				fragment.setArguments(bundle);
-				fragmentManager.beginTransaction()
-						.replace(R.id.container, fragment).commit();
-				mTitle = draweritems[position];
-		} else if (position ==4) {
-				fragmentManager.beginTransaction()
-				.replace(R.id.container, (new Draft())).commit();
-				mTitle = draweritems[position];
-		}else if (position == 3) {
-			Intent intent = new Intent(MainActivity.this,Question.class);
-			startActivity(intent);
-		}else {
-			fragmentManager
-			.beginTransaction()
-			.replace(R.id.container,
-					PlaceholderFragment.newInstance(position + 1))
-			.commit();
 		}
 	}
 
@@ -147,11 +152,12 @@ public class MainActivity extends FragmentActivity implements
 		int id = item.getItemId();
 		if (id == R.id.logout) {
 			sharedPreferences.clear();
-			PersistentCookieStore cookieStore = new PersistentCookieStore(MainActivity.this);
+			PersistentCookieStore cookieStore = new PersistentCookieStore(
+					MainActivity.this);
 			cookieStore.clear();
-			Intent intent = new Intent(this, MainActivity.class);  
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent); 
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -199,8 +205,7 @@ public class MainActivity extends FragmentActivity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
-		
-		
+
 	}
 
 	@Override
@@ -208,21 +213,22 @@ public class MainActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (touchTimes == 0) {
-				Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
-				touchTimes ++;
+				Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
+						.show();
+				touchTimes++;
 				return false;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		if (GlobalVariables.ISFANFANLOGIN == true) {
 			GlobalVariables.ISFANFANLOGIN = false;
 			finish();
-		}else {
+		} else {
 		}
 		super.onStop();
 	}
