@@ -77,8 +77,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.userinformation_main);
 		// 添加返回按钮到ActionBar
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+//		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.show();
 		// Bundle bundle = intent.getExtras();
 		// 获取其他activity的传进来的值。

@@ -34,6 +34,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
             <EditText
                 android:id="@+id/et_uername"
                 android:layout_width="match_parent"
@@ -64,15 +70,8 @@
                         android:layout_width="60dp"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
-                        android:background="#DCE0DD"
+                        android:background="#E5FFED"
                         android:gravity="center_vertical" />
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_sexmasklayer_min" />
 
                     <TextView
                         android:id="@+id/tv_sex_f"
@@ -95,15 +94,8 @@
                         android:layout_width="60dp"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
-                        android:background="#DCE0DD"
+                        android:background="#E5FFED"
                         android:gravity="center_vertical" />
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_sexmasklayer_min" />
 
                     <TextView
                         android:id="@+id/tv_sex_m"
@@ -135,10 +127,11 @@
                 android:id="@+id/et_introduction"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
                 android:background="#ffffff"
-                android:textSize="20sp"
+                android:ellipsize="end"
                 android:text="暂无介绍"
-                android:ellipsize="end" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -227,7 +220,6 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
-
         </LinearLayout>
     </LinearLayout>
 

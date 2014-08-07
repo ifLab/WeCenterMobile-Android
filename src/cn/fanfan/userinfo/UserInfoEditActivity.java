@@ -79,9 +79,12 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.userinformation_edit);
+		// 添加返回按钮到ActionBar
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		// actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.show();
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
@@ -162,12 +165,12 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		et_introduction.setText(signature);
 		// p
 		if (sex == 1) {
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#3A7DF0"));
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 		}
 		if (sex == 2) {
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#FB929C"));
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 		}
 		// 展示用户生日信息
 		if (birthday != "null") {
@@ -241,13 +244,13 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.tv_sex_m:
 			sex = 1;
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#3A7DF0"));
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 			break;
 		case R.id.tv_sex_f:
 			sex = 2;
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#FB929C"));
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 			break;
 		case R.id.lv_birthday:
 			DialogFragment newFragment = new DatePickerFragment();
@@ -258,8 +261,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			newFragment2.show(getFragmentManager(), "datePicker");
 			break;
 		case R.id.lv_business:
-			Toast.makeText(this, "手机端暂不支持更改，请登录网站更改！", Toast.LENGTH_LONG)
-					.show();
 			break;
 
 		default:
