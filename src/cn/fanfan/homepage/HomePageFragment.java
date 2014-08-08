@@ -3,27 +3,38 @@ package cn.fanfan.homepage;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class HomePageActivity extends Activity {
+public class HomePageFragment extends Fragment {
 	private ListView listView;
 	private List<HomePageItemModel> itemDataList = new ArrayList<HomePageItemModel>();
 	private HomePageAdapter adapter;
+	private Bundle bundle;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_homepage);
-		listView = (ListView) findViewById(R.id.lvHomeListView);
+		bundle = getArguments();
+		View fragmentView;
+		fragmentView = inflater.inflate(R.layout.fragment_homepage, container,
+				false);
+
 		initItemData();
-		adapter = new HomePageAdapter(HomePageActivity.this,
-				R.layout.listitem_homepage, itemDataList);
-		listView = (ListView) findViewById(R.id.lvHomeListView);
+		MainActivity activity = (MainActivity) getActivity();
+		adapter = new HomePageAdapter(activity, R.layout.listitem_homepage,
+				itemDataList);
+		listView = (ListView) fragmentView.findViewById(R.id.lvHomeListView);
 		listView.setAdapter(adapter);
+		return fragmentView;
 	}
 
 	private void initItemData() {
@@ -74,5 +85,14 @@ public class HomePageActivity extends Activity {
 				"只说自己印象深刻的：1. 豪大大鸡排基本上是半只鸡啦，而且号称“绝对不切开卖”，一枚55NT，超值。一般的女孩子3-4个人分吃不成问题。虽然吃到最后会有些“为什么要吃这么多鸡肉啊！”的感觉，但值得尝试。",
 				"256");
 		itemDataList.add(item6);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (bundle != null) {
+			((MainActivity) activity).onSectionAttached(getArguments().getInt(
+					"position"));
+		}
 	}
 }

@@ -80,7 +80,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		actionBar.setIcon(null);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
-//		actionBar.setDisplayShowHomeEnabled(true);
+		// actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.show();
 		// Bundle bundle = intent.getExtras();
 		// 获取其他activity的传进来的值。
@@ -245,7 +245,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							updateUI(avatar_file);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
-							showTips(R.drawable.tips_error, R.string.net_break);
+							// showTips(R.drawable.tips_error,
+							// R.string.net_break);
+							Toast.makeText(UserInfoActivity.this, "网络不好，请重试！",
+									Toast.LENGTH_LONG).show();
 
 						}
 					}

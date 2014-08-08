@@ -6,7 +6,7 @@ import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.draft.Draft;
 import cn.fanfan.found.FoundFrg;
-import cn.fanfan.homepage.HomePageActivity;
+import cn.fanfan.homepage.HomePageFragment;
 import cn.fanfan.question.Question;
 import cn.fanfan.topic.Fragment_topic;
 import android.app.Activity;
@@ -82,14 +82,15 @@ public class MainActivity extends FragmentActivity implements
 				fragmentManager.beginTransaction()
 						.replace(R.id.container, fragment).commit();
 			} else {
-				// fragmentManager
-				// .beginTransaction()
-				// .replace(R.id.container,
-				// PlaceholderFragment.newInstance(position + 1))
-				// .commit();
-				Intent intent1 = new Intent(MainActivity.this,
-						HomePageActivity.class);
-				startActivity(intent1);
+				sharedPreferences = new FanfanSharedPreferences(
+						MainActivity.this);
+				Fragment fragment = new HomePageFragment();
+				Bundle bundle = new Bundle();
+				bundle.putString("uid", sharedPreferences.getUid(""));
+				bundle.putInt("position", position + 1);
+				fragment.setArguments(bundle);
+				fragmentManager.beginTransaction()
+						.replace(R.id.container, fragment).commit();
 			}
 		} else if (position == 1) {
 			fragmentManager.beginTransaction()
