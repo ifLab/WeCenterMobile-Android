@@ -1,5 +1,7 @@
 package cn.fanfan.found;
 
+import org.json.JSONObject;
+
 public class Founditem {
 	private String name;
 	private String question;
@@ -9,6 +11,7 @@ public class Founditem {
 	private String avatar_file;
 	private String question_id;
 	private String uid;
+	private int inttag;
 
 	public Founditem() {
 		// TODO Auto-generated constructor stub
@@ -71,6 +74,12 @@ public class Founditem {
 	}
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+	public int getInttag() {
+		return inttag;
+	}
+	public void setInttag(int inttag) {
+		this.inttag = inttag;
 	}
 
 }

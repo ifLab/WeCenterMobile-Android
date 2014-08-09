@@ -1,29 +1,42 @@
-package cn.fanfan.detilques;
+package cn.fanfan.detilessay;
 
+import org.apache.http.client.CookieStore;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.PersistentCookieStore;
+
+import cn.fanfan.detilques.ComList;
 import cn.fanfan.main.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class DetilEssay extends Activity implements OnClickListener{
-	TextView agree;
-	TextView disagree;
-	Button addcom;
-	 static int tagagree = 0,tagdisagree = 0;
+	private CookieStore myCookieStore;
+	private AsyncHttpClient client;
+	private TextView agree;
+	private TextView disagree;
+	private TextView addcom;
+	private static int tagagree = 0,tagdisagree = 0;
 	// private ComListView listView;
   @Override
 protected void onCreate(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onCreate(savedInstanceState);
+	requestWindowFeature(Window.FEATURE_NO_TITLE);
+	this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
 	setContentView(R.layout.detilessay);
+	myCookieStore = new PersistentCookieStore(this);
+	client.setCookieStore(myCookieStore);
 	 agree = (TextView)findViewById(R.id.agree);
 	 disagree = (TextView)findViewById(R.id.disagree);
-	 addcom = (Button)findViewById(R.id.addcom);
+	 addcom = (TextView)findViewById(R.id.addcom);
 	 agree.setOnClickListener(this);
 	 disagree.setOnClickListener(this);
 	 addcom.setOnClickListener(this);
@@ -91,5 +104,6 @@ public void onClick(View arg0) {
 		break;
 	}
 }
- 
+ private void Getinfo(String id) {
+} 
 }

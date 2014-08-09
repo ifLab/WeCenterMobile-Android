@@ -14,6 +14,8 @@
     <color name="text_color_rigister_button_pressed">#dddddd</color>
     <color name="text_color_really_black">#000000</color>
     <color name="line">#dcdcdc</color>
+    <color name="username">#428bca</color>
+    <color name="questiontitle">#2a6496</color>
     
     <color name="background_tab_pressed">#6633B5E5</color>
 </resources>

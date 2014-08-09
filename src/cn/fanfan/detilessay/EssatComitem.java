@@ -1,14 +1,15 @@
-package cn.fanfan.detilques;
+package cn.fanfan.detilessay;
 
-public class Comitem {
-     
+public class EssatComitem {
+	private String id;
 	private String username;
 	private String backname;
 	private String comcontent;
 	private String time;
    	private String uid;
    	private String backuid;
-
+   	private String avatarfile; 
+   	private String agreecount;
    	
 	public String getTime() {
 		return time;
@@ -46,6 +47,24 @@ public class Comitem {
 	public void setBackuid(String backuid) {
 		this.backuid = backuid;
 	}
+	public String getAvatarfile() {
+		return avatarfile;
+	}
+	public void setAvatarfile(String avatarfile) {
+		this.avatarfile = avatarfile;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getAgreecount() {
+		return agreecount;
+	}
+	public void setAgreecount(String agreecount) {
+		this.agreecount = agreecount;
+	} 
 	
 	
 }

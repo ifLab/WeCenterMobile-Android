@@ -71,7 +71,7 @@ public class ComAdapter extends BaseAdapter {
 		Pattern p=Pattern.compile("(<img(.*?)>)");		
 	    Matcher m=p.matcher(comitems.get(arg0)
 					.getAnswer_content());
-		String content = m.replaceAll("");
+		String content = m.replaceAll("[这有一张图片]");
 		hodler.content.setText(content.replaceAll("<br>", "\n"));
 		hodler.agree.setText(comitems.get(arg0).getAgree_count());
 		GetUserNamImage getUserNamImage = new GetUserNamImage(context);

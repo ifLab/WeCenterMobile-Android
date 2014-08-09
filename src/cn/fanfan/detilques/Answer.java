@@ -4,14 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.http.Header;
+import org.apache.http.client.CookieStore;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GetUserNamImage.onLoaderListener;
 import cn.fanfan.common.TextShow;
+import cn.fanfan.detilessay.EssayCom;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.app.ActionBar;
@@ -22,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,17 +39,21 @@ import android.widget.Toast;
 
 public class Answer extends Activity implements OnClickListener {
 	private AsyncHttpClient client;
+	private CookieStore myCookieStore;
 	private Dialog aDialog;
 	private TextView zanorno;
 	private Button addcom;
 	private ImageView agree, disagree;
 	private int tag = 0;
 	private String answer_id;
-	private TextView answerdetil, time, name;
+	private TextView answerdetil, time, name,sign;
 	private TextShow textShow;
 	private ImageView userimage;
 	private GetUserNamImage namImage;
 	private String uid;
+	private String comment_count;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +63,12 @@ public class Answer extends Activity implements OnClickListener {
     	ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
+		client = new AsyncHttpClient();
+		myCookieStore = new PersistentCookieStore(this);
+		client.setCookieStore(myCookieStore);
 		zanorno = (TextView) findViewById(R.id.zanorno);
 		addcom = (Button) findViewById(R.id.addcom);
-		client = new AsyncHttpClient();
+		sign = (TextView)findViewById(R.id.sign);
 		Intent intent = getIntent();
 		answer_id = intent.getStringExtra("answerid");
 		answerdetil = (TextView) findViewById(R.id.answerdetil);
@@ -93,7 +106,6 @@ public class Answer extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Drawable nav_up;
 		System.out.println(tag);
 		switch (v.getId()) {
 		case R.id.zanorno:
@@ -102,29 +114,24 @@ public class Answer extends Activity implements OnClickListener {
 		case R.id.agree:
 			switch (tag) {
 			case 0:
-				nav_up = getResources().getDrawable(R.drawable.ic_vote_checked);
-				nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
-						nav_up.getMinimumHeight());
-				zanorno.setCompoundDrawables(nav_up, null, null, null);
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())+1));
 				tag = 1;
+				dozan(1);
+				zanstatus();
 				aDialog.dismiss();
 				break;
 			case 1:
-				System.out.println("a");
-				nav_up = getResources().getDrawable(R.drawable.ic_vote_normal);
-				nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
-						nav_up.getMinimumHeight());
-				zanorno.setCompoundDrawables(nav_up, null, null, null);
-				tag = 0;
-				System.out.println(tag + "    qwe");
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())-1));
+                tag = 0;
+                dozan(1);
+                zanstatus();
 				aDialog.dismiss();
 				break;
-			case 2:
-				nav_up = getResources().getDrawable(R.drawable.ic_vote_checked);
-				nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
-						nav_up.getMinimumHeight());
-				zanorno.setCompoundDrawables(nav_up, null, null, null);
+			case -1:
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())+1));
 				tag = 1;
+				dozan(1);
+				zanstatus();
 				aDialog.dismiss();
 				break;
 			default:
@@ -134,29 +141,22 @@ public class Answer extends Activity implements OnClickListener {
 		case R.id.disagree:
 			switch (tag) {
 			case 0:
-				nav_up = getResources().getDrawable(
-						R.drawable.ic_vote_down_checked);
-				nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
-						nav_up.getMinimumHeight());
-				zanorno.setCompoundDrawables(nav_up, null, null, null);
-				tag = 2;
+				dozan(-1);
+				tag = -1;
+				zanstatus();
 				aDialog.dismiss();
 				break;
 			case 1:
-				nav_up = getResources().getDrawable(
-						R.drawable.ic_vote_down_checked);
-				nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
-						nav_up.getMinimumHeight());
-				zanorno.setCompoundDrawables(nav_up, null, null, null);
-				tag = 2;
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())-1));
+				dozan(-1);
+				tag = -1;
+				zanstatus();
 				aDialog.dismiss();
 				break;
-			case 2:
-				nav_up = getResources().getDrawable(R.drawable.ic_vote_normal);
-				nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
-						nav_up.getMinimumHeight());
-				zanorno.setCompoundDrawables(nav_up, null, null, null);
+			case -1:
+				dozan(-1);
 				tag = 0;
+				zanstatus();
 				aDialog.dismiss();
 				break;
 			default:
@@ -165,13 +165,89 @@ public class Answer extends Activity implements OnClickListener {
 			break;
 		case R.id.addcom:
 			Intent intent = new Intent();
+			intent.putExtra("answerid", answer_id);
+			intent.putExtra("comcount", comment_count);
 			intent.setClass(this, ComList.class);
 			startActivity(intent);
 		default:
 			break;
 		}
+		
 	}
 
+	private void zanstatus() {
+		Drawable nav_up;
+		switch (tag) {
+		case 1:
+			nav_up = getResources().getDrawable(R.drawable.ic_vote_checked);
+			nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
+					nav_up.getMinimumHeight());
+			zanorno.setCompoundDrawables(nav_up, null, null, null);
+			break;
+		case 0:
+			nav_up = getResources().getDrawable(R.drawable.ic_vote_normal);
+			nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
+					nav_up.getMinimumHeight());
+			zanorno.setCompoundDrawables(nav_up, null, null, null);
+			break;
+		case -1:
+			nav_up = getResources()
+					.getDrawable(R.drawable.ic_vote_down_checked);
+			nav_up.setBounds(0, 0, nav_up.getMinimumWidth(),
+					nav_up.getMinimumHeight());
+			zanorno.setCompoundDrawables(nav_up, null, null, null);
+			break;
+		default:
+			break;
+		}
+	}
+    private void dozan(int value){
+    	String url = "http://w.hihwei.com/?/question/ajax/answer_vote/";
+    	RequestParams params = new RequestParams();
+    	params.put("answer_id", answer_id);
+    	params.put("value", value);
+    	client.post(url, params, new AsyncHttpResponseHandler(){
+
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+				// TODO Auto-generated method stub
+				Toast.makeText(Answer.this, "选择失败", Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+				String info = new String(arg2);
+				System.out.println(info);
+			    JSONObject jsonObject = null;
+			    int errno = 0;
+				try {
+					jsonObject = new JSONObject(info);
+					 errno = jsonObject.getInt("errno");
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			   
+			    if (errno == 1) {
+			    	Toast.makeText(Answer.this,"选择成功" , Toast.LENGTH_LONG).show();
+				} else {
+
+                    try {
+						String err = jsonObject.getString("err");
+						Toast.makeText(Answer.this,err , Toast.LENGTH_LONG).show();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+			}
+    		
+    	});
+    }
 	private void showDialog() {
 		aDialog = new Dialog(this);
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -187,7 +263,7 @@ public class Answer extends Activity implements OnClickListener {
 	}
 
 	private void GetAnswer() {
-		String url = "http://w.hihwei.com/api/answer_detail.php?id="
+		String url = "http://w.hihwei.com/?/api/question/answer_detail/?id="
 				+ answer_id;
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		client.get(url, new AsyncHttpResponseHandler() {
@@ -199,22 +275,20 @@ public class Answer extends Activity implements OnClickListener {
 					JSONObject jsonObject = new JSONObject(information);
 					int errno = jsonObject.getInt("errno");
 					if (errno == 1) {
-						JSONObject rsm = jsonObject.getJSONObject("rsm");
+						JSONObject rsm = jsonObject.getJSONObject("rsm");;
 						String question_id = rsm.getString("question_id");
 						String answer_content = rsm.getString("answer_content");
 						String add_time = rsm.getString("add_time");
-						String agree_count = rsm.getString("agree_count");
+						String signature = rsm.getString("signature");
+						tag = rsm.getInt("vote_value");
+						zanstatus();
+						sign.setText(signature);
+						 String agree_count = rsm.getString("agree_count");
 						 uid = rsm.getString("uid");
-						String comment_count = rsm.getString("comment_count");
+						comment_count = rsm.getString("comment_count");
 						addcom.setText("添加评论  "+comment_count);
-						Date date = new Date();
-						long current = date.getTime();
-						System.out.println(current);
-						Date date2 = new Date(Long.valueOf(add_time));
-						// date2.setTime(current-Long.valueOf(add_time));
-						String outputtime = format.format(date2);						
-						System.out.println(outputtime);
-						time.setText(outputtime);
+                        Date date = new Date(Long.valueOf(add_time)*1000);
+                        time.setText(format.format(date));
 						DisplayMetrics dm = new DisplayMetrics();
 						getWindowManager().getDefaultDisplay().getMetrics(dm);
 						float screenW = dm.widthPixels;

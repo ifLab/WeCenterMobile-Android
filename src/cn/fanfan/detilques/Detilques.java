@@ -116,11 +116,20 @@ public class Detilques extends Activity {
 				Intent intent = new Intent();
 				intent.putExtra("questionid", question_id);
 				intent.setClass(Detilques.this, WriteAnswer.class);
-				startActivity(intent);
-
+				startActivityForResult(intent, 1);
+                
 			}
 		});
 		GetQuestion(question_id);
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			flash();
+		}
+			
 	}
 
 	private void GetQuestion(String questionId) {
@@ -164,6 +173,8 @@ public class Detilques extends Activity {
 			
 						question_content = question_info
 								.getString("question_content");
+						focustag = question_info.getInt("has_focus");
+						        setFollow();
 						layout.setOnClickListener(new OnClickListener() {
 							
 							@Override
@@ -198,6 +209,8 @@ public class Detilques extends Activity {
 								answerItem.setAgree_count(answer
 										.getString("agree_count"));
 								answerItem.setUid(answer.getString("uid"));
+								answerItem.setName(answer.getString("user_name"));
+			
 								comlists.add(answerItem);
 							}
 
@@ -206,6 +219,7 @@ public class Detilques extends Activity {
 						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
+						//e.printStackTrace();
 						try {
 							JSONObject answers = rsm.getJSONObject("answers");
 							for (int i = 0; i < Integer.valueOf(answer_count); i++) {
@@ -217,6 +231,8 @@ public class Detilques extends Activity {
 								answerItem.setAgree_count(answer
 										.getString("agree_count"));
 								answerItem.setUid(answer.getString("uid"));
+								answerItem.setName(answer.getString("user_name"));
+								//answerItem.setAvatar_file(answer.getString("avatar_file"));
 								comlists.add(answerItem);
 							}
 						} catch (Exception e2) {
@@ -296,7 +312,7 @@ public class Detilques extends Activity {
 	}
 
 
-
+     
 	private void setFollow(){
 		if (focustag == 1) {
 			System.out.println(123);
@@ -322,8 +338,10 @@ public class Detilques extends Activity {
 			}
 			return super.onOptionsItemSelected(item);
 		}
-
-	
+    private void flash(){
+    	comlists.clear();
+		GetQuestion(question_id);
+    }
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.share, menu);

@@ -2,6 +2,9 @@ package cn.fanfan.found;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,9 +14,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
+import cn.fanfan.question.Bimp;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.userinfo.UserInfoActivity;
 
@@ -23,6 +28,7 @@ public class FoundAdapter extends BaseAdapter{
 		   private ImageDownLoader imageDownLoader;
 	     public FoundAdapter(List<Founditem> comitems,Context context,ImageDownLoader imageDownLoader) {
 			// TODO Auto-generated constructor stub
+	    	
 	    	 super();
 	    	 this.newitems = comitems;
 	    	 this.context = context;
@@ -54,24 +60,26 @@ public class FoundAdapter extends BaseAdapter{
 			 if(arg1 == null){
 				    hodler = new ViewHodler();			
 					arg1 = LayoutInflater.from(context).inflate(R.layout.foundques, null);
-					hodler.name = (TextView)arg1.findViewById(R.id.name);
 					hodler.question = (TextView)arg1.findViewById(R.id.question);
 					hodler.focus_count = (TextView)arg1.findViewById(R.id.focus_count);
-					hodler.awsner_count = (TextView)arg1.findViewById(R.id.awsner_count);
-					hodler.view_count = (TextView)arg1.findViewById(R.id.view_count);
 					hodler.userimage = (ImageView)arg1.findViewById(R.id.userimage);
+					hodler.name = (TextView)arg1.findViewById(R.id.name);
+					hodler.layout = (LinearLayout)arg1.findViewById(R.id.layout);
 					arg1.setTag(hodler);
 				
 			} else {
 				hodler = (ViewHodler)arg1.getTag();
 			}
+			 hodler.layout.setVisibility(View.VISIBLE);
 			 hodler.userimage.setTag(mImageUrl);
-			 hodler.name.setText(newitems.get(arg0).getName());
 			 hodler.question.setText(newitems.get(arg0).getQuestion());
-			 hodler.awsner_count.setText(String.valueOf(newitems.get(arg0).getAnswer_count()));
-			 hodler.focus_count.setText(String.valueOf(newitems.get(arg0).getFocus_count()));
-			 hodler.view_count.setText(String.valueOf(newitems.get(arg0).getView_count()));
 			
+			 if (newitems.get(arg0).getInttag() == 1) {
+				 hodler.name.setText(newitems.get(arg0).getName());
+				 hodler.focus_count.setText(String.valueOf(newitems.get(arg0).getFocus_count()));
+			} else {
+                 hodler.layout.setVisibility(View.GONE);
+			}
 			 Bitmap bitmap = imageDownLoader.getCacheBitmap(mImageUrl.replaceAll("[^\\w]", ""));
 			 System.out.println(bitmap);
 				if (bitmap != null) {
@@ -95,8 +103,9 @@ public class FoundAdapter extends BaseAdapter{
 			return arg1;
 		}
 		class ViewHodler{
-			private TextView name,question,focus_count,awsner_count,view_count;
+			private TextView name,question,focus_count,awsner_count,view_count,tag;
 			private ImageView userimage;
+			private LinearLayout layout;
 	}  
 }
 

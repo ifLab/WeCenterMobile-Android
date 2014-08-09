@@ -36,9 +36,10 @@
         </EditText>
 
         <ImageButton
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/publish"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="#ffffff"
             android:src="@drawable/btn_send_normal" />
         
     </LinearLayout>

@@ -78,9 +78,14 @@ public class TextShow extends AsyncTask<String, Integer, Spanned> {
 					}
 					
 					d = new BitmapDrawable(bm);
-					float so = ((float)(bm.getHeight())/bm.getWidth());
-					float h =  (screenW-100)*so;
-					d.setBounds(0, 0,(int)(screenW-100),(int)h);
+					if (bm.getWidth() >= screenW-100) {
+						float so = ((float)(bm.getHeight())/bm.getWidth());
+						float h =  (screenW-100)*so;
+						d.setBounds(0, 0,(int)(screenW-100),(int)h);
+					} else {
+						d.setBounds(0, 0,bm.getWidth(),bm.getHeight());
+					}
+					
 
 				} catch (Exception e) {
 					e.printStackTrace();

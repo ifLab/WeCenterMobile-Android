@@ -13,6 +13,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
+import cn.fanfan.detilessay.DetilEssay;
 import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
@@ -24,7 +25,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -50,12 +50,14 @@ public class FoundPager extends Fragment {
 	private Bundle bundle;
 	private String type;
 	private String commend;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View rootView = inflater.inflate(R.layout.foundlist, container, false);
 		listView = (ListView)rootView.findViewById(R.id.fodlist);
+		listView.setDividerHeight(10);
 		newlist = new ArrayList<Founditem>();
 		imageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
@@ -153,6 +155,7 @@ public class FoundPager extends Fragment {
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				String string = new String(arg2);
+				JSONArray rows = null;
 				try {
 					JSONObject all = new JSONObject(string);
 					JSONObject rsm = all.getJSONObject("rsm");
@@ -160,34 +163,47 @@ public class FoundPager extends Fragment {
 		            if (total_row < 10) {
 						listView.removeFooterView(footerLinearLayout);
 					}
-					JSONArray rows = rsm.getJSONArray("rows");
-		            for (int i = 0; i < rows.length(); i++) {
+					 rows = rsm.getJSONArray("rows");
 
+				
+		            for (int i = 0; i < rows.length(); i++) {
 						JSONObject jsonObject = rows.getJSONObject(i);
 						Founditem founditem = new Founditem();
 						String post_type = jsonObject.getString("post_type");
 						if (post_type.equals("question")) {
 							founditem.setQuestion_id(jsonObject.getString("question_id"));
 							founditem.setQuestion(jsonObject.getString("question_content"));
-							founditem.setAnswer_count(jsonObject.getInt("answer_count"));
-							founditem.setFocus_count(jsonObject.getInt("focus_count"));
-							founditem.setView_count(jsonObject.getInt("view_count"));
-							JSONObject object = jsonObject.getJSONObject("user_info");
-							founditem.setName(object.getString("user_name"));
-							founditem.setAvatar_file(object.getString("avatar_file"));
-							founditem.setUid(object.getString("uid"));
-							newlist.add(founditem);
+							int answer_count = jsonObject.getInt("answer_count");
+							founditem.setAnswer_count(answer_count);
+							JSONObject answer = jsonObject.getJSONObject("answer");                            
+                            int inttga = 0;
+                            if (answer_count != 0) {
+                            	JSONObject user_info = answer.getJSONObject("user_info");
+							     founditem.setFocus_count(answer.getInt("anonymous"));
+							     founditem.setName(answer.getString("answer_content"));
+							     founditem.setAvatar_file(user_info.getString("avatar_file"));
+							     founditem.setUid(user_info.getString("uid"));
+							     inttga = 1;
+							} else {
+								  founditem.setFocus_count(0);
+								     founditem.setName("");
+								     founditem.setAvatar_file("");
+								     founditem.setUid("");
+								 inttga = 0;
+							}
+                            founditem.setInttag(inttga);
+                            newlist.add(founditem);
 						} else {
                             
 						}
-						
-						
+		           
 					} 			
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					
-				}
+				 } catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						
+					}
+						
 				if (currentPage == 1) {
 					adapter = new FoundAdapter(newlist, getActivity(),imageDownLoader);
 					listView.setAdapter(adapter);
