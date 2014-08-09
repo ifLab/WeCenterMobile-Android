@@ -3,7 +3,14 @@ package cn.fanfan.welcome;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.NetLoad;
 import cn.fanfan.main.R;
@@ -14,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Register extends Activity {
 
@@ -55,7 +63,7 @@ public class Register extends Activity {
 				registerModel.setPasswd(passwdEditText.getText().toString());
 				registerModel.setConfirmPasswd(confirmPasswdEditText.getText()
 						.toString());
-				(new AsyncRegister()).execute();
+				Login();
 				break;
 
 			default:
@@ -64,28 +72,38 @@ public class Register extends Activity {
 		}
 	}
 	
-	private class AsyncRegister extends AsyncTask<String, String, String>{
-
-		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			NetLoad netLoad = new NetLoad();
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("user_name", registerModel.getUserName());
-			map.put("email", registerModel.getMail());
-			map.put("password", registerModel.getPasswd());
-			String result = "!";
-			try {
-				result = netLoad.PostInformation("http://w.hihwei.com/api/register.php", map);
-				
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	private void Login(){
+		RequestParams params = new RequestParams();
+		params.put("user_name", registerModel.getUserName());
+		params.put("email", registerModel.getMail());
+		params.put("password", registerModel.getPasswd());
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post("http://w.hihwei.com/api/register.php", params, new AsyncHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+				String result = new String(arg2);
+				JSONObject jsonObject;
+				try {
+					jsonObject = new JSONObject(result);
+					String err = jsonObject.getString("error");
+					String data = jsonObject.getString("data");
+					if (err.equals("")) {
+						Toast.makeText(Register.this, "×¢²á³É¹¦,ÇëµÇÂ¼!", Toast.LENGTH_SHORT).show();
+						finish();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			return null;
-		}
+			
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }

@@ -109,6 +109,7 @@
         </activity>
         <activity android:name="cn.fanfan.userinfo.ArticleActivity"></activity>
         <activity android:name="cn.fanfan.userinfo.MyAnswerActivity"></activity>
+        <activity android:name="cn.fanfan.attentionuser.TestAttention"></activity>
     </application>
 
 </manifest>

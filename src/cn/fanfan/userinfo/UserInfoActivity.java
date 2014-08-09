@@ -11,6 +11,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.attentionuser.AttentionUser;
+import cn.fanfan.attentionuser.TestAttention;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;

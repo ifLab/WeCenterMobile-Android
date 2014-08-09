@@ -19,6 +19,7 @@ public class Welcome extends Activity {
 	private TextView lookAround;
 	private Button login;
 	private Button register;
+	private boolean isRegister = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class Welcome extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				isRegister = true;
 				Intent intent = new Intent();
 				intent.setClass(Welcome.this, Register.class);
 				startActivity(intent);
@@ -83,7 +85,11 @@ public class Welcome extends Activity {
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		finish();
+		if (isRegister) {
+			
+		}else {
+			finish();
+		}
 		super.onStop();
 	}
 }

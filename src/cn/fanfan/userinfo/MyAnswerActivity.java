@@ -18,6 +18,7 @@ import cn.fanfan.topic.TopicDetailSecondAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -76,7 +77,6 @@ public class MyAnswerActivity extends Activity {
 				if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
 						&& (mFirstVisibleItem + mVisibleItemCount == totalItem)) {
 					if (currentPage <= total_pages) {
-						// getInformation(String.valueOf(currentPage));
 						setData();
 					} else {
 						footText.setText("没有更多数据了!");
@@ -101,6 +101,7 @@ public class MyAnswerActivity extends Activity {
 		// TODO Auto-generated method stub
 		Intent intent = getIntent();
 		uid = intent.getStringExtra("uid");
+		Toast.makeText(MyAnswerActivity.this, uid, Toast.LENGTH_SHORT).show();
 	}
 
 	private void setData() {
@@ -116,6 +117,7 @@ public class MyAnswerActivity extends Activity {
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				String information = new String(arg2);
+				System.out.println("success");
 				try {
 					JSONObject jsonObject = new JSONObject(information);
 					int errno = jsonObject.getInt("errno");
@@ -179,7 +181,8 @@ public class MyAnswerActivity extends Activity {
 			@Override
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
 				// TODO Auto-generated method stub
-				
+				System.out.println("faliure");
+				System.out.println(new String(arg2));
 			}
 		});
 	}
