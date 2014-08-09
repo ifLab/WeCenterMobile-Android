@@ -308,12 +308,18 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			startActivity(intent1);
 			break;
 		case R.id.lv_articles:
-			Toast.makeText(UserInfoActivity.this, "lv_articles",
-					Toast.LENGTH_SHORT).show();
+			Intent intent3 = new Intent(UserInfoActivity.this,
+					ArticleActivity.class);
+			intent3.putExtra("isArticle", GlobalVariables.ARTICLE);
+			intent3.putExtra("uid", uid);
+			startActivity(intent3);
 			break;
 		case R.id.lv_asks:
-			Toast.makeText(UserInfoActivity.this, "lv_asks", Toast.LENGTH_SHORT)
-					.show();
+			Intent intent4 = new Intent(UserInfoActivity.this,
+					ArticleActivity.class);
+			intent4.putExtra("isArticle", GlobalVariables.QUESTION);
+			intent4.putExtra("uid", uid);
+			startActivity(intent4);
 			break;
 		case R.id.lv_news:
 			Toast.makeText(UserInfoActivity.this, "lv_news", Toast.LENGTH_SHORT)
@@ -324,8 +330,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.lv_replys:
-			Toast.makeText(UserInfoActivity.this, "lv_replys",
-					Toast.LENGTH_SHORT).show();
+			Intent intent5 = new Intent(UserInfoActivity.this,
+					MyAnswerActivity.class);
+			intent5.putExtra("uid", uid);
+			startActivity(intent5);
 			break;
 		case R.id.bt_focus:
 			if (haveFrocus == 1) {

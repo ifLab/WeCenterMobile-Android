@@ -11,4 +11,6 @@ public class GlobalVariables {
 	public static int HOT_TOPIC = 0;
 	public static int FOCUS_TOPIC = 1;
 	public static boolean IsLogin = true;
+	public final static int ARTICLE = 1;
+	public final static int QUESTION = 2;
 }
