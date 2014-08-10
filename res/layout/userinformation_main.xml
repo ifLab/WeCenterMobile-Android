@@ -144,7 +144,7 @@
                             android:text="0" />
 
                         <TextView
-                                android:id="@+id/tv_focusi_person_comment"
+                            android:id="@+id/tv_focusi_person_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="关注我的人"
@@ -219,9 +219,9 @@
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_green_normal"
-                    android:textSize="16sp"
+                    android:text="关注"
                     android:textColor="#ffffff"
-                    android:text="关注" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -322,6 +322,20 @@
 
             <TextView
                 android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:background="#DCE0DD" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llHidePart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="15dp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
@@ -345,9 +359,9 @@
                     android:id="@+id/tv_news"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:drawableRight="@drawable/ic_more_normal"
-                    android:gravity="center_vertical"
-                    android:text="" />
+                    android:gravity="center_vertical" />
             </LinearLayout>
 
             <TextView
@@ -374,6 +388,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:drawableRight="@drawable/ic_more_normal"
                     android:gravity="center_vertical" />
             </LinearLayout>
