@@ -19,11 +19,13 @@ import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
 import cn.fanfan.userinfo.UserInfoActivity;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -62,6 +64,11 @@ public class AttentionUser extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.attention_listview);
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.show();
 		Intent intent = getIntent();
 		String UserOrMe = intent.getStringExtra("userorme");
 		uid = intent.getStringExtra("uid");
@@ -240,5 +247,13 @@ public class AttentionUser extends Activity {
 	}
 	public void cancleTask(){
 		imageDownLoader.cacelTask();
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

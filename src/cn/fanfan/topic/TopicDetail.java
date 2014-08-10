@@ -2,6 +2,7 @@ package cn.fanfan.topic;
 
 
 import cn.fanfan.main.R;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.MenuItem;
 
 public class TopicDetail extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
@@ -19,6 +21,11 @@ public class TopicDetail extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.topic_detail);
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.show();
 		Intent intent = getIntent();
 		String topic_id = intent.getStringExtra("topic_id");
 		int isFocus= intent.getIntExtra("isFocus", 10);
@@ -50,5 +57,13 @@ public class TopicDetail extends FragmentActivity {
 		tabs.setSelectedTextColor(Color.parseColor("#f96b03"));
 		// 取消点击Tab时的背景色
 		tabs.setTabBackground(0);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

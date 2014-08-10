@@ -4,11 +4,13 @@ import com.loopj.android.http.PersistentCookieStore;
 
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
+import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.draft.Draft;
 import cn.fanfan.found.FoundFrg;
 import cn.fanfan.homepage.HomePageFragment;
 import cn.fanfan.question.Question;
 import cn.fanfan.topic.Fragment_topic;
+import cn.fanfan.topic.imageload.FileUtils;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -138,7 +140,9 @@ public class MainActivity extends FragmentActivity implements
 			// Only show items in the action bar relevant to this screen
 			// if the drawer is not showing. Otherwise, let the drawer
 			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.main, menu);
+			if (sharedPreferences.getLogInStatus(false)) {
+				getMenuInflater().inflate(R.menu.main, menu);
+			}
 			restoreActionBar();
 			return true;
 		}
@@ -219,6 +223,10 @@ public class MainActivity extends FragmentActivity implements
 				touchTimes++;
 				return false;
 			}
+			FileUtils fileUtils = new FileUtils(MainActivity.this);
+			ImageFileUtils imageFileUtils = new ImageFileUtils(MainActivity.this);
+			fileUtils.deleteFile();
+			imageFileUtils.deleteFile();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
