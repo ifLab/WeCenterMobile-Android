@@ -184,7 +184,7 @@ public class HomePageFragment extends Fragment {
 								Log.i(TAG, itemTitle);
 								itemTitleUid = questionInfoObject
 										.getInt("question_id");
-
+								Log.i(TAG, Integer.toString(itemTitleUid));
 								if (allAction == 101) {
 									action = "发布该问题";
 									layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
