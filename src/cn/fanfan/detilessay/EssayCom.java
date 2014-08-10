@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.fanfan.common.Config;
-
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
@@ -59,6 +58,8 @@ public class EssayCom extends Activity implements OnItemClickListener,
 	private EditText comment;
 	private ImageButton publish;
 	private String atuid = null;
+	private int voteval = 0;
+	private Button zan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,53 +70,57 @@ public class EssayCom extends Activity implements OnItemClickListener,
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
+		Intent intent = getIntent();
+		id = intent.getStringExtra("artid");
 		client = new AsyncHttpClient();
 		myCookieStore = new PersistentCookieStore(this);
 		client.setCookieStore(myCookieStore);
 		comment = (EditText) findViewById(R.id.comment);
 		publish = (ImageButton) findViewById(R.id.publish);
+		comment.setVisibility(View.GONE);
+		publish.setVisibility(View.GONE);
 		publish.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				RequestParams params = new RequestParams();
-				params.put("article_id", "2");
+				params.put("article_id", id);
 				params.put("message", comment.getText().toString());
 				params.put("at_uid", atuid);
 				postcom(params);
-				Getcom("2");
+				Getcom(id);
 			}
 		});
 		comitems = new ArrayList<EssatComitem>();
-		Intent intent = getIntent();
-		id = intent.getStringExtra("essayid");
 		imageDownLoader = new ImageDownLoader(this);
 		comlist = (ListView) findViewById(R.id.comlist);
 		isFirstEnter = true;
 		comlist.setOnItemClickListener(this);
 		comlist.setOnScrollListener(this);
 
-		Getcom("2");
+		Getcom(id);
 
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		aDialog = new Dialog(this);
+/*		aDialog = new Dialog(this);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View view = inflater.inflate(R.layout.dialog, null);
 		Button zan = (Button) view.findViewById(R.id.zan);
 		Button back = (Button) view.findViewById(R.id.backanswer);
 		Button cancel = (Button) view.findViewById(R.id.cancel);
+		voteval = comitems.get(arg2).getVotevalue();
+		zanstatus();
 		aDialog.setTitle("—°‘Ò");
 		aDialog.setCanceledOnTouchOutside(true);
 		aDialog.setContentView(view);
 		zan.setOnClickListener(new Click(arg2));
 		back.setOnClickListener(new Click(arg2));
 		cancel.setOnClickListener(new Click(arg2));
-		aDialog.show();
+		aDialog.show();*/
 	}
 
 	class Click implements android.view.View.OnClickListener {
@@ -131,6 +136,14 @@ public class EssayCom extends Activity implements OnItemClickListener,
 			// TODO Auto-generated method stub
 			switch (arg0.getId()) {
 			case R.id.zan:
+				if (voteval == 1) {
+					voteval = 0;
+					dozan(comitems.get(arg2).getId(), 0);
+				} else {
+					voteval = 1;
+					dozan(comitems.get(arg2).getId(), 1);
+				}
+				zanstatus();
 				aDialog.hide();
 				break;
 			case R.id.backanswer:
@@ -145,6 +158,38 @@ public class EssayCom extends Activity implements OnItemClickListener,
 			}
 		}
 
+	}
+
+	private void zanstatus() {
+		if (voteval == 1) {
+			zan.setText("Œ““—‘ﬁ");
+		} else {
+			zan.setText("‘ﬁ");
+		}
+	}
+
+	private void dozan(int id, int value) {
+		String url = "http://w.hihwei.com/?/article/ajax/article_vote/";
+		RequestParams params = new RequestParams();
+		params.put("type", "comment");
+		params.put("item_id", id);
+		params.put("rating", value);
+		client.post(url, params, new AsyncHttpResponseHandler() {
+
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
 	}
 
 	private void Getcom(String id) {
@@ -195,6 +240,9 @@ public class EssayCom extends Activity implements OnItemClickListener,
 										.getString("message"));
 								comitemno.setAgreecount(jsonObject2
 										.getString("votes"));
+								comitemno.setVotevalue(jsonObject2
+										.getInt("vote_value"));
+								comitemno.setId(jsonObject2.getInt("id"));
 								if (jsonObject2.getInt("at_uid") != 0) {
 									JSONObject atuser = jsonObject2
 											.getJSONObject("at_user_info");

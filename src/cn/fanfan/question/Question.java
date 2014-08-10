@@ -251,7 +251,7 @@ public class Question extends FragmentActivity {
 				}
 
 			} else {
-				Toast.makeText(this, "����ʧ�ܣ�", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "拍照失败", Toast.LENGTH_LONG).show();
 			}
 			break;
 		default:

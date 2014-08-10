@@ -134,7 +134,6 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_add_answer"
             android:background="#e66c13"
             android:gravity="center"
             android:textSize="15sp"
@@ -145,7 +144,7 @@
         android:layout_height="40dp"
         android:background="#dcdcdc" />
         <Button
-            android:id="@+id/addcom"
+            android:visibility="gone"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_weight="1"

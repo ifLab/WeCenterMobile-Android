@@ -26,7 +26,6 @@ public class TopicAbout extends Activity {
 	private TopicAboutList aboutList;
 	private JSONArray array;
 	private List<String> ids;
-	private TextView question;
    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +33,12 @@ public class TopicAbout extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.questopic);
 		topiclist  = (ListView)findViewById(R.id.topiclist);
-		question = (TextView)findViewById(R.id.question);
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		ids = new ArrayList<String>();
 		Intent intent = getIntent();
 		String info = intent.getStringExtra("topic");
-		String questiontitle = intent.getStringExtra("questiontitle");
-		question.setText(questiontitle);
 		try {
 			 array = new JSONArray(info);
 			 for (int i = 0; i < array.length(); i++) {

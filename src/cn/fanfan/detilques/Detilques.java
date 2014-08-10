@@ -182,7 +182,6 @@ public class Detilques extends Activity {
 								// TODO Auto-generated method stub
 								Intent intent = new Intent();
 	                            intent.putExtra("topic", question_topics);
-	                            intent.putExtra("questiontitle", question_content);
 	                            intent.setClass(Detilques.this, TopicAbout.class);
 	                            startActivity(intent);
 							}

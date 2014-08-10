@@ -1,7 +1,7 @@
 package cn.fanfan.detilessay;
 
 public class EssatComitem {
-	private String id;
+	private int id;
 	private String username;
 	private String backname;
 	private String comcontent;
@@ -10,6 +10,7 @@ public class EssatComitem {
    	private String backuid;
    	private String avatarfile; 
    	private String agreecount;
+   	private int votevalue;
    	
 	public String getTime() {
 		return time;
@@ -53,10 +54,10 @@ public class EssatComitem {
 	public void setAvatarfile(String avatarfile) {
 		this.avatarfile = avatarfile;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getAgreecount() {
@@ -64,6 +65,12 @@ public class EssatComitem {
 	}
 	public void setAgreecount(String agreecount) {
 		this.agreecount = agreecount;
+	}
+	public int getVotevalue() {
+		return votevalue;
+	}
+	public void setVotevalue(int votevalue) {
+		this.votevalue = votevalue;
 	} 
 	
 	

@@ -14,7 +14,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
@@ -56,29 +55,33 @@ public class FoundAdapter extends BaseAdapter{
 			// TODO Auto-generated method stub
 			ViewHodler hodler;
 			final String mImageUrl = Config.getValue("userImageBaseUrl")+newitems.get(arg0).getAvatar_file();
-			System.out.println(mImageUrl+"  aasa");
 			 if(arg1 == null){
 				    hodler = new ViewHodler();			
 					arg1 = LayoutInflater.from(context).inflate(R.layout.foundques, null);
-					hodler.question = (TextView)arg1.findViewById(R.id.question);
-					hodler.focus_count = (TextView)arg1.findViewById(R.id.focus_count);
+					hodler.name = (TextView)arg1.findViewById(R.id.username);
+					hodler.question = (TextView)arg1.findViewById(R.id.quescontent);
 					hodler.userimage = (ImageView)arg1.findViewById(R.id.userimage);
-					hodler.name = (TextView)arg1.findViewById(R.id.name);
-					hodler.layout = (LinearLayout)arg1.findViewById(R.id.layout);
+					hodler.tag = (TextView)arg1.findViewById(R.id.tag);
 					arg1.setTag(hodler);
 				
 			} else {
 				hodler = (ViewHodler)arg1.getTag();
 			}
-			 hodler.layout.setVisibility(View.VISIBLE);
 			 hodler.userimage.setTag(mImageUrl);
+			 hodler.name.setText(newitems.get(arg0).getName());
 			 hodler.question.setText(newitems.get(arg0).getQuestion());
-			
-			 if (newitems.get(arg0).getInttag() == 1) {
-				 hodler.name.setText(newitems.get(arg0).getName());
-				 hodler.focus_count.setText(String.valueOf(newitems.get(arg0).getFocus_count()));
-			} else {
-                 hodler.layout.setVisibility(View.GONE);
+			switch (newitems.get(arg0).getInttag()) {
+			case 0:
+				hodler.tag.setText("发起了问题");
+				break;
+			case 1:
+				hodler.tag.setText("回复了问题");
+				break;
+			case 2:
+				hodler.tag.setText("发表了文章");
+				break;
+			default:
+				break;
 			}
 			 Bitmap bitmap = imageDownLoader.getCacheBitmap(mImageUrl.replaceAll("[^\\w]", ""));
 			 System.out.println(bitmap);
@@ -103,9 +106,8 @@ public class FoundAdapter extends BaseAdapter{
 			return arg1;
 		}
 		class ViewHodler{
-			private TextView name,question,focus_count,awsner_count,view_count,tag;
+			private TextView name,question,tag;
 			private ImageView userimage;
-			private LinearLayout layout;
 	}  
 }
 

@@ -2,86 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="10dp" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <cn.fanfan.common.CircleImageView
+        android:id="@+id/userimage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_avatar_default" />
+    <LinearLayout 
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/question"
-            android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <LinearLayout 
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="4"
-            android:paddingBottom="@dimen/vertical_padding_large"
-            android:paddingLeft="@dimen/horizontal_padding_xlarge"
-            android:paddingTop="@dimen/vertical_padding_large"
-            android:text="不可不知的烘焙术语---蛋黄打发"
-            android:textSize="@dimen/text_size_large" />
+            android:orientation="horizontal">
+             <TextView 
+               android:id="@+id/username"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/username"
+        />
+             <TextView 
+               android:id="@+id/tag"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:textColor="@color/text_color_gray"
+
+        />
+        </LinearLayout>
+       <TextView 
+               android:id="@+id/quescontent"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+        />
+
     </LinearLayout>
 
-    <View
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line" />
-
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="10dp" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <cn.fanfan.common.CircleImageView
-                android:id="@+id/userimage"
-                android:layout_width="@dimen/avatar_size_small"
-                android:layout_height="@dimen/avatar_size_small"
-                android:src="@drawable/ic_avatar_default" />
-
-            <TextView
-                android:id="@+id/focus_count"
-                android:layout_width="@dimen/avatar_size_small"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="#FF7C47"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:text="不可不知的烘焙术语---蛋黄打发,不可不知的烘焙术语---蛋黄打发"
-                android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-    </LinearLayout>
- <View
-
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line" />
-    
 </LinearLayout>

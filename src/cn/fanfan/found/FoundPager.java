@@ -57,7 +57,6 @@ public class FoundPager extends Fragment {
 		// TODO Auto-generated method stub
 		View rootView = inflater.inflate(R.layout.foundlist, container, false);
 		listView = (ListView)rootView.findViewById(R.id.fodlist);
-		listView.setDividerHeight(10);
 		newlist = new ArrayList<Founditem>();
 		imageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
@@ -73,10 +72,17 @@ public class FoundPager extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.putExtra("questionid", newlist.get(arg2).getQuestion_id());
-				intent.setClass(getActivity(), Detilques.class);
+				// TODO Auto-generated method stub
+				if (newlist.get(arg2).getType().equals("question")) {
+					intent.putExtra("questionid", newlist.get(arg2).getQuestion_id());
+					intent.setClass(getActivity(), Detilques.class);
+					
+				} else {
+					intent.putExtra("eid", newlist.get(arg2).getQuestion_id());
+					intent.setClass(getActivity(), DetilEssay.class);
+				}
+				
 				startActivity(intent);
 			}
 		});
@@ -168,35 +174,41 @@ public class FoundPager extends Fragment {
 				
 		            for (int i = 0; i < rows.length(); i++) {
 						JSONObject jsonObject = rows.getJSONObject(i);
+						int inttga = 0;
 						Founditem founditem = new Founditem();
+						
 						String post_type = jsonObject.getString("post_type");
+						founditem.setType(post_type);
 						if (post_type.equals("question")) {
 							founditem.setQuestion_id(jsonObject.getString("question_id"));
 							founditem.setQuestion(jsonObject.getString("question_content"));
 							int answer_count = jsonObject.getInt("answer_count");
-							founditem.setAnswer_count(answer_count);
+							JSONObject object = jsonObject.getJSONObject("user_info");
+							founditem.setAvatar_file(object.getString("avatar_file"));
+							founditem.setUid(object.getString("uid"));
 							JSONObject answer = jsonObject.getJSONObject("answer");                            
-                            int inttga = 0;
+                            
                             if (answer_count != 0) {
                             	JSONObject user_info = answer.getJSONObject("user_info");
-							     founditem.setFocus_count(answer.getInt("anonymous"));
-							     founditem.setName(answer.getString("answer_content"));
-							     founditem.setAvatar_file(user_info.getString("avatar_file"));
-							     founditem.setUid(user_info.getString("uid"));
+							     founditem.setName(user_info.getString("user_name"));
 							     inttga = 1;
 							} else {
-								  founditem.setFocus_count(0);
-								     founditem.setName("");
-								     founditem.setAvatar_file("");
-								     founditem.setUid("");
+								founditem.setName(object.getString("user_name"));
 								 inttga = 0;
 							}
                             founditem.setInttag(inttga);
-                            newlist.add(founditem);
-						} else {
                             
+						} else {
+                            founditem.setQuestion_id(jsonObject.getString("id"));
+                            founditem.setQuestion(jsonObject.getString("title"));                           
+                            JSONObject object = jsonObject.getJSONObject("user_info");
+							founditem.setAvatar_file(object.getString("avatar_file"));
+							founditem.setUid(object.getString("uid"));
+							founditem.setName(object.getString("user_name"));
+							inttga = 2;
+							founditem.setInttag(inttga);
 						}
-		           
+						newlist.add(founditem);
 					} 			
 				 } catch (JSONException e) {
 						// TODO Auto-generated catch block

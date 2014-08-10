@@ -9,48 +9,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
-
+        
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="55dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="8dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="8dp" >
-
-                <ImageView
-                    android:id="@+id/userimage"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/logo" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical" >
-
-                    <TextView
-                        android:id="@+id/username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:textColor="@color/username" />
-                </LinearLayout>
-            </LinearLayout>
-               <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.5dp"
-                android:background="#dcdcdc" />
-            
-            <LinearLayout
+             <LinearLayout
+                 android:id="@+id/linktopic"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_item"
@@ -60,8 +25,17 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="8dp"
                 android:paddingTop="8dp" >
+                 <TextView
+                android:id="@+id/tagtopic"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:textSize="20sp"
+                android:text="相关话题"
+              />
 
-                <LinearLayout
+             <!--    <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -90,18 +64,61 @@
                         android:background="@drawable/label"
                         android:text="锅具"
                         android:textColor="#2C39F5" />
-                </LinearLayout>
+                </LinearLayout> -->
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/abc_ic_ab_holo_light" />
             </LinearLayout>
-
+            
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"
                 android:background="#dcdcdc" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="8dp" >
+
+                <cn.fanfan.common.CircleImageView
+                    android:id="@+id/userimage"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/logo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/username" />
+                     <TextView
+                        android:id="@+id/usersign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/text_color_gray" />
+                </LinearLayout>
+            </LinearLayout>
+               <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="#dcdcdc" />
+            
+          
            <TextView
                 android:id="@+id/title"
                 android:layout_width="fill_parent"
@@ -110,7 +127,6 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="8dp"
                 android:paddingRight="10dp"
-                android:text="早市看到这个，买回来不知道怎么煮，求大虾指导～,哈哈哈，哈哈哈，哈哈哈"
                 android:textSize="17sp" />
 
             <TextView
@@ -121,18 +137,7 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="8dp"
                 android:paddingRight="10dp"
-                android:text="早市看到这个，买回来不知道怎么煮，求大虾指导～,哈哈哈，哈哈哈，哈哈哈"
                 android:textSize="20sp" />
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="8dp"
-                android:paddingRight="10dp"
-                android:text="早市看到这个，买回来不知道怎么煮，求大虾指导～,哈哈哈，哈哈哈，哈哈哈"
-                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 
@@ -166,7 +171,7 @@
                 android:drawableLeft="@drawable/ic_vote_normal"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:text="577"
+                android:text="0"
                 android:textColor="#C4C4C4" />
 
             <TextView
@@ -178,7 +183,7 @@
                 android:drawableLeft="@drawable/ic_vote_down_normal"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:text="123"
+                android:text="0"
                 android:textColor="#C4C4C4" />
         </LinearLayout>
 

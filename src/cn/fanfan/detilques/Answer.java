@@ -276,11 +276,12 @@ public class Answer extends Activity implements OnClickListener {
 					int errno = jsonObject.getInt("errno");
 					if (errno == 1) {
 						JSONObject rsm = jsonObject.getJSONObject("rsm");;
-						String question_id = rsm.getString("question_id");
+						//String question_id = rsm.getString("question_id");
 						String answer_content = rsm.getString("answer_content");
 						String add_time = rsm.getString("add_time");
 						String signature = rsm.getString("signature");
 						tag = rsm.getInt("vote_value");
+						System.out.println(tag+"   qweqwe");
 						zanstatus();
 						sign.setText(signature);
 						 String agree_count = rsm.getString("agree_count");
