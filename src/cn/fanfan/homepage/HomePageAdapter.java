@@ -2,15 +2,10 @@ package cn.fanfan.homepage;
 
 import java.util.List;
 
-import cn.fanfan.common.AsyncImageGet;
-import cn.fanfan.main.MainActivity;
+import cn.fanfan.common.smartGetImage;
 import cn.fanfan.main.R;
-import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.sax.StartElementListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 	private int resourceId;
@@ -77,6 +71,8 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 		viewHolder.userName.setText(itemModel.getUserName());
 		viewHolder.itemTitle.setText(itemModel.getItemTitle());
 		viewHolder.bestAnswer.setText(itemModel.getBestAnswer());
+		smartGetImage getImage = new smartGetImage(context,
+				itemModel.getAvatarUrl(), viewHolder.avatarImage);
 		// 对头像的监听，点击头像跳转到相对应的用户信息详情页
 		viewHolder.avatar.setOnClickListener(new OnClickListener() {
 
