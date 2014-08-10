@@ -2,6 +2,9 @@ package cn.fanfan.found;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
+import cn.fanfan.question.Bimp;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.userinfo.UserInfoActivity;
 
@@ -23,6 +27,7 @@ public class FoundAdapter extends BaseAdapter{
 		   private ImageDownLoader imageDownLoader;
 	     public FoundAdapter(List<Founditem> comitems,Context context,ImageDownLoader imageDownLoader) {
 			// TODO Auto-generated constructor stub
+	    	
 	    	 super();
 	    	 this.newitems = comitems;
 	    	 this.context = context;
@@ -50,16 +55,13 @@ public class FoundAdapter extends BaseAdapter{
 			// TODO Auto-generated method stub
 			ViewHodler hodler;
 			final String mImageUrl = Config.getValue("userImageBaseUrl")+newitems.get(arg0).getAvatar_file();
-			System.out.println(mImageUrl+"  aasa");
 			 if(arg1 == null){
 				    hodler = new ViewHodler();			
 					arg1 = LayoutInflater.from(context).inflate(R.layout.foundques, null);
-					hodler.name = (TextView)arg1.findViewById(R.id.name);
-					hodler.question = (TextView)arg1.findViewById(R.id.question);
-					hodler.focus_count = (TextView)arg1.findViewById(R.id.focus_count);
-					hodler.awsner_count = (TextView)arg1.findViewById(R.id.awsner_count);
-					hodler.view_count = (TextView)arg1.findViewById(R.id.view_count);
+					hodler.name = (TextView)arg1.findViewById(R.id.username);
+					hodler.question = (TextView)arg1.findViewById(R.id.quescontent);
 					hodler.userimage = (ImageView)arg1.findViewById(R.id.userimage);
+					hodler.tag = (TextView)arg1.findViewById(R.id.tag);
 					arg1.setTag(hodler);
 				
 			} else {
@@ -68,10 +70,19 @@ public class FoundAdapter extends BaseAdapter{
 			 hodler.userimage.setTag(mImageUrl);
 			 hodler.name.setText(newitems.get(arg0).getName());
 			 hodler.question.setText(newitems.get(arg0).getQuestion());
-			 hodler.awsner_count.setText(String.valueOf(newitems.get(arg0).getAnswer_count()));
-			 hodler.focus_count.setText(String.valueOf(newitems.get(arg0).getFocus_count()));
-			 hodler.view_count.setText(String.valueOf(newitems.get(arg0).getView_count()));
-			
+			switch (newitems.get(arg0).getInttag()) {
+			case 0:
+				hodler.tag.setText("发起了问题");
+				break;
+			case 1:
+				hodler.tag.setText("回复了问题");
+				break;
+			case 2:
+				hodler.tag.setText("发表了文章");
+				break;
+			default:
+				break;
+			}
 			 Bitmap bitmap = imageDownLoader.getCacheBitmap(mImageUrl.replaceAll("[^\\w]", ""));
 			 System.out.println(bitmap);
 				if (bitmap != null) {
@@ -95,7 +106,7 @@ public class FoundAdapter extends BaseAdapter{
 			return arg1;
 		}
 		class ViewHodler{
-			private TextView name,question,focus_count,awsner_count,view_count;
+			private TextView name,question,tag;
 			private ImageView userimage;
 	}  
 }

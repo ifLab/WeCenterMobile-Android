@@ -29,7 +29,7 @@
         android:layout_below="@id/essence_title"
         android:background="@color/line" />
 
-    <ImageView
+    <cn.fanfan.common.CircleImageView
         android:id="@+id/essence_image"
         android:layout_width="@dimen/avatar_size_small"
         android:layout_height="@dimen/avatar_size_small"

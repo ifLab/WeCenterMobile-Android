@@ -12,7 +12,7 @@
     android:paddingRight="@dimen/horizontal_padding_xlarge"
     android:paddingTop="@dimen/vertical_padding_xxlarge" >
 
-    <ImageView
+    <cn.fanfan.common.CircleImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_drawer_login_normal" />

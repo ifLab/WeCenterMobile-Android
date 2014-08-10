@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/horizontal_padding_small"
     android:paddingTop="@dimen/vertical_padding_large" >
 
-    <ImageView
+    <cn.fanfan.common.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"

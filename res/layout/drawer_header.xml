@@ -8,7 +8,7 @@
     android:background="@drawable/bg_list_item"
     android:paddingLeft="@dimen/horizontal_padding_xlarge" >
 
-    <ImageView
+    <cn.fanfan.common.CircleImageView
         android:id="@+id/login_icon"
         android:layout_width="@dimen/avatar_size_medium"
         android:layout_height="@dimen/avatar_size_medium"

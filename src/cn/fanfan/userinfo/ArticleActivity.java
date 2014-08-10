@@ -13,7 +13,7 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
-import cn.fanfan.detilques.DetilEssay;
+import cn.fanfan.detilessay.DetilEssay;
 import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
 import android.app.Activity;

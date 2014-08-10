@@ -89,11 +89,7 @@
             android:name="cn.fanfan.found.Found"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name="cn.fanfan.question.EtAddImage" >
-        </activity>
-        <activity android:name="cn.fanfan.question.DDisplay" >
-        </activity>
-        <activity android:name="cn.fanfan.detilques.DetilEssay" >
+        <activity android:name="cn.fanfan.detilessay.DetilEssay" >
         </activity>
         <activity android:name="cn.fanfan.detilques.Answer" >
         </activity>
@@ -110,6 +106,7 @@
         <activity android:name="cn.fanfan.userinfo.ArticleActivity"></activity>
         <activity android:name="cn.fanfan.userinfo.MyAnswerActivity"></activity>
         <activity android:name="cn.fanfan.attentionuser.TestAttention"></activity>
+        <activity android:name="cn.fanfan.detilessay.EssayCom" ></activity>
     </application>
 
 </manifest>

@@ -8,7 +8,7 @@
     android:paddingRight="12dp"
     android:paddingTop="15dp" >
 
-    <cn.fanfan.common.CircleImageView
+    <ImageView
         android:id="@+id/userimg"
         android:layout_width="40dp"
         android:layout_height="40dp"

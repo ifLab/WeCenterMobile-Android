@@ -6,6 +6,8 @@ public class AnswerItem {
 	private String answer_content;
 	private String agree_count;
 	private String uid;
+	private String name;
+	private String avatar_file;
 
 	public String getAnswer_id() {
 		return answer_id;
@@ -37,6 +39,22 @@ public class AnswerItem {
 
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAvatar_file() {
+		return avatar_file;
+	}
+
+	public void setAvatar_file(String avatar_file) {
+		this.avatar_file = avatar_file;
 	}
 
 }

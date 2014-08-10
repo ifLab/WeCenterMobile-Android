@@ -190,7 +190,7 @@ public class Question extends FragmentActivity {
 				params.put("question_content", question);
 				params.put("question_detail", quesdetil);
 				params.put("attach_access_key", attach_access_key);
-				attach_access_key = md5(getAttachKey());
+				
 				params.put("topics", questag);
 				quespost(params);
 			} catch (Exception e) {
@@ -251,7 +251,7 @@ public class Question extends FragmentActivity {
 				}
 
 			} else {
-				Toast.makeText(this, "����ʧ�ܣ�", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "拍照失败", Toast.LENGTH_LONG).show();
 			}
 			break;
 		default:
@@ -363,6 +363,7 @@ public class Question extends FragmentActivity {
 				if (errno.equals("1")) {
 					Toast.makeText(Question.this, "发布成功", Toast.LENGTH_LONG)
 							.show();
+					attach_access_key = md5(getAttachKey());
 					try {
 						JSONObject rsm = jsonObject.getJSONObject("rsm");
 						String question_id = rsm.getString("question_id");

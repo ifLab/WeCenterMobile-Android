@@ -53,13 +53,13 @@ public class GetUserNamImage {
 						String avatar_file = rsm.getString("avatar_file");
 						String mImageUrl = Config.getValue("userImageBaseUrl")
 								+ avatar_file;
-						 Bitmap bitmap = downLoader.getBitmapFromMemCache(mImageUrl.replaceAll("[^\\w]", ""));
+						 Bitmap bitmap = downLoader.getCacheBitmap(mImageUrl.replaceAll("[^\\w]", ""));
 							if (bitmap != null) {
-								userimage.setImageBitmap(bitmap);
+								listener.onPicLoader(bitmap, userimage);
 							} else {
 								userimage.setImageDrawable(context.getResources()
 										.getDrawable(R.drawable.logo));
-							}
+							
 						downLoader.getBitmap(mImageUrl,
 								new onImageLoaderListener() {
 
@@ -69,6 +69,7 @@ public class GetUserNamImage {
 										listener.onPicLoader(bitmap, userimage);
 									}
 								});
+							}
 						listener.onNameLoader(user_name, username);
 					} else {
 						String err = jsonObject.getString("err");

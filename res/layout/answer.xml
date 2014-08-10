@@ -7,13 +7,14 @@
     android:orientation="vertical" >
    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
         android:paddingLeft="18dp"
         android:paddingRight="15dp"
+        android:gravity="center_vertical"
         android:paddingTop="8dp" >
-         <ImageView 
+         <cn.fanfan.common.CircleImageView 
              android:id="@+id/userimage"
              android:layout_width="30dp"
              android:layout_height="30dp"
@@ -22,21 +23,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:orientation="vertical"
             android:layout_weight="1" >
 
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:textColor="@color/username"
+                android:layout_marginLeft="15dp"
+            
+             />
+             <TextView
+                android:id="@+id/sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_gray"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
             
              />
         </LinearLayout>
+       
          <LinearLayout
              android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="end" >
+    
+        
            <TextView
                 android:id="@+id/zanorno"
                 android:layout_width="wrap_content"
@@ -119,7 +134,6 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_add_answer"
             android:background="#e66c13"
             android:gravity="center"
             android:textSize="15sp"
@@ -130,7 +144,7 @@
         android:layout_height="40dp"
         android:background="#dcdcdc" />
         <Button
-            android:id="@+id/addcom"
+            android:visibility="gone"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_weight="1"

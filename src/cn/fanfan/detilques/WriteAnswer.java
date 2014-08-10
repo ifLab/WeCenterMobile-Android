@@ -117,10 +117,9 @@ public class WriteAnswer extends Activity {
 			 RequestParams params = new RequestParams();
 			 params.put("question_id", question_id);
 			 params.put("answer_content", editText.getText().toString());
-			 params.put("attach_access_key", attach_access_key);
-			 attach_access_key = md5(getAttachKey());
+			 params.put("attach_access_key", attach_access_key);			 
              postanswer(params);
-             finish();
+          
 			break;
 		default:
 			break;
@@ -311,25 +310,17 @@ public class WriteAnswer extends Activity {
 				progressDialog.hideAndCancle();
                 if (errno == 1) {
                 	Toast.makeText(WriteAnswer.this, "»Ø´ð³É¹¦£¡", Toast.LENGTH_LONG).show();
-                	Intent intent = new Intent();
-                	intent.putExtra("questionid", question_id);
-                	intent.setClass(WriteAnswer.this, Detilques.class);
-                	startActivity(intent);
-                	Thread.currentThread();
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					finish();
+                	attach_access_key = md5(getAttachKey());
+                	setResult(RESULT_OK);
+                	
 				}
                 if (errno == -1) {
                 	Toast.makeText(WriteAnswer.this, err, Toast.LENGTH_LONG).show();
                 	System.out.println(err);
 				}
+                   finish();
 			}
-			@Override
+			@Override  
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub

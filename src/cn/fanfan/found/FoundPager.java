@@ -13,6 +13,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
+import cn.fanfan.detilessay.DetilEssay;
 import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
@@ -24,7 +25,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -50,6 +50,7 @@ public class FoundPager extends Fragment {
 	private Bundle bundle;
 	private String type;
 	private String commend;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -71,10 +72,17 @@ public class FoundPager extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.putExtra("questionid", newlist.get(arg2).getQuestion_id());
-				intent.setClass(getActivity(), Detilques.class);
+				// TODO Auto-generated method stub
+				if (newlist.get(arg2).getType().equals("question")) {
+					intent.putExtra("questionid", newlist.get(arg2).getQuestion_id());
+					intent.setClass(getActivity(), Detilques.class);
+					
+				} else {
+					intent.putExtra("eid", newlist.get(arg2).getQuestion_id());
+					intent.setClass(getActivity(), DetilEssay.class);
+				}
+				
 				startActivity(intent);
 			}
 		});
@@ -153,6 +161,7 @@ public class FoundPager extends Fragment {
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				String string = new String(arg2);
+				JSONArray rows = null;
 				try {
 					JSONObject all = new JSONObject(string);
 					JSONObject rsm = all.getJSONObject("rsm");
@@ -160,34 +169,53 @@ public class FoundPager extends Fragment {
 		            if (total_row < 10) {
 						listView.removeFooterView(footerLinearLayout);
 					}
-					JSONArray rows = rsm.getJSONArray("rows");
-		            for (int i = 0; i < rows.length(); i++) {
+					 rows = rsm.getJSONArray("rows");
 
+				
+		            for (int i = 0; i < rows.length(); i++) {
 						JSONObject jsonObject = rows.getJSONObject(i);
+						int inttga = 0;
 						Founditem founditem = new Founditem();
+						
 						String post_type = jsonObject.getString("post_type");
+						founditem.setType(post_type);
 						if (post_type.equals("question")) {
 							founditem.setQuestion_id(jsonObject.getString("question_id"));
 							founditem.setQuestion(jsonObject.getString("question_content"));
-							founditem.setAnswer_count(jsonObject.getInt("answer_count"));
-							founditem.setFocus_count(jsonObject.getInt("focus_count"));
-							founditem.setView_count(jsonObject.getInt("view_count"));
+							int answer_count = jsonObject.getInt("answer_count");
 							JSONObject object = jsonObject.getJSONObject("user_info");
-							founditem.setName(object.getString("user_name"));
 							founditem.setAvatar_file(object.getString("avatar_file"));
 							founditem.setUid(object.getString("uid"));
-							newlist.add(founditem);
-						} else {
+							JSONObject answer = jsonObject.getJSONObject("answer");                            
                             
+                            if (answer_count != 0) {
+                            	JSONObject user_info = answer.getJSONObject("user_info");
+							     founditem.setName(user_info.getString("user_name"));
+							     inttga = 1;
+							} else {
+								founditem.setName(object.getString("user_name"));
+								 inttga = 0;
+							}
+                            founditem.setInttag(inttga);
+                            
+						} else {
+                            founditem.setQuestion_id(jsonObject.getString("id"));
+                            founditem.setQuestion(jsonObject.getString("title"));                           
+                            JSONObject object = jsonObject.getJSONObject("user_info");
+							founditem.setAvatar_file(object.getString("avatar_file"));
+							founditem.setUid(object.getString("uid"));
+							founditem.setName(object.getString("user_name"));
+							inttga = 2;
+							founditem.setInttag(inttga);
 						}
-						
-						
+						newlist.add(founditem);
 					} 			
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					
-				}
+				 } catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						
+					}
+						
 				if (currentPage == 1) {
 					adapter = new FoundAdapter(newlist, getActivity(),imageDownLoader);
 					listView.setAdapter(adapter);

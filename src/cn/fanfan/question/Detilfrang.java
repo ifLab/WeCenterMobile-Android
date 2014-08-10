@@ -183,7 +183,7 @@ public class Detilfrang extends Fragment {
 		}  
    public void showpic(String picpath){
 			Bitmap bitmap = Bimp.getLoacalBitmap(picpath);
-            bitmap = Bimp.createFramedPhoto(480, 480, bitmap,
+            bitmap = Bimp.createFramedPhoto(200, 200, bitmap,
 					(int) (dp * 1.6f));
 			drr.add(picpath);
 			bmp.add(bitmap);
