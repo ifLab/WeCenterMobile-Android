@@ -4,11 +4,15 @@
     android:layout_height="match_parent"
     android:background="#ffffff" >
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lvHomeListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="match_parent"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" >
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
     <RelativeLayout
         android:id="@+id/rlHomePageLoading"

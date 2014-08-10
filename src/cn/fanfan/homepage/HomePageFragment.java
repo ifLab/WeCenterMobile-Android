@@ -8,6 +8,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
@@ -18,71 +23,92 @@ import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomePageFragment extends Fragment {
 	public static final String TAG = "HomePageFragment";
-	private ListView listView;
 	private TextView tvHomePageLoading;
 	private List<HomePageItemModel> itemDataList = new ArrayList<HomePageItemModel>();
 	private HomePageAdapter adapter;
 	private Bundle bundle;
-	private String uid;
-	private int page = 0;
+	private int mPage = 0;
 	private int totalRow;
+	private PullToRefreshListView mPullRefreshListView;
+	private Boolean isFirstEnter = true;
+	boolean mIsUp;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		bundle = getArguments();
-		uid = bundle.getString("uid");
 		View fragmentView;
 		fragmentView = inflater.inflate(R.layout.fragment_homepage, container,
 				false);
 		tvHomePageLoading = (TextView) fragmentView
 				.findViewById(R.id.tvHomePageLoading);
-		listView = (ListView) fragmentView.findViewById(R.id.lvHomeListView);
-		// tvHomePageLoading.setVisibility(View.GONE);
-		listView.setVisibility(View.GONE);
-		// 获取数据
-		getHomePageInfo(page);
+		getHomePageInfo(mPage);// 获取数据
 		final MainActivity activity = (MainActivity) getActivity();
 		adapter = new HomePageAdapter(activity, R.layout.listitem_homepage,
 				itemDataList);
-		listView = (ListView) fragmentView.findViewById(R.id.lvHomeListView);
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		mPullRefreshListView = (PullToRefreshListView) fragmentView
+				.findViewById(R.id.lvHomeListView);
+		mPullRefreshListView.setMode(Mode.BOTH);// 上下都可以拉动
+		if (isFirstEnter) {
+			tvHomePageLoading.setVisibility(View.VISIBLE);
+			mPullRefreshListView.setVisibility(View.GONE);
+		}
+		mPullRefreshListView.setAdapter(adapter);
+		mPullRefreshListView
+				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				HomePageItemModel itemModel = itemDataList.get(position);
-				Toast.makeText(activity, itemModel.getUserName(),
-						Toast.LENGTH_SHORT).show();
-				// itemDataList.clear();
-				// adapter.notifyDataSetChanged();
-				// listView.setSelection(0);
-			}
-		});
+					@Override
+					public void onLastItemVisible() {
+						// TODO Auto-generated method stub
+						mPullRefreshListView.getLoadingLayoutProxy()
+								.setRefreshingLabel("正在加载");
+						mPullRefreshListView.getLoadingLayoutProxy()
+								.setPullLabel("上拉加载更多");
+						mPullRefreshListView.getLoadingLayoutProxy()
+								.setReleaseLabel("释放开始加载");
+						Log.i(TAG, "滑到底部");
+					}
+				});
+		mPullRefreshListView
+				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+
+					@Override
+					public void onPullDownToRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						// TODO Auto-generated method stub
+						Log.i(TAG, "下拉");
+						itemDataList.clear();
+						adapter.notifyDataSetChanged();
+						getHomePageInfo(0);
+					}
+
+					@Override
+					public void onPullUpToRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						// TODO Auto-generated method stub
+						Log.i(TAG, "上拉");
+						mPage = mPage + 1;
+						getHomePageInfo(mPage);
+					}
+				});
 		return fragmentView;
 	}
 
 	private void getHomePageInfo(int page) {
 		NetworkState networkState = new NetworkState();
-		MainActivity activity = (MainActivity) getActivity();
+		final MainActivity activity = (MainActivity) getActivity();
 		if (networkState.isNetworkConnected(activity)) {
 			Log.i(TAG, "NetworkIsConnected");
 			RequestParams params = new RequestParams();
@@ -100,6 +126,7 @@ public class HomePageFragment extends Fragment {
 					// TODO Auto-generated method stub
 					Toast.makeText((MainActivity) getActivity(),
 							" 网络有点不好哦，请重试！！", Toast.LENGTH_LONG).show();
+					mPullRefreshListView.onRefreshComplete();
 				}
 
 				@Override
@@ -109,15 +136,22 @@ public class HomePageFragment extends Fragment {
 					int layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
 					String string = new String(responseContent);
 					Log.i(TAG, string);
+					if (isFirstEnter == true) {
+						isFirstEnter = false;
+						tvHomePageLoading.setVisibility(View.GONE);
+						mPullRefreshListView.setVisibility(View.VISIBLE);
+					}
 					try {
 						JSONObject all = new JSONObject(string);
 						JSONObject rsm = all.getJSONObject("rsm");
 						totalRow = (rsm.getInt("total_rows"));
 						Log.i(TAG, Integer.toString(totalRow));
-						// 如果该页的数据少于屏幕可展示的item的个数则隐藏footview
-						if (totalRow > 0) {
-							tvHomePageLoading.setVisibility(View.GONE);
-							listView.setVisibility(View.VISIBLE);
+						if (totalRow == 0) {
+							// 已经加载全部的数据
+							mPage = mPage - 1;
+							Toast.makeText(activity, "亲，今天就这么多了！",
+									Toast.LENGTH_LONG).show();
+							mPullRefreshListView.onRefreshComplete();
 						}
 						JSONArray rows = rsm.getJSONArray("rows");
 						for (int i = 0; i < rows.length(); i++) {
@@ -144,8 +178,8 @@ public class HomePageFragment extends Fragment {
 								int itemTitleUid, bestAnswerUid = 1, agreeCount = 1;
 								JSONObject questionInfoObject = rowsObject
 										.getJSONObject("question_info");
-								itemTitle = questionInfoObject
-										.getString("question_content").trim();
+								itemTitle = questionInfoObject.getString(
+										"question_content").trim();
 								Log.i(TAG, itemTitle);
 								itemTitleUid = questionInfoObject
 										.getInt("question_id");
@@ -174,16 +208,16 @@ public class HomePageFragment extends Fragment {
 										.getJSONObject("answer_info");
 								bestAnswerUid = answerInfoObject
 										.getInt("answer_id");
-								bestAnswer = answerInfoObject
-										.getString("answer_content").trim();
+								bestAnswer = answerInfoObject.getString(
+										"answer_content").trim();
 								Log.i(TAG, bestAnswer);
 								agreeCount = answerInfoObject
 										.getInt("agree_count");
 								// 获取question_info对象
 								JSONObject questionInfoObject = rowsObject
 										.getJSONObject("question_info");
-								itemTitle = questionInfoObject
-										.getString("question_content").trim();
+								itemTitle = questionInfoObject.getString(
+										"question_content").trim();
 								Log.i(TAG, itemTitle);
 								itemTitleUid = questionInfoObject
 										.getInt("question_id");
@@ -223,6 +257,7 @@ public class HomePageFragment extends Fragment {
 									layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
 								}
 								layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								//
 								// 加载到ListItemModel
 								HomePageItemModel item = new HomePageItemModel(
 										layoutType, avatarUrl, userName,
@@ -231,11 +266,13 @@ public class HomePageFragment extends Fragment {
 										bestAnswerUid, agreeCount);
 								itemDataList.add(item);
 							}
+							mPullRefreshListView.onRefreshComplete();
 						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						Log.i(TAG, "Json解析异常");
+						mPullRefreshListView.onRefreshComplete();
 					}
 
 				}
@@ -243,6 +280,7 @@ public class HomePageFragment extends Fragment {
 		} else {
 			Toast.makeText((MainActivity) getActivity(), "未连接网络！",
 					Toast.LENGTH_LONG).show();
+			mPullRefreshListView.onRefreshComplete();
 		}
 	}
 
@@ -254,4 +292,5 @@ public class HomePageFragment extends Fragment {
 					"position"));
 		}
 	}
+
 }
