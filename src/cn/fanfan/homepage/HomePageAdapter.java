@@ -3,9 +3,12 @@ package cn.fanfan.homepage;
 import java.util.List;
 
 import cn.fanfan.common.smartGetImage;
+import cn.fanfan.detilques.Answer;
+import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,6 +77,16 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 		smartGetImage getImage = new smartGetImage(context,
 				itemModel.getAvatarUrl(), viewHolder.avatarImage);
 		// 对头像的监听，点击头像跳转到相对应的用户信息详情页
+		viewHolder.itemTitle.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent mItent = new Intent(context, Answer.class);
+				mItent.putExtra("questionid", itemModel.getItemTitleUid());
+				context.startActivity(mItent);
+			}
+		});
 		viewHolder.avatar.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -81,6 +94,16 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				UserInfoActivity.actionStar(context,
 						Integer.toString(itemModel.getUserUid()));
+			}
+		});
+		viewHolder.bestAnswer.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent mItent = new Intent(context, Answer.class);
+				mItent.putExtra("answerid", itemModel.getBestAnswerUid());
+				context.startActivity(mItent);
 			}
 		});
 		return view;
