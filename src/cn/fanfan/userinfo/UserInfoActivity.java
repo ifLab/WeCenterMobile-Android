@@ -76,6 +76,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.userinformation_main);
+		LinearLayout hidePart = (LinearLayout) findViewById(R.id.llHidePart);
+		hidePart.setVisibility(View.GONE);
 		// 添加返回按钮到ActionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);

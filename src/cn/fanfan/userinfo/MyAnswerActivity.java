@@ -15,11 +15,13 @@ import cn.fanfan.detilques.Answer;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.BestAnswerModel;
 import cn.fanfan.topic.TopicDetailSecondAdapter;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -50,6 +52,12 @@ public class MyAnswerActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.foundlist);
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		// actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.show();
 		datas = new ArrayList<BestAnswerModel>();
 		listView = (ListView)findViewById(R.id.fodlist);
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(
@@ -101,7 +109,6 @@ public class MyAnswerActivity extends Activity {
 		// TODO Auto-generated method stub
 		Intent intent = getIntent();
 		uid = intent.getStringExtra("uid");
-		Toast.makeText(MyAnswerActivity.this, uid, Toast.LENGTH_SHORT).show();
 	}
 
 	private void setData() {
@@ -185,5 +192,15 @@ public class MyAnswerActivity extends Activity {
 				System.out.println(new String(arg2));
 			}
 		});
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

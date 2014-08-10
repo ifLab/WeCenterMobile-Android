@@ -3,88 +3,285 @@ package cn.fanfan.homepage;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
+
+import cn.fanfan.common.Config;
+import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomePageFragment extends Fragment {
-	private ListView listView;
+	public static final String TAG = "HomePageFragment";
+	private TextView tvHomePageLoading;
 	private List<HomePageItemModel> itemDataList = new ArrayList<HomePageItemModel>();
 	private HomePageAdapter adapter;
 	private Bundle bundle;
+	private int mPage = 0;
+	private int totalRow;
+	private PullToRefreshListView mPullRefreshListView;
+	private Boolean isFirstEnter = true;
+	boolean mIsUp;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		bundle = getArguments();
 		View fragmentView;
 		fragmentView = inflater.inflate(R.layout.fragment_homepage, container,
 				false);
-
-		initItemData();
-		MainActivity activity = (MainActivity) getActivity();
+		tvHomePageLoading = (TextView) fragmentView
+				.findViewById(R.id.tvHomePageLoading);
+		getHomePageInfo(mPage);// 获取数据
+		final MainActivity activity = (MainActivity) getActivity();
 		adapter = new HomePageAdapter(activity, R.layout.listitem_homepage,
 				itemDataList);
-		listView = (ListView) fragmentView.findViewById(R.id.lvHomeListView);
-		listView.setAdapter(adapter);
+		mPullRefreshListView = (PullToRefreshListView) fragmentView
+				.findViewById(R.id.lvHomeListView);
+		mPullRefreshListView.setMode(Mode.BOTH);// 上下都可以拉动
+		if (isFirstEnter) {
+			tvHomePageLoading.setVisibility(View.VISIBLE);
+			mPullRefreshListView.setVisibility(View.GONE);
+		}
+		mPullRefreshListView.setAdapter(adapter);
+		mPullRefreshListView
+				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+					@Override
+					public void onLastItemVisible() {
+						// TODO Auto-generated method stub
+						mPullRefreshListView.getLoadingLayoutProxy()
+								.setRefreshingLabel("正在加载");
+						mPullRefreshListView.getLoadingLayoutProxy()
+								.setPullLabel("上拉加载更多");
+						mPullRefreshListView.getLoadingLayoutProxy()
+								.setReleaseLabel("释放开始加载");
+						Log.i(TAG, "滑到底部");
+					}
+				});
+		mPullRefreshListView
+				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+
+					@Override
+					public void onPullDownToRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						// TODO Auto-generated method stub
+						Log.i(TAG, "下拉");
+						itemDataList.clear();
+						adapter.notifyDataSetChanged();
+						getHomePageInfo(0);
+					}
+
+					@Override
+					public void onPullUpToRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						// TODO Auto-generated method stub
+						Log.i(TAG, "上拉");
+						mPage = mPage + 1;
+						getHomePageInfo(mPage);
+					}
+				});
 		return fragmentView;
 	}
 
-	private void initItemData() {
-		// TODO Auto-generated method stub
-		HomePageItemModel item1 = new HomePageItemModel(
-				R.drawable.ic_avatar_default,
-				HomePageItemModel.LAYOUT_TYPE_COMPLEX,
-				"提莫",
-				"赞同该回答",
-				"漳州有哪些不该错过的美食？",
-				"漳州卤面也称为鲁面，久负盛名。采用肉丝、笋丝、蛋丝、香菇、鱿鱼、虾干、黄花菜等配料在热锅里炒熟后，加上猪骨汤煮开，然后放入适量的味精、白糖、精盐和番薯粉等，调成卤料。进餐时，在面条上放些韭菜、豆芽、浇上卤料，再配上胡椒粉、油炸蒜丁、油炸扁鱼丝、香菜等佐料。其特点：色泽鲜艳、质嫩爽滑、晕润香醇、甘美可口。",
-				"78");
-		itemDataList.add(item1);
-		HomePageItemModel item2 = new HomePageItemModel(
-				R.drawable.ic_avatar_default,
-				HomePageItemModel.LAYOUT_TYPE_SIMPLE, "庞荣", "关注该问题",
-				"厦门蚵仔煎怎么做？", "没有数据", "1");
-		itemDataList.add(item2);
-		HomePageItemModel item3 = new HomePageItemModel(
-				R.drawable.ic_avatar_default,
-				HomePageItemModel.LAYOUT_TYPE_COMPLEX,
-				"hcjcch",
-				"赞同该回答",
-				"如何给美食拍照?",
-				"曾经给一些商家拍过美食广告单，有一些小小的心得，与大家分享一下。首先，说一下自己对@闻佳照片的感觉，不是说闻佳的答案不好，只是说一下自己的意见（卧槽，第一次在饭饭@别人，好紧张，第一次啊",
-				"100");
-		itemDataList.add(item3);
-		HomePageItemModel item4 = new HomePageItemModel(
-				R.drawable.ic_avatar_default,
-				HomePageItemModel.LAYOUT_TYPE_SIMPLE, "黄伟", "关注该回答",
-				"女生经期不能吃什么？", " ", "0");
-		itemDataList.add(item4);
-		HomePageItemModel item5 = new HomePageItemModel(
-				R.drawable.ic_avatar_default,
-				HomePageItemModel.LAYOUT_TYPE_COMPLEX,
-				"嗨Hwei",
-				"赞同该回答",
-				"漳州有哪些不该错过的美食？",
-				"漳州卤面也称为鲁面，久负盛名。采用肉丝、笋丝、蛋丝、香菇、鱿鱼、虾干、黄花菜等配料在热锅里炒熟后，加上猪骨汤煮开，然后放入适量的味精、白糖、精盐和番薯粉等，调成卤料。进餐时，在面条上放些韭菜、豆芽、浇上卤料，再配上胡椒粉、油炸蒜丁、油炸扁鱼丝、香菜等佐料。其特点：色泽鲜艳、质嫩爽滑、晕润香醇、甘美可口。",
-				"1k");
-		itemDataList.add(item5);
-		HomePageItemModel item6 = new HomePageItemModel(
-				R.drawable.ic_avatar_default,
-				HomePageItemModel.LAYOUT_TYPE_COMPLEX,
-				"提莫",
-				"赞同该回答",
-				"台湾有哪些美食值得一试？",
-				"只说自己印象深刻的：1. 豪大大鸡排基本上是半只鸡啦，而且号称“绝对不切开卖”，一枚55NT，超值。一般的女孩子3-4个人分吃不成问题。虽然吃到最后会有些“为什么要吃这么多鸡肉啊！”的感觉，但值得尝试。",
-				"256");
-		itemDataList.add(item6);
+	private void getHomePageInfo(int page) {
+		NetworkState networkState = new NetworkState();
+		final MainActivity activity = (MainActivity) getActivity();
+		if (networkState.isNetworkConnected(activity)) {
+			Log.i(TAG, "NetworkIsConnected");
+			RequestParams params = new RequestParams();
+			params.put("page", page);
+			String url = Config.getValue("HomePageUrl");
+			AsyncHttpClient client = new AsyncHttpClient();
+			PersistentCookieStore mCookieStore = new PersistentCookieStore(
+					activity);
+			client.setCookieStore(mCookieStore);
+			client.get(url, params, new AsyncHttpResponseHandler() {
+
+				@Override
+				public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+						Throwable arg3) {
+					// TODO Auto-generated method stub
+					Toast.makeText((MainActivity) getActivity(),
+							" 网络有点不好哦，请重试！！", Toast.LENGTH_LONG).show();
+					mPullRefreshListView.onRefreshComplete();
+				}
+
+				@Override
+				public void onSuccess(int arg0, Header[] arg1,
+						byte[] responseContent) {
+					// TODO Auto-generated method stub
+					int layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+					String string = new String(responseContent);
+					Log.i(TAG, string);
+					if (isFirstEnter == true) {
+						isFirstEnter = false;
+						tvHomePageLoading.setVisibility(View.GONE);
+						mPullRefreshListView.setVisibility(View.VISIBLE);
+					}
+					try {
+						JSONObject all = new JSONObject(string);
+						JSONObject rsm = all.getJSONObject("rsm");
+						totalRow = (rsm.getInt("total_rows"));
+						Log.i(TAG, Integer.toString(totalRow));
+						if (totalRow == 0) {
+							// 已经加载全部的数据
+							mPage = mPage - 1;
+							Toast.makeText(activity, "亲，今天就这么多了！",
+									Toast.LENGTH_LONG).show();
+							mPullRefreshListView.onRefreshComplete();
+						}
+						JSONArray rows = rsm.getJSONArray("rows");
+						for (int i = 0; i < rows.length(); i++) {
+							JSONObject rowsObject = rows.getJSONObject(i);
+							// int history_id = rowsObject.getInt("history_id");
+							int userUid = rowsObject.getInt("uid");
+							int allAction = rowsObject
+									.getInt("associate_action");
+							Log.i(TAG, Integer.toString(allAction));
+							// int addTime = rowsObject.getInt("add_time");
+							// 获取userInfo对象
+							JSONObject userInfoObject = rowsObject
+									.getJSONObject("user_info");
+							String userName = userInfoObject
+									.getString("user_name");
+							Log.i(TAG, userName);
+							String avatarUrl = Config
+									.getValue("AvatarPrefixUrl")
+									+ userInfoObject.getString("avatar_file");
+							Log.i(TAG, userInfoObject.getString("avatar_file"));
+							// 转换
+							if (allAction == 101 || allAction == 105) {
+								String action, itemTitle, bestAnswer = " ";
+								int itemTitleUid, bestAnswerUid = 1, agreeCount = 1;
+								JSONObject questionInfoObject = rowsObject
+										.getJSONObject("question_info");
+								itemTitle = questionInfoObject.getString(
+										"question_content").trim();
+								Log.i(TAG, itemTitle);
+								itemTitleUid = questionInfoObject
+										.getInt("question_id");
+
+								if (allAction == 101) {
+									action = "发布该问题";
+									layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								} else {
+									action = "关注该问题";
+									layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								}
+								layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								// 加载到ListItemModel
+								HomePageItemModel item = new HomePageItemModel(
+										layoutType, avatarUrl, userName,
+										userUid, action, itemTitle,
+										itemTitleUid, bestAnswer,
+										bestAnswerUid, agreeCount);
+								itemDataList.add(item);
+							}
+
+							if (allAction == 201 || allAction == 204) {
+								String action, itemTitle, bestAnswer = " ";
+								int itemTitleUid, bestAnswerUid = 1, agreeCount = 1;
+								JSONObject answerInfoObject = rowsObject
+										.getJSONObject("answer_info");
+								bestAnswerUid = answerInfoObject
+										.getInt("answer_id");
+								bestAnswer = answerInfoObject.getString(
+										"answer_content").trim();
+								Log.i(TAG, bestAnswer);
+								agreeCount = answerInfoObject
+										.getInt("agree_count");
+								// 获取question_info对象
+								JSONObject questionInfoObject = rowsObject
+										.getJSONObject("question_info");
+								itemTitle = questionInfoObject.getString(
+										"question_content").trim();
+								Log.i(TAG, itemTitle);
+								itemTitleUid = questionInfoObject
+										.getInt("question_id");
+
+								layoutType = HomePageItemModel.LAYOUT_TYPE_COMPLEX;
+
+								if (allAction == 201) {
+									action = "回答该问题";
+									layoutType = HomePageItemModel.LAYOUT_TYPE_COMPLEX;
+								} else {
+									action = "赞同该回答";
+									layoutType = HomePageItemModel.LAYOUT_TYPE_COMPLEX;
+								}
+								// 加载到ListItemModel
+								HomePageItemModel item = new HomePageItemModel(
+										layoutType, avatarUrl, userName,
+										userUid, action, itemTitle,
+										itemTitleUid, bestAnswer,
+										bestAnswerUid, agreeCount);
+								itemDataList.add(item);
+							}
+
+							if (allAction == 501 || allAction == 502) {
+								String action, itemTitle, bestAnswer = " ";
+								int itemTitleUid, bestAnswerUid = 1, agreeCount = 1;
+								JSONObject articleInfoObject = rowsObject
+										.getJSONObject("article_info");
+								itemTitleUid = articleInfoObject.getInt("id");
+								itemTitle = articleInfoObject
+										.getString("title").trim();
+
+								if (allAction == 501) {
+									action = "发布该文章";
+									layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								} else {
+									action = "赞同该文章";
+									layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								}
+								layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
+								//
+								// 加载到ListItemModel
+								HomePageItemModel item = new HomePageItemModel(
+										layoutType, avatarUrl, userName,
+										userUid, action, itemTitle,
+										itemTitleUid, bestAnswer,
+										bestAnswerUid, agreeCount);
+								itemDataList.add(item);
+							}
+							mPullRefreshListView.onRefreshComplete();
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						Log.i(TAG, "Json解析异常");
+						mPullRefreshListView.onRefreshComplete();
+					}
+
+				}
+			});
+		} else {
+			Toast.makeText((MainActivity) getActivity(), "未连接网络！",
+					Toast.LENGTH_LONG).show();
+			mPullRefreshListView.onRefreshComplete();
+		}
 	}
 
 	@Override
@@ -95,4 +292,5 @@ public class HomePageFragment extends Fragment {
 					"position"));
 		}
 	}
+
 }

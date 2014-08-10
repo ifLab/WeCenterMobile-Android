@@ -16,11 +16,13 @@ import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.detilessay.DetilEssay;
 import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
@@ -52,6 +54,12 @@ public class ArticleActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.draft);
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		// actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.show();
 		init();
 		datas = new ArrayList<ArticleModel>();
 		listView = (ListView) findViewById(R.id.draft_lisview);
@@ -204,5 +212,15 @@ public class ArticleActivity extends Activity {
 						System.out.println(new String(arg2));
 					}
 				});
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

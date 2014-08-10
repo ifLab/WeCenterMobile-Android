@@ -11,6 +11,7 @@
         android:orientation="horizontal" >
 
         <FrameLayout
+            android:id="@+id/flAvatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp" >
@@ -19,7 +20,8 @@
                 android:id="@+id/ivHomeListItemAvatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_avatar_default" />
 
             <ImageView
                 android:layout_width="35dp"
@@ -34,16 +36,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="2dp"
-            android:text="包子"
+            android:text=""
             android:textColor="#E8783A" />
 
         <TextView
-            android:id="@+id/tvHomeListItemState"
+            android:id="@+id/tvHomeListIteAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
-            android:text="赞同该回答"
+            android:text=""
             android:textColor="#D3D3D3" />
     </LinearLayout>
 
@@ -56,12 +58,12 @@
         android:layout_marginRight="10dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="请问漳州有哪些鲜为人知的美食 值得推荐呢？"
+        android:text=""
         android:textSize="19sp"
         android:textStyle="bold" />
 
     <LinearLayout
-        android:id="@+id/llsHomeListItemContent"
+        android:id="@+id/llHomeListItemContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -74,7 +76,7 @@
             android:layout_marginTop="10dp"
             android:background="#FF7C47"
             android:gravity="center"
-            android:text="0"
+            android:text=""
             android:textColor="#FFFFFF" />
 
         <TextView
@@ -86,7 +88,7 @@
             android:layout_marginRight="10dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="厦门本岛 中山路，集中了各种小吃的地方，一条街沿路各种小摊，尤其是天黑之后，各种小吃推车都出来了，一路走一路吃吧，能吃到各种."
+            android:text="回答详情"
             android:textColor="#86898A" />
     </LinearLayout>
 
