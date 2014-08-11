@@ -2,7 +2,10 @@ package cn.fanfan.homepage;
 
 import java.util.List;
 
+import com.loopj.android.image.SmartImageView;
+
 import cn.fanfan.common.smartGetImage;
+import cn.fanfan.detilessay.DetilEssay;
 import cn.fanfan.detilques.Answer;
 import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
@@ -47,7 +50,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				viewHolder.complexLayout.setVisibility(View.VISIBLE);
 			}
 			viewHolder.avatar = (FrameLayout) view.findViewById(R.id.flAvatar);
-			viewHolder.avatarImage = (ImageView) view
+			viewHolder.avatarImage = (SmartImageView) view
 					.findViewById(R.id.ivHomeListItemAvatar);
 			viewHolder.userName = (TextView) view
 					.findViewById(R.id.tvHomeListItemName);
@@ -69,25 +72,15 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				viewHolder.complexLayout.setVisibility(View.VISIBLE);
 			}
 		}
+		// 将数据设置到相应的View上
+		viewHolder.avatarImage.setImageUrl(itemModel.getAvatarUrl());
 		viewHolder.agreeCount.setText(itemModel.getAgreeCount() + " ");
 		viewHolder.action.setText(itemModel.getAction());
 		viewHolder.userName.setText(itemModel.getUserName());
 		viewHolder.itemTitle.setText(itemModel.getItemTitle());
 		viewHolder.bestAnswer.setText(itemModel.getBestAnswer());
-		smartGetImage getImage = new smartGetImage(context,
-				itemModel.getAvatarUrl(), viewHolder.avatarImage);
-		// 对头像的监听，点击头像跳转到相对应的用户信息详情页
-		viewHolder.itemTitle.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent mItent = new Intent(context, Answer.class);
-				mItent.putExtra("questionid", itemModel.getItemTitleUid());
-				context.startActivity(mItent);
-			}
-		});
-		viewHolder.avatar.setOnClickListener(new OnClickListener() {
+		// 设置各个对象的监听事件
+		viewHolder.avatarImage.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -96,14 +89,34 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 						Integer.toString(itemModel.getUserUid()));
 			}
 		});
+		viewHolder.itemTitle.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (itemModel.getAction().equals("发布该文章")
+						|| itemModel.getAction().equals("赞同该文章")) {
+					Intent mIntent = new Intent(context, DetilEssay.class);
+					mIntent.putExtra("eid",
+							Integer.toString(itemModel.getItemTitleUid()));
+					context.startActivity(mIntent);
+				} else {
+					Intent mIntent = new Intent(context, Detilques.class);
+					mIntent.putExtra("questionid",
+							Integer.toString(itemModel.getItemTitleUid()));
+					context.startActivity(mIntent);
+				}
+			}
+		});
 		viewHolder.bestAnswer.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent mItent = new Intent(context, Answer.class);
-				mItent.putExtra("answerid", itemModel.getBestAnswerUid());
-				context.startActivity(mItent);
+				Intent mIntent = new Intent(context, Answer.class);
+				mIntent.putExtra("answerid",
+						Integer.toString(itemModel.getBestAnswerUid()));
+				context.startActivity(mIntent);
 			}
 		});
 		return view;
@@ -112,7 +125,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 	class ViewHolder {
 		LinearLayout complexLayout;
 		FrameLayout avatar;
-		ImageView avatarImage;
+		SmartImageView avatarImage;
 		TextView userName;
 		TextView action;
 		TextView itemTitle;

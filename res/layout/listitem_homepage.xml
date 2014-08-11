@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp" >
 
-            <ImageView
+            <com.loopj.android.image.SmartImageView
                 android:id="@+id/ivHomeListItemAvatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
