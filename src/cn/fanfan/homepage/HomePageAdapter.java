@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.loopj.android.image.SmartImageView;
 
-import cn.fanfan.common.smartGetImage;
 import cn.fanfan.detilessay.DetilEssay;
 import cn.fanfan.detilques.Answer;
 import cn.fanfan.detilques.Detilques;
@@ -12,13 +11,13 @@ import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,6 +41,8 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 		if (convertView == null) {
 			view = LayoutInflater.from(getContext()).inflate(resourceId, null);
 			viewHolder = new ViewHolder();
+			viewHolder.llItemLayout = (LinearLayout) view
+					.findViewById(R.id.llItemLayout);
 			viewHolder.complexLayout = (LinearLayout) view
 					.findViewById(R.id.llHomeListItemContent);
 			if (itemModel.getLayoutType() == HomePageItemModel.LAYOUT_TYPE_SIMPLE) {
@@ -78,8 +79,29 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 		viewHolder.action.setText(itemModel.getAction());
 		viewHolder.userName.setText(itemModel.getUserName());
 		viewHolder.itemTitle.setText(itemModel.getItemTitle());
-		viewHolder.bestAnswer.setText(itemModel.getBestAnswer());
+		String replacAnswer = itemModel.getBestAnswer().replaceAll("<img [^>]*>", "图片");
+		viewHolder.bestAnswer.setText(replacAnswer);
 		// 设置各个对象的监听事件
+		viewHolder.llItemLayout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				if (itemModel.getAction().equals("发布该文章")
+						|| itemModel.getAction().equals("赞同该文章")) {
+					Intent mIntent = new Intent(context, DetilEssay.class);
+					mIntent.putExtra("eid",
+							Integer.toString(itemModel.getItemTitleUid()));
+					context.startActivity(mIntent);
+				} else {
+					Intent mIntent = new Intent(context, Detilques.class);
+					mIntent.putExtra("questionid",
+							Integer.toString(itemModel.getItemTitleUid()));
+					context.startActivity(mIntent);
+				}
+			}
+		});
 		viewHolder.avatarImage.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -123,7 +145,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 	}
 
 	class ViewHolder {
-		LinearLayout complexLayout;
+		LinearLayout complexLayout, llItemLayout;
 		FrameLayout avatar;
 		SmartImageView avatarImage;
 		TextView userName;
