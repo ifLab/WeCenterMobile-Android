@@ -42,7 +42,7 @@ public class Answer extends Activity implements OnClickListener {
 	private CookieStore myCookieStore;
 	private Dialog aDialog;
 	private TextView zanorno;
-	private Button addcom;
+	private TextView addcom;
 	private ImageView agree, disagree;
 	private int tag = 0;
 	private String answer_id;
@@ -67,7 +67,7 @@ public class Answer extends Activity implements OnClickListener {
 		myCookieStore = new PersistentCookieStore(this);
 		client.setCookieStore(myCookieStore);
 		zanorno = (TextView) findViewById(R.id.zanorno);
-		addcom = (Button) findViewById(R.id.addcom);
+		addcom = (TextView) findViewById(R.id.addcom);
 		sign = (TextView)findViewById(R.id.sign);
 		Intent intent = getIntent();
 		answer_id = intent.getStringExtra("answerid");
@@ -112,56 +112,10 @@ public class Answer extends Activity implements OnClickListener {
 			showDialog();
 			break;
 		case R.id.agree:
-			switch (tag) {
-			case 0:
-				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())+1));
-				tag = 1;
-				dozan(1);
-				zanstatus();
-				aDialog.dismiss();
-				break;
-			case 1:
-				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())-1));
-                tag = 0;
-                dozan(1);
-                zanstatus();
-				aDialog.dismiss();
-				break;
-			case -1:
-				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())+1));
-				tag = 1;
-				dozan(1);
-				zanstatus();
-				aDialog.dismiss();
-				break;
-			default:
-				break;
-			}
-			break;
+			dozan(1);
+			 break;
 		case R.id.disagree:
-			switch (tag) {
-			case 0:
-				dozan(-1);
-				tag = -1;
-				zanstatus();
-				aDialog.dismiss();
-				break;
-			case 1:
-				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())-1));
-				dozan(-1);
-				tag = -1;
-				zanstatus();
-				aDialog.dismiss();
-				break;
-			case -1:
-				dozan(-1);
-				tag = 0;
-				zanstatus();
-				aDialog.dismiss();
-				break;
-			default:
-				break;
-			}
+		    dozan(-1);
 			break;
 		case R.id.addcom:
 			Intent intent = new Intent();
@@ -173,6 +127,52 @@ public class Answer extends Activity implements OnClickListener {
 			break;
 		}
 		
+	}
+	private void zanno(int id){
+		switch (id) {
+		case 1:
+			switch (tag) {
+			case 0:
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())+1));
+				tag = 1;
+				aDialog.dismiss();
+				break;
+			case 1:
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())-1));
+                tag = 0;
+				aDialog.dismiss();
+				break;
+			case -1:
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())+1));
+				tag = 1;
+				aDialog.dismiss();
+				break;
+			default:
+				break;
+			}
+			break;
+		case -1:
+			switch (tag) {
+			case 0:
+				tag = -1;
+				aDialog.dismiss();
+				break;
+			case 1:
+				zanorno.setText(String.valueOf(Integer.valueOf(zanorno.getText().toString())-1));
+				tag = -1;
+				aDialog.dismiss();
+				break;
+			case -1:
+				tag = 0;
+				aDialog.dismiss();
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void zanstatus() {
@@ -201,7 +201,7 @@ public class Answer extends Activity implements OnClickListener {
 			break;
 		}
 	}
-    private void dozan(int value){
+    private void dozan(final int value){
     	String url = "http://w.hihwei.com/?/question/ajax/answer_vote/";
     	RequestParams params = new RequestParams();
     	params.put("answer_id", answer_id);
@@ -212,7 +212,9 @@ public class Answer extends Activity implements OnClickListener {
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
+				aDialog.dismiss();
 				Toast.makeText(Answer.this, "选择失败", Toast.LENGTH_LONG).show();
+				
 			}
 
 			@Override
@@ -232,10 +234,13 @@ public class Answer extends Activity implements OnClickListener {
 			   
 			    if (errno == 1) {
 			    	Toast.makeText(Answer.this,"选择成功" , Toast.LENGTH_LONG).show();
+			    	zanno(value);
+			    	zanstatus();
 				} else {
 
                     try {
 						String err = jsonObject.getString("err");
+						aDialog.dismiss();
 						Toast.makeText(Answer.this,err , Toast.LENGTH_LONG).show();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -281,7 +286,6 @@ public class Answer extends Activity implements OnClickListener {
 						String add_time = rsm.getString("add_time");
 						String signature = rsm.getString("signature");
 						tag = rsm.getInt("vote_value");
-						System.out.println(tag+"   qweqwe");
 						zanstatus();
 						sign.setText(signature);
 						 String agree_count = rsm.getString("agree_count");

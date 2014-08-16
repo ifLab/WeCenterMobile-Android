@@ -117,7 +117,7 @@
    <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
-        android:background="#dcdcdc" />
+        android:background="#C9CFCA" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -127,17 +127,17 @@
 
        
 
-        <Button
+        <TextView
             android:id="@+id/addcom"
+            android:clickable="true"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:layout_weight="1"
-            android:background="#e66c13"
+            android:background="@drawable/list_item"
             android:gravity="center"
             android:textSize="15sp"
-            android:textColor="#ffffff"
             android:text="添加评论" />
         <View
         android:layout_width="0.3dp"
@@ -158,8 +158,5 @@
         
 
     </LinearLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.3dp"
-        android:background="#dcdcdc" />
+  
 </LinearLayout>
