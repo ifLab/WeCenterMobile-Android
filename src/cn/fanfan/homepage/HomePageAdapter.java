@@ -79,7 +79,8 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 		viewHolder.action.setText(itemModel.getAction());
 		viewHolder.userName.setText(itemModel.getUserName());
 		viewHolder.itemTitle.setText(itemModel.getItemTitle());
-		String replacAnswer = itemModel.getBestAnswer().replaceAll("<img [^>]*>", "图片");
+		String replacAnswer = itemModel.getBestAnswer().replaceAll(
+				"<img [^>]*>", "图片");
 		viewHolder.bestAnswer.setText(replacAnswer);
 		// 设置各个对象的监听事件
 		viewHolder.llItemLayout.setOnClickListener(new OnClickListener() {
@@ -103,6 +104,15 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			}
 		});
 		viewHolder.avatarImage.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				UserInfoActivity.actionStar(context,
+						Integer.toString(itemModel.getUserUid()));
+			}
+		});
+		viewHolder.userName.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
