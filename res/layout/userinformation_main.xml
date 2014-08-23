@@ -43,20 +43,35 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/tv_username"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:ellipsize="marquee"
-                    android:lines="1"
-                    android:textSize="24sp" />
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/tvSignature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:textColor="#bfbfbf" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0.2dp"
                     android:layout_marginBottom="6dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="4dp"
                     android:background="#a987888D" />
 
                 <LinearLayout

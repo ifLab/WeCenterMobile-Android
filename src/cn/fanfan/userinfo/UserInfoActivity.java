@@ -52,12 +52,13 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private TextView tv_replys;
 	private TextView tv_asks;
 	private TextView tv_articles, tv_news;
+	private TextView tvSignature;
 	private TextView tv_focusi_person_comment, tv_ifocus_person_comment,
 			tv_topic_comment;
 	private String uid;
 	protected String errno;
 	protected String err;
-	protected String user_name;
+	protected String user_name, signature;
 	protected String avatar_file = "null";
 	protected String fans_count;
 	protected String friend_count;
@@ -167,6 +168,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tv_focusi_person_comment = (TextView) findViewById(R.id.tv_focusi_person_comment);
 		tv_ifocus_person_comment = (TextView) findViewById(R.id.tv_ifocus_person_comment);
 		tv_topic_comment = (TextView) findViewById(R.id.tv_topic_comment);
+		tvSignature = (TextView) findViewById(R.id.tvSignature);
 		// 判断本机上已登录用户，如果是可以编辑并隐藏关注按钮。否则，隐藏编辑按钮显示关注按钮。
 		if (status == GlobalVariables.AVAILABLE_EDIT) {
 			bt_focus.setVisibility(View.INVISIBLE);
@@ -217,6 +219,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							JSONObject rsmcontent = (JSONObject) jsonParser2
 									.nextValue();
 							user_name = rsmcontent.getString("user_name");
+							signature = rsmcontent.getString("signature");
 							avatar_file = rsmcontent.getString("avatar_file");
 							Log.i("avatar_file", avatar_file);
 							fans_count = rsmcontent.getString("fans_count");
@@ -277,6 +280,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tv_collect.setText(answer_favorite_count);
 		tv_replys.setText(answer_count);
 		tv_asks.setText(question_count);
+		tvSignature.setText(signature);
 		// 下载用户头像
 		if (avatarurl != "null") {
 			AsyncImageGet getAvatar = new AsyncImageGet(
