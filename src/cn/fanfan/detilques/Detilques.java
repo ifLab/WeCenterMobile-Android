@@ -154,6 +154,7 @@ public class Detilques extends Activity {
 				JSONObject jsonObject = null;
 				try {
  	                jsonObject = new JSONObject(information);
+ 	                System.out.println(jsonObject);
 					errno = jsonObject.getInt("errno");
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block

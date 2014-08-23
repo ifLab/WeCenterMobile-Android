@@ -22,6 +22,7 @@ import com.loopj.android.http.RequestParams;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -77,8 +79,6 @@ public class EssayCom extends Activity implements OnItemClickListener,
 		client.setCookieStore(myCookieStore);
 		comment = (EditText) findViewById(R.id.comment);
 		publish = (ImageButton) findViewById(R.id.publish);
-		comment.setVisibility(View.GONE);
-		publish.setVisibility(View.GONE);
 		publish.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -89,7 +89,8 @@ public class EssayCom extends Activity implements OnItemClickListener,
 				params.put("message", comment.getText().toString());
 				params.put("at_uid", atuid);
 				postcom(params);
-				Getcom(id);
+				comment.setText("");
+				refresh();
 			}
 		});
 		comitems = new ArrayList<EssatComitem>();
@@ -102,17 +103,26 @@ public class EssayCom extends Activity implements OnItemClickListener,
 		Getcom(id);
 
 	}
-
+	public boolean checkKeyboardShowing(){
+		comlist.requestFocus();
+		InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+		boolean active = imm.isActive(comment);
+		imm.hideSoftInputFromWindow(comment.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		
+		comment.clearFocus();
+		return active;
+	}
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-/*		aDialog = new Dialog(this);
+		aDialog = new Dialog(this);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View view = inflater.inflate(R.layout.dialog, null);
-		Button zan = (Button) view.findViewById(R.id.zan);
+	    zan = (Button) view.findViewById(R.id.zan);
 		Button back = (Button) view.findViewById(R.id.backanswer);
 		Button cancel = (Button) view.findViewById(R.id.cancel);
 		voteval = comitems.get(arg2).getVotevalue();
+		System.out.println(voteval);
 		zanstatus();
 		aDialog.setTitle("选择");
 		aDialog.setCanceledOnTouchOutside(true);
@@ -120,7 +130,7 @@ public class EssayCom extends Activity implements OnItemClickListener,
 		zan.setOnClickListener(new Click(arg2));
 		back.setOnClickListener(new Click(arg2));
 		cancel.setOnClickListener(new Click(arg2));
-		aDialog.show();*/
+		aDialog.show();
 	}
 
 	class Click implements android.view.View.OnClickListener {
@@ -180,13 +190,40 @@ public class EssayCom extends Activity implements OnItemClickListener,
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-
+				Toast.makeText(EssayCom.this, "赞美失败", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
+				String info = new String(arg2);
+				System.out.println(info);
+				JSONObject jsonObject = null;
+				int errno = 0;
+				try {
+					jsonObject = new JSONObject(info);
+					errno = jsonObject.getInt("errno");
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
+				if (errno == 1) {
+					Toast.makeText(EssayCom.this, "赞美成功", Toast.LENGTH_LONG).show();
+					refresh();
+				} else {
+
+					try {
+						String err = jsonObject.getString("err");
+						Toast.makeText(EssayCom.this, err, Toast.LENGTH_LONG)
+								.show();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+				
 			}
 
 		});
@@ -200,7 +237,7 @@ public class EssayCom extends Activity implements OnItemClickListener,
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-
+               
 			}
 
 			@Override
@@ -281,6 +318,18 @@ public class EssayCom extends Activity implements OnItemClickListener,
 
 		});
 	}
+	private void refresh(){
+		comitems.clear();
+		checkKeyboardShowing();
+		Thread.currentThread();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Getcom(id);
+	}
 
 	private void postcom(RequestParams params) {
 		String url = "http://w.hihwei.com/?/api/publish/save_comment/";
@@ -296,6 +345,7 @@ public class EssayCom extends Activity implements OnItemClickListener,
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
+				atuid="";
 				Toast.makeText(EssayCom.this, "评论成功", Toast.LENGTH_LONG).show();
 			}
 
