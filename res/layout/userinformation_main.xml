@@ -44,7 +44,7 @@
                 android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
@@ -53,8 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:ellipsize="marquee"
-                        android:lines="1"
+                        android:singleLine="true"
                         android:textSize="24sp" />
 
                     <TextView
@@ -62,15 +61,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:ellipsize="end"
-                        android:lines="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:singleLine="true"
                         android:textColor="#bfbfbf" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0.2dp"
-                    android:layout_marginBottom="6dp"
                     android:layout_marginTop="4dp"
                     android:background="#a987888D" />
 
@@ -82,16 +82,18 @@
                     <LinearLayout
                         android:id="@+id/lv_topics"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/userinfo_item_style"
+                        android:gravity="center"
                         android:orientation="vertical" >
 
                         <TextView
                             android:id="@+id/tv_topic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:text="0" />
 
                         <TextView
@@ -107,23 +109,23 @@
                         android:layout_width="0.3dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="6dp"
-                        android:layout_marginTop="6dp"
                         android:background="#a987888D" />
 
                     <LinearLayout
                         android:id="@+id/lv_ifocus_person"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/userinfo_item_style"
+                        android:gravity="center"
                         android:orientation="vertical" >
 
                         <TextView
                             android:id="@+id/tv_ifocus_person"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:text="0" />
 
                         <TextView
@@ -139,23 +141,23 @@
                         android:layout_width="0.3dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="6dp"
-                        android:layout_marginTop="6dp"
                         android:background="#a987888D" />
 
                     <LinearLayout
                         android:id="@+id/lv_focusi_person"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/userinfo_item_style"
+                        android:gravity="center"
                         android:orientation="vertical" >
 
                         <TextView
                             android:id="@+id/tv_focusi_person"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:text="0" />
 
                         <TextView
@@ -173,8 +175,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
             android:background="#a987888D" />
 
         <LinearLayout
@@ -233,6 +233,8 @@
                     android:id="@+id/bt_focus"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/btn_green_normal"
                     android:text="关注"
                     android:textColor="#ffffff"
@@ -243,8 +245,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
             android:background="#DCE0DD" />
 
         <LinearLayout
@@ -255,7 +255,8 @@
             <LinearLayout
                 android:id="@+id/lv_replys"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
+                android:background="@drawable/userinfo_item_style"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -278,14 +279,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
 
             <LinearLayout
                 android:id="@+id/lv_asks"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
+                android:background="@drawable/userinfo_item_style"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -308,14 +308,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
 
             <LinearLayout
                 android:id="@+id/lv_articles"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
+                android:background="@drawable/userinfo_item_style"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -338,8 +337,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
         </LinearLayout>
 
@@ -352,14 +349,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
 
             <LinearLayout
                 android:id="@+id/lv_news"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
+                android:background="@drawable/userinfo_item_style"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -382,14 +378,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
 
             <LinearLayout
                 android:id="@+id/lv_search_friens"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
+                android:background="@drawable/userinfo_item_style"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -411,8 +406,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
                 android:background="#DCE0DD" />
         </LinearLayout>
     </LinearLayout>
