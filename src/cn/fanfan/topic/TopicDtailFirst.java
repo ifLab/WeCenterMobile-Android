@@ -87,8 +87,8 @@ public class TopicDtailFirst extends Fragment {
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				JSONObject jsonObject;
-				System.out.println(new String(arg2));
-				Toast.makeText(getActivity(), new String(arg2), Toast.LENGTH_SHORT).show();
+				//System.out.println(new String(arg2));
+				//Toast.makeText(getActivity(), new String(arg2), Toast.LENGTH_SHORT).show();
 				try {
 					jsonObject = new JSONObject(new String(arg2));
 					int errno = jsonObject.getInt("errno");
