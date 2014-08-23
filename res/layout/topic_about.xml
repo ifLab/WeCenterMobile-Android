@@ -35,7 +35,7 @@
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/topic_about_avatar"
             android:padding="3dp"
-            android:text="鲜奶油"
+            android:text=""
             android:textColor="@color/text_color_really_black"
             android:textSize="@dimen/text_size_medium" />
 
@@ -49,7 +49,7 @@
             android:ellipsize="end"
             android:lineSpacingMultiplier="1.2"
             android:padding="3dp"
-            android:text="人见人爱的海绵蛋糕空间的副本还不如恶恶法呢如妃哦我儿女覅个 分俄方额丰富非法违法我few访问国外俄方围观围观俄官方伟哥伟哥  俄方汪峰汪峰"
+            android:text=""
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_large" />
 
@@ -77,7 +77,7 @@
                 android:drawableLeft="@drawable/ic_followers"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-                android:text="1102624人关注"
+                android:text="人关注"
                 android:textColor="@color/text_color_gray" />
 
             <Button
