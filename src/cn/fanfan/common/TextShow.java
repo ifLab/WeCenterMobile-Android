@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.Html;
 import android.text.Html.ImageGetter;
+import android.text.method.LinkMovementMethod;
 import android.text.Spanned;
 import android.widget.TextView;
 
@@ -102,6 +103,7 @@ public class TextShow extends AsyncTask<String, Integer, Spanned> {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		textView.setText(result);
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 }
