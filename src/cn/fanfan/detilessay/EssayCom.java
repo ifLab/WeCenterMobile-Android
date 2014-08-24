@@ -70,6 +70,9 @@ public class EssayCom extends Activity implements OnItemClickListener,
 		setContentView(R.layout.comlist);
 
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("ндубфюбш");
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		Intent intent = getIntent();

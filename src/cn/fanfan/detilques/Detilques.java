@@ -72,6 +72,9 @@ public class Detilques extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detilques);
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("Œ Ã‚œÍœ∏");
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		client = new AsyncHttpClient();
