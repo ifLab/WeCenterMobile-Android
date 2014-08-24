@@ -7,6 +7,7 @@ import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.draft.Draft;
 import cn.fanfan.found.FoundFrg;
+import cn.fanfan.homepage.HomePageFragment;
 import cn.fanfan.question.Question;
 import cn.fanfan.topic.Fragment_topic;
 import cn.fanfan.topic.imageload.FileUtils;
@@ -83,15 +84,15 @@ public class MainActivity extends FragmentActivity implements
 				fragmentManager.beginTransaction()
 						.replace(R.id.container, fragment).commit();
 			} else {
-			/*	sharedPreferences = new FanfanSharedPreferences(
+				sharedPreferences = new FanfanSharedPreferences(
 						MainActivity.this);
-				//Fragment fragment = new HomePageFragment();
+				Fragment fragment = new HomePageFragment();
 				Bundle bundle = new Bundle();
 				bundle.putString("uid", sharedPreferences.getUid(""));
 				bundle.putInt("position", position + 1);
-				//fragment.setArguments(bundle);
+				fragment.setArguments(bundle);
 				fragmentManager.beginTransaction()
-						.replace(R.id.container, fragment).commit();*/
+						.replace(R.id.container, fragment).commit();
 			}
 		} else if (position == 1) {
 			fragmentManager.beginTransaction()

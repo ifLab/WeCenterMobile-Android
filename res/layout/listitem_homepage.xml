@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llItemLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp" >
 
-            <ImageView
+            <com.loopj.android.image.SmartImageView
                 android:id="@+id/ivHomeListItemAvatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -59,8 +60,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:text=""
-        android:textSize="19sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:id="@+id/llHomeListItemContent"
