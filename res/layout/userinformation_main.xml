@@ -61,6 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:layout_marginLeft="3dp"
                         android:ellipsize="marquee"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
@@ -100,6 +101,7 @@
                             android:id="@+id/tv_topic_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:text="我关注的话题"
                             android:textColor="#D3D3D3"
                             android:textSize="12dp" />
@@ -132,6 +134,7 @@
                             android:id="@+id/tv_ifocus_person_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:text="我关注的人"
                             android:textColor="#D3D3D3"
                             android:textSize="12dp" />
@@ -164,6 +167,7 @@
                             android:id="@+id/tv_focusi_person_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:text="关注我的人"
                             android:textColor="#D3D3D3"
                             android:textSize="12dp" />

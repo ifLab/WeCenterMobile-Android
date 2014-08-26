@@ -69,7 +69,7 @@ public class HomePageFragment extends Fragment {
 				false);
 		tvHomePageLoading = (TextView) fragmentView
 				.findViewById(R.id.tvHomePageLoading);
-		getHomePageInfo(mPage);// 获取数据
+		getHomePageInfo(mPage, false);// 获取数据
 		final MainActivity activity = (MainActivity) getActivity();
 		adapter = new HomePageAdapter(activity, R.layout.listitem_homepage,
 				itemDataList);
@@ -111,10 +111,8 @@ public class HomePageFragment extends Fragment {
 								.setPullLabel("下拉刷新");
 						mPullRefreshListView.getLoadingLayoutProxy()
 								.setReleaseLabel("释放开始刷新");
-						itemDataList.clear();
-						adapter.notifyDataSetChanged();
-						getHomePageInfo(mPage);
-						totalRow = 10;
+						getHomePageInfo(mPage, true);
+						totalRow = 1;// 防止为0时无法上拉更多
 					}
 
 					@Override
@@ -129,13 +127,13 @@ public class HomePageFragment extends Fragment {
 						mPullRefreshListView.getLoadingLayoutProxy()
 								.setReleaseLabel("释放开始加载");
 						mPage = mPage + 1;
-						getHomePageInfo(mPage);
+						getHomePageInfo(mPage, false);
 					}
 				});
 		return fragmentView;
 	}
 
-	private void getHomePageInfo(int page) {
+	private void getHomePageInfo(int page, final boolean wantClearData) {
 		NetworkState networkState = new NetworkState();
 		final MainActivity activity = (MainActivity) getActivity();
 		if (networkState.isNetworkConnected(activity)) {
@@ -165,6 +163,11 @@ public class HomePageFragment extends Fragment {
 				public void onSuccess(int arg0, Header[] arg1,
 						byte[] responseContent) {
 					// TODO Auto-generated method stub
+					//如果为下拉刷新则需要清除旧数据
+					if (wantClearData) {
+						itemDataList.clear();
+						adapter.notifyDataSetChanged();
+					}
 					// 请求成功后解析数据
 					layoutType = HomePageItemModel.LAYOUT_TYPE_SIMPLE;
 					String string = new String(responseContent);
@@ -303,6 +306,7 @@ public class HomePageFragment extends Fragment {
 							default:
 								break;
 							}
+
 							// 加载到ListItemModel
 							HomePageItemModel item = new HomePageItemModel(
 									layoutType, avatarUrl, userName, userUid,

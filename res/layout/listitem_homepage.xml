@@ -73,7 +73,6 @@
             android:id="@+id/tvHomeListItemAgreeCount"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#FF7C47"
             android:gravity="center"
             android:text=""
