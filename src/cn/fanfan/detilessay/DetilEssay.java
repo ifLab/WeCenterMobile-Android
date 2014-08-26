@@ -59,6 +59,9 @@ public class DetilEssay extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detilessay);
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("ндубоЙо╦");
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		client = new AsyncHttpClient();

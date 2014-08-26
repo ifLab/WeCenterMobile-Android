@@ -54,7 +54,7 @@ public class FoundPager extends Fragment {
 	private ImageDownLoader imageDownLoader;
 	private int total_row;
 	private LinearLayout footerLinearLayout;
-	private TextView footText;
+	private TextView footText,tvHomePageLoading;
 	private Bundle bundle;
 	private String type;
 	private String commend;
@@ -67,6 +67,9 @@ public class FoundPager extends Fragment {
 		// TODO Auto-generated method stub
 		View rootView = inflater.inflate(R.layout.foundlist, container, false);
 		listView = (ListView)rootView.findViewById(R.id.fodlist);
+		tvHomePageLoading = (TextView) rootView
+				.findViewById(R.id.tvHomePageLoading);
+		
 		newlist = new ArrayList<Founditem>();
 		imageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
@@ -247,6 +250,7 @@ public class FoundPager extends Fragment {
 						adapter.notifyDataSetChanged();
 						currentPage ++;
 					}
+					tvHomePageLoading.setVisibility(View.INVISIBLE);
 				}
 
 				@Override

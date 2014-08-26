@@ -22,10 +22,10 @@ public class FoundFrg extends Fragment {
 	 private int offset = 0;// ¶¯»­Í¼Æ¬Æ«ÒÆÁ¿
 	 private int currIndex = 0;// µ±Ç°Ò³¿¨±àºÅ
 	 private int bmpW;// ¶¯»­Í¼Æ¬¿í¶È
-	 private int itemcount = 4;
+	 private int itemcount = 3;
 	 private ViewPager viewPager;
 	 private ImageView cursor;// ¶¯»­Í¼Æ¬
-	 private TextView t1, t2, t3,t4;// Ò³¿¨Í·±ê
+	 private TextView t1, t2, t3;// Ò³¿¨Í·±ê
 	 private FoundPageAdapter foundPageAdapter;
 	 public FoundFrg() {
 		// TODO Auto-generated constructor stub
@@ -39,7 +39,7 @@ public class FoundFrg extends Fragment {
          t1 = (TextView) rootView.findViewById(R.id.text1);
 	     t2 = (TextView) rootView.findViewById(R.id.text2);
 	     t3 = (TextView) rootView.findViewById(R.id.text3);
-	     t4 = (TextView) rootView.findViewById(R.id.text4);
+	
 	     InitTextView();
 	     InitImageView();
 	     viewPager = (ViewPager) rootView.findViewById(R.id.foundpager);
@@ -50,7 +50,7 @@ public class FoundFrg extends Fragment {
 	     t1.setOnClickListener(new MyOnClickListener(0));
 	     t2.setOnClickListener(new MyOnClickListener(1));
 	     t3.setOnClickListener(new MyOnClickListener(2));
-	     t4.setOnClickListener(new MyOnClickListener(3));
+	
 	    }
 	 private void InitViewPager() {
 
@@ -92,7 +92,7 @@ public class FoundFrg extends Fragment {
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return 4;
+				return 3;
 			}
 			@Override
 			public Fragment getItem(int arg0) {
@@ -104,16 +104,12 @@ public class FoundFrg extends Fragment {
 				case 0:
 					type = "new";
 					commend = "0";
-					break;
+					break;			
 				case 1:
-					type = null;
-					commend = "1";
-					break;
-				case 2:
 					type = "hot";
 					commend = "0";
 					break;
-				case 3:
+				case 2:
 					type = "unresponsive";
 					commend = "0";
 					break;

@@ -34,6 +34,9 @@ public class TopicAbout extends Activity {
 		setContentView(R.layout.questopic);
 		topiclist  = (ListView)findViewById(R.id.topiclist);
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("相关话题");
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		ids = new ArrayList<String>();

@@ -10,16 +10,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.http.Header;
 import org.apache.http.client.CookieStore;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import cn.fanfan.common.MyProgressDialog;
 import cn.fanfan.main.R;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -39,10 +43,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -76,6 +82,9 @@ public class Question extends FragmentActivity {
 		super.onCreate(arg0);
 		setContentView(R.layout.quespagr);
 		actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("提问");
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		text1 = new Quesfrang();
@@ -123,6 +132,7 @@ public class Question extends FragmentActivity {
 			viewPager.setCurrentItem(index);
 		}
 	};
+
 
 	private void InitImageView() {
 		Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.a);

@@ -61,6 +61,9 @@ public class Answer extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.answer);
     	ActionBar actionBar = getActionBar();
+    	actionBar.setIcon(null);
+    	actionBar.setTitle("»Ø´ðÏêÏ¸");
+    	actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		client = new AsyncHttpClient();
