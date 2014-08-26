@@ -84,7 +84,7 @@ public class FoundAdapter extends BaseAdapter{
 				break;
 			}
 			 Bitmap bitmap = imageDownLoader.getCacheBitmap(mImageUrl.replaceAll("[^\\w]", ""));
-			 System.out.println(bitmap);
+			
 				if (bitmap != null) {
 					
 					hodler.userimage.setImageBitmap(bitmap);

@@ -72,6 +72,9 @@ public class Detilques extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detilques);
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("Œ Ã‚œÍœ∏");
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
 		client = new AsyncHttpClient();
@@ -154,6 +157,7 @@ public class Detilques extends Activity {
 				JSONObject jsonObject = null;
 				try {
  	                jsonObject = new JSONObject(information);
+ 	                System.out.println(jsonObject);
 					errno = jsonObject.getInt("errno");
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block

@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
+import cn.fanfan.detilques.Answer;
+import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
@@ -30,8 +32,6 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 	public TopicDetailSecondAdapter(Context context,
 			ArrayList<BestAnswerModel> datas) {
 		super();
-		System.out.println(datas);
-		System.out.println(datas.size());
 		this.context = context;
 		this.datas = datas;
 	}
@@ -91,6 +91,27 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				UserInfoActivity.actionStar(context, String.valueOf(datas.get(position).getUid()));
+			}
+		});
+		viewHolder.essence_title.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(context, Detilques.class);
+				intent.putExtra("questionid", String.valueOf(datas.get(position).getQuestion_id()));
+				context.startActivity(intent);
+			}
+		});
+		viewHolder.essencejianlve.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(context,Answer.class);
+				intent.putExtra("answerid", String.valueOf(datas.get(position).getAnswer_id()));
+				context.startActivity(intent);	
 			}
 		});
 		return convertView;

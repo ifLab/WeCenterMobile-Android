@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/bg_list_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_list_item" >
 
     <TextView
         android:id="@+id/article_title"
@@ -10,21 +10,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:padding="@dimen/horizontal_padding_large"
-        android:textSize="17sp"
-        android:text="头发一股很健康" />
+        android:text="头发一股很健康"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:paddingTop="@dimen/horizontal_padding_small"
+        android:paddingRight="@dimen/horizontal_padding_small"
+        android:paddingBottom="@dimen/horizontal_padding_small"
+        android:paddingLeft="@dimen/horizontal_padding_medium"
+        android:textSize="17sp" />
 
+   
     <TextView
         android:id="@+id/article_message"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/article_title"
-        android:paddingLeft="@dimen/horizontal_padding_large"
-        android:paddingRight="@dimen/horizontal_padding_large"
-        android:paddingBottom="@dimen/horizontal_padding_medium"
-        android:maxLines="3"
         android:ellipsize="end"
-        android:text="" />
+        android:layout_marginTop="3dp"
+        android:maxLines="3"
+        android:paddingLeft="@dimen/horizontal_padding_medium"
+        android:paddingRight="@dimen/horizontal_padding_medium"
+        android:paddingBottom="@dimen/horizontal_padding_medium"
+        android:text="我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你"
+        android:textColor="@color/text_color_gray" />
 
 </RelativeLayout>

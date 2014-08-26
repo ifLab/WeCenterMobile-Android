@@ -84,6 +84,10 @@ public class WriteAnswer extends Activity {
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.writeanswer);
     	actionBar = getActionBar();
+    	actionBar.setIcon(null);
+    	actionBar.setTitle("»Ø´ð");
+    	actionBar.setDisplayUseLogoEnabled(false);
+    	actionBar.setDisplayHomeAsUpEnabled(true);
     	actionBar.show();
     	Intent intent = getIntent();
     	question_id = intent.getStringExtra("questionid");
@@ -110,9 +114,6 @@ public class WriteAnswer extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
-		case R.id.postp:
-			showDialog();
-			break;
 		case R.id.publish:
 			 RequestParams params = new RequestParams();
 			 params.put("question_id", question_id);
@@ -121,6 +122,10 @@ public class WriteAnswer extends Activity {
              postanswer(params);
           
 			break;
+		case android.R.id.home:
+			finish();
+			break;
+
 		default:
 			break;
 		}

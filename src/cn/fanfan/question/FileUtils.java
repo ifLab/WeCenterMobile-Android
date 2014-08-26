@@ -15,6 +15,8 @@ public class FileUtils {
 			+ "/formats/";
 	public static String SDPATH1 = Environment.getExternalStorageDirectory()
         + "/fanfantmp/";
+	public static String SDPATH2 = Environment.getExternalStorageDirectory()
+	        + "/fanfantopic/";
 	public static void saveBitmap(Bitmap bm, String picName) {
 		Log.e("", "保存图片");
 		try {

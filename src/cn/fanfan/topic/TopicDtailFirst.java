@@ -80,14 +80,15 @@ public class TopicDtailFirst extends Fragment {
 		if (has_focus == 1) {
 			params.put("type", "cancel");
 		}
-		client.post("http://w.hihwei.com/api/focus_topic.php", params, new AsyncHttpResponseHandler() {
+		String url = Config.getValue("TopicDtailFirst");
+		client.post(url , params, new AsyncHttpResponseHandler() {
 			
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				JSONObject jsonObject;
-				System.out.println(new String(arg2));
-				Toast.makeText(getActivity(), new String(arg2), Toast.LENGTH_SHORT).show();
+				//System.out.println(new String(arg2));
+				//Toast.makeText(getActivity(), new String(arg2), Toast.LENGTH_SHORT).show();
 				try {
 					jsonObject = new JSONObject(new String(arg2));
 					int errno = jsonObject.getInt("errno");

@@ -22,12 +22,15 @@ import cn.fanfan.detilques.TopicAbout;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
+import cn.fanfan.userinfo.UserInfoActivity;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -47,6 +50,7 @@ public class DetilEssay extends Activity implements OnClickListener {
 	private int tagagree = 0;
 	private String articleid;
 	private LinearLayout layout;
+	private String uid;
 
 	// private ComListView listView;
 	@Override
@@ -54,6 +58,12 @@ public class DetilEssay extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detilessay);
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setTitle("文章详细");
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.show();
 		client = new AsyncHttpClient();
 		myCookieStore = new PersistentCookieStore(this);
 		client.setCookieStore(myCookieStore);
@@ -73,6 +83,17 @@ public class DetilEssay extends Activity implements OnClickListener {
 		agree.setOnClickListener(this);
 		disagree.setOnClickListener(this);
 		addcom.setOnClickListener(this);
+		userimage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent1 = new Intent();
+				intent1.putExtra("uid", uid);
+				intent1.setClass(DetilEssay.this,UserInfoActivity.class);
+				startActivity(intent1);
+			}
+		});
 		Getinfo();
 	}
 
@@ -82,55 +103,76 @@ public class DetilEssay extends Activity implements OnClickListener {
 		switch (arg0.getId()) {
 
 		case R.id.agree:
-			switch (tagagree) {
-			case 1:
-				tagagree = 0;
-				zanorno();
-				dozan(0);
-				break;
-			case 0:
-				tagagree = 1;
-				zanorno();
-				dozan(1);
-				break;
-			case -1:
-				tagagree = 1;
-				zanorno();
-				dozan(1);
-				break;
-
-			default:
-				break;
+			if (tagagree == 0 ||tagagree == -1) {
+				dozan(1,1);
+			} else {
+                dozan(0,1);
 			}
-
-			break;
+		     break;
 		case R.id.disagree:
-			switch (tagagree) {
-			case 1:
-				tagagree = -1;
-				zanorno();
-				dozan(-1);
-				break;
-			case 0:
-				tagagree = -1;
-				zanorno();
-				dozan(-1);
-				break;
-			case -1:
-				tagagree = 0;
-				zanorno();
-				dozan(0);
-				break;
-
-			default:
-				break;
+			if (tagagree == 0 || tagagree == 1) {
+				dozan(-1,-1);
+			} else {
+                dozan(0,-1);
 			}
-			break;
+		     break;
 		case R.id.addcom:
 			Intent intent = new Intent();
 			intent.putExtra("artid", articleid);
 			intent.setClass(this, EssayCom.class);
 			startActivity(intent);
+			break;
+		default:
+			break;
+		}
+	}
+	private void zanno(int id){
+		switch (id) {
+		case 1:
+
+			switch (tagagree) {
+			case 1:
+				agree.setText(String.valueOf(Integer.valueOf(agree.getText().toString())-1));
+				tagagree = 0;
+				zanorno();
+				break;
+			case 0:
+				agree.setText(String.valueOf(Integer.valueOf(agree.getText().toString())+1));
+				tagagree = 1;
+				zanorno();
+				break;
+			case -1:
+				agree.setText(String.valueOf(Integer.valueOf(agree.getText().toString())+1));
+				tagagree = 1;
+				zanorno();
+				break;
+
+			default:
+				break;
+			}
+
+			break;
+		case -1:
+			switch (tagagree) {
+			case 1:
+				agree.setText(String.valueOf(Integer.valueOf(agree.getText().toString())-1));
+				tagagree = -1;
+				zanorno();
+				break;
+			case 0:
+				tagagree = -1;
+				zanorno();
+				break;
+			case -1:
+				tagagree = 0;
+				zanorno();
+				break;
+
+			default:
+				break;
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -203,6 +245,9 @@ public class DetilEssay extends Activity implements OnClickListener {
 						JSONObject artinfo = rsm.getJSONObject("article_info");
 						arttitle.setText(artinfo.getString("title"));
 						String message = artinfo.getString("message");
+						String votes = artinfo.getString("votes");
+						uid = artinfo.getString("uid");
+						agree.setText(votes);
 						final String article_topics = rsm.getString("article_topics");
 						layout.setOnClickListener(new OnClickListener() {
 
@@ -256,7 +301,7 @@ public class DetilEssay extends Activity implements OnClickListener {
 		});
 	}
 
-	private void dozan(int value) {
+	private void dozan(int value,final int id) {
 		String url = "http://w.hihwei.com/?/article/ajax/article_vote/";
 		RequestParams params = new RequestParams();
 		params.put("type", "article");
@@ -288,6 +333,7 @@ public class DetilEssay extends Activity implements OnClickListener {
 				}
 
 				if (errno == 1) {
+					zanno(id);
 					Toast.makeText(DetilEssay.this, "选择成功", Toast.LENGTH_LONG)
 							.show();
 				} else {
@@ -314,4 +360,16 @@ public class DetilEssay extends Activity implements OnClickListener {
 		}
 		return in;
 	}
+	  public boolean onOptionsItemSelected(MenuItem item) {
+			// TODO Auto-generated method stub
+			switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				break;
+
+			default:
+				break;
+			}
+			return super.onOptionsItemSelected(item);
+		}
 }

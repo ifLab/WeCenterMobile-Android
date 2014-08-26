@@ -81,6 +81,9 @@ public class ComList extends Activity implements OnItemClickListener,
 		setContentView(R.layout.comlist);
 
     	ActionBar actionBar = getActionBar();
+    	actionBar.setIcon(null);
+    	actionBar.setTitle("»Ø´ðÆÀÂÛ");
+    	actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();		
 		client = new AsyncHttpClient();

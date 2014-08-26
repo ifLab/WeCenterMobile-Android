@@ -183,7 +183,7 @@
                 android:drawableLeft="@drawable/ic_vote_down_normal"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:text="0"
+                android:text=""
                 android:textColor="#C4C4C4" />
         </LinearLayout>
 

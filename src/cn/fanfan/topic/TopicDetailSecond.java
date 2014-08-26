@@ -42,7 +42,7 @@ public class TopicDetailSecond extends Fragment {
 		Bundle bundle = getArguments();
 		topic_id = bundle.getString("topic_id");
 		getData();
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		/*listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -53,7 +53,7 @@ public class TopicDetailSecond extends Fragment {
 				startActivity(intent);
 			}
 			
-		});
+		});*/
 		return view;
 	}
 	public void getData() {
