@@ -69,7 +69,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 		}else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.essence_title.setText(datas.get(position).getQuestion_content());
+		viewHolder.essence_title.setText(datas.get(position).getQuestion_content().trim());
 		String answer = datas.get(position).getAnswer_content();
 		Pattern p = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
 		Matcher m = p.matcher(answer);

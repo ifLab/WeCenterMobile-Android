@@ -51,7 +51,7 @@ public class MyAnswerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.foundlist);
+		setContentView(R.layout.draft);
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -59,7 +59,7 @@ public class MyAnswerActivity extends Activity {
 		// actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.show();
 		datas = new ArrayList<BestAnswerModel>();
-		listView = (ListView)findViewById(R.id.fodlist);
+		listView = (ListView)findViewById(R.id.draft_lisview);
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(
 				MyAnswerActivity.this).inflate(R.layout.next_page_footer, null);
 		footText = (TextView) footerLinearLayout.findViewById(R.id.footer_text);
