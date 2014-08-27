@@ -13,16 +13,12 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
-import cn.fanfan.detilques.Answer;
 import cn.fanfan.main.R;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class TopicDetailSecond extends Fragment {
@@ -34,9 +30,9 @@ public class TopicDetailSecond extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.foundlist,
+		View view = inflater.inflate(R.layout.draft,
 				container, false);
-		listView = (ListView)view.findViewById(R.id.fodlist);
+		listView = (ListView)view.findViewById(R.id.draft_lisview);
 		listView.setDividerHeight(10);
 		datas = new ArrayList<BestAnswerModel>();
 		Bundle bundle = getArguments();
