@@ -107,7 +107,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			if (networkState.isNetworkConnected(UserInfoActivity.this)) {
 				getUserInfo();
 			} else {
-				showTips(R.drawable.tips_error, R.string.net_break);
+				showTips(R.drawable.tips_error, R.string.net_notconnect);
 			}
 
 		}
