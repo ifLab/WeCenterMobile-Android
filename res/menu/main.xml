@@ -7,5 +7,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="退出"/>
+    <item
+        android:id="@+id/feedback"
+        android:orderInCategory="200"
+        android:showAsAction="never"
+        android:title="反馈"/>
 
 </menu>
