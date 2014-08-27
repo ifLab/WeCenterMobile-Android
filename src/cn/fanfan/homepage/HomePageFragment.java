@@ -65,7 +65,6 @@ public class HomePageFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		 UmengUpdateAgent.update(getActivity());//调用友盟自动更新组件
 		View fragmentView;
 		fragmentView = inflater.inflate(R.layout.fragment_homepage, container,
 				false);
@@ -75,7 +74,7 @@ public class HomePageFragment extends Fragment {
 		if (networkState.isNetworkConnected(getActivity())) {
 			getHomePageInfo(mPage, false);// 获取数据
 		} else {
-			
+
 			Toast.makeText(getActivity(), "没有网络耶！设置下吧", Toast.LENGTH_LONG)
 					.show();
 			tvHomePageLoading.setText("没有网络耶！设置下吧");

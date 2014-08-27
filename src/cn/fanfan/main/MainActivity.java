@@ -2,6 +2,7 @@ package cn.fanfan.main;
 
 import com.loopj.android.http.PersistentCookieStore;
 import com.umeng.fb.FeedbackAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
@@ -69,7 +70,9 @@ public class MainActivity extends FragmentActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
-		//用户反馈：后台检查是否有新的来自开发者的回复。
+		// 调用友盟自动更新组件
+		UmengUpdateAgent.update(MainActivity.this);
+		// 用户反馈：后台检查是否有新的来自开发者的回复。
 		FeedbackAgent mAgent = new FeedbackAgent(MainActivity.this);
 		mAgent.sync();
 	}
