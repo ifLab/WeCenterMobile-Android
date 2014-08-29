@@ -142,18 +142,31 @@
                     android:text="0"
                     android:textColor="#C4C4C4" />
             </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/focusques"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="7.5dp"
-                android:background="@drawable/btn_green_normal"
-                android:text="关注"
-                android:textColor="@color/bg_white"
-                android:textSize="15sp" />
+                <Button
+                    android:id="@+id/focusques"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="7.5dp"
+                    android:background="@drawable/btn_green_normal"
+                    android:text="关注"
+                    android:textColor="@color/bg_white"
+                    android:textSize="15sp" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:visibility="gone"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="12.5dp"                    
+                    android:layout_width="100dp"
+                    android:layout_height="25dp" />
+            </RelativeLayout>
+
         </LinearLayout>
 
         <View
