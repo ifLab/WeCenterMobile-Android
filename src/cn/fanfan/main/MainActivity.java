@@ -1,6 +1,8 @@
 package cn.fanfan.main;
 
 import com.loopj.android.http.PersistentCookieStore;
+import com.umeng.fb.FeedbackAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
@@ -68,6 +70,11 @@ public class MainActivity extends FragmentActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+		// 调用友盟自动更新组件
+		UmengUpdateAgent.update(MainActivity.this);
+		// 用户反馈：后台检查是否有新的来自开发者的回复。
+		FeedbackAgent mAgent = new FeedbackAgent(MainActivity.this);
+		mAgent.sync();
 	}
 
 	@Override
@@ -155,6 +162,11 @@ public class MainActivity extends FragmentActivity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
+		// 用户反馈按钮
+		if (id == R.id.feedback) {
+			FeedbackAgent agent = new FeedbackAgent(MainActivity.this);
+			agent.startFeedbackActivity();
+		}
 		if (id == R.id.logout) {
 			sharedPreferences.clear();
 			PersistentCookieStore cookieStore = new PersistentCookieStore(
@@ -224,7 +236,8 @@ public class MainActivity extends FragmentActivity implements
 				return false;
 			}
 			FileUtils fileUtils = new FileUtils(MainActivity.this);
-			ImageFileUtils imageFileUtils = new ImageFileUtils(MainActivity.this);
+			ImageFileUtils imageFileUtils = new ImageFileUtils(
+					MainActivity.this);
 			fileUtils.deleteFile();
 			imageFileUtils.deleteFile();
 		}

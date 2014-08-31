@@ -40,6 +40,7 @@
 
     <string name="drawer_login">饭饭登录</string>
     <string name="net_break">网络错误!</string>
+    <string name="net_notconnect">没有网络耶!</string>
     <string name="login_wrong">暂时无法修改头像!</string>
     <string name="get_user_info">获取用户信息失败，请重试!</string>
 

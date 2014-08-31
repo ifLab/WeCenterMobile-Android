@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.fanfan.main"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="2"
+    android:versionName="1.0.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -103,13 +103,43 @@
         </activity>
         <activity android:name="cn.fanfan.detilques.TopicAbout" >
         </activity>
-        <activity android:name="cn.fanfan.userinfo.ArticleActivity"></activity>
-        <activity android:name="cn.fanfan.userinfo.MyAnswerActivity"></activity>
-        <activity android:name="cn.fanfan.attentionuser.TestAttention"></activity>
-        <activity android:name="cn.fanfan.detilessay.EssayCom" ></activity>
-         <activity android:name="cn.fanfan.common.ShowPic" 
-             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" ></activity>
+        <activity android:name="cn.fanfan.userinfo.ArticleActivity" >
+        </activity>
+        <activity android:name="cn.fanfan.userinfo.MyAnswerActivity" >
+        </activity>
+        <activity android:name="cn.fanfan.attentionuser.TestAttention" >
+        </activity>
+        <activity android:name="cn.fanfan.detilessay.EssayCom" >
+        </activity>
+        <activity
+            android:name="cn.fanfan.common.ShowPic"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!-- 友盟组件相关activity与服务注册 -->
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.umeng.fb.ConversationActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="com.umeng.fb.ContactActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <!-- 友盟组件权限配置 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="53fd15ddfd98c56205029cda" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID" />
+>>>>>>> origin/timor
     </application>
 
 </manifest>

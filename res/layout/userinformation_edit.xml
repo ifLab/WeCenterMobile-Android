@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/infoedit_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -13,8 +14,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/avatar_backgroud" >
+            android:background="@drawable/avatar_background" >
 
             <cn.fanfan.common.CircleImageView
                 android:id="@+id/iv_avatar"
@@ -23,7 +23,9 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/ic_avatar_default" />
+                android:src="@drawable/ic_avatar_default"
+                app:border_color="#ffffff"
+                app:border_width="2dp" />
         </FrameLayout>
 
         <LinearLayout
