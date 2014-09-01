@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+
+
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.TextShow;
@@ -19,12 +21,11 @@ import cn.fanfan.main.R;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
+
+
 import com.loopj.android.http.PersistentCookieStore;
 import com.umeng.analytics.MobclickAgent;
 
-import cn.fanfan.common.Config;
-import cn.fanfan.common.TextShow;
-import cn.fanfan.main.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -43,6 +44,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,7 @@ public class Detilques extends Activity {
 	private Button focusques;
 	private int focustag = 1;
 	private LinearLayout layout;
+	private ProgressBar progressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +79,15 @@ public class Detilques extends Activity {
 		layout = (LinearLayout) findViewById(R.id.linear);
 		myCookieStore = new PersistentCookieStore(this);
 		client.setCookieStore(myCookieStore);
-		focusques = (Button) findViewById(R.id.focusques);
+		focusques = (Button)findViewById(R.id.focusques);
+		progressBar = (ProgressBar)findViewById(R.id.progressBar);
 		focusques.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				focusques.setText("");
+				progressBar.setVisibility(View.VISIBLE);
 				Focusorno();
 			}
 		});
@@ -292,6 +298,7 @@ public class Detilques extends Activity {
 					if (errno == 1) {
 						JSONObject rsm = jsonObject.getJSONObject("rsm");
 						String type = rsm.getString("type");
+						progressBar.setVisibility(View.GONE);
 						if (type.equals("add")) {
 							focustag = 1;
 						} else {

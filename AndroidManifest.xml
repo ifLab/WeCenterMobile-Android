@@ -123,6 +123,10 @@
 		<!--         友盟组件权限配置 -->
         <meta-data android:value="53fd15ddfd98c56205029cda" android:name="UMENG_APPKEY"/>
 		<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+		
+         <activity android:name="cn.fanfan.common.ShowPic" 
+             android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" ></activity>
     </application>
 
 </manifest>
