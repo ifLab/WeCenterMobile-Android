@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
@@ -77,7 +78,7 @@ public class ArticleActivity extends Activity {
 				if (isArticle == GlobalVariables.ARTICLE) {
 					intent.setClass(ArticleActivity.this, DetilEssay.class);
 					intent.putExtra("eid", datas.get(arg2).getId());
-				}else {
+				} else {
 					intent.setClass(ArticleActivity.this, Detilques.class);
 					intent.putExtra("questionid", datas.get(arg2).getId());
 				}
@@ -130,89 +131,82 @@ public class ArticleActivity extends Activity {
 		String url;
 		if (isArticle == GlobalVariables.ARTICLE) {
 			url = Config.getValue("MyAyticle");
-		}else {
+		} else {
 			url = Config.getValue("MyAsk");
 		}
-		client.get(url, params,
-				new AsyncHttpResponseHandler() {
+		client.get(url, params, new AsyncHttpResponseHandler() {
 
-					@Override
-					public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-						// TODO Auto-generated method stub
-						String information = new String(arg2);
-						System.out.println("success");
-						try {
-							JSONObject jsonObject = new JSONObject(information);
-							int errno = jsonObject.getInt("errno");
-							if (errno != 1) {
-								String err = jsonObject.getString("err");
-								Toast.makeText(ArticleActivity.this, err,
-										Toast.LENGTH_SHORT).show();
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+				String information = new String(arg2);
+				System.out.println("success");
+				try {
+					JSONObject jsonObject = new JSONObject(information);
+					int errno = jsonObject.getInt("errno");
+					if (errno != 1) {
+						String err = jsonObject.getString("err");
+						Toast.makeText(ArticleActivity.this, err,
+								Toast.LENGTH_SHORT).show();
+					} else {
+						String rsm = jsonObject.getString("rsm");
+						jsonObject = new JSONObject(rsm);
+						String total_rows = jsonObject.getString("total_rows");
+						if (currentPage == 1) {
+							int total_row = Integer.parseInt(total_rows);
+							if (total_row % perPage == 0) {
+								total_pages = total_row / perPage;
 							} else {
-								String rsm = jsonObject.getString("rsm");
-								jsonObject = new JSONObject(rsm);
-								String total_rows = jsonObject
-										.getString("total_rows");
-								if (currentPage == 1) {
-									int total_row = Integer
-											.parseInt(total_rows);
-									if (total_row % perPage == 0) {
-										total_pages = total_row / perPage;
-									} else {
-										total_pages = total_row / perPage + 1;
-									}
-								}
-								String rows = jsonObject.getString("rows");
-								JSONArray jsonArray = new JSONArray(rows);
-								for (int i = 0; i < jsonArray.length(); i++) {
-									ArticleModel model = new ArticleModel();
-									JSONObject jsonObject2 = jsonArray
-											.getJSONObject(i);
-									String id = jsonObject2.getString("id");
-									String title = jsonObject2
-											.getString("title");
-									String message;
-									if (isArticle == GlobalVariables.ARTICLE) {
-										message = jsonObject2
-												.getString("message");
-									}else {
-										message = jsonObject2
-												.getString("detail");
-									}
-									model.setId(id);
-									model.setTitle(title);
-									model.setMessage(message);
-									datas.add(model);
-								}
-								if (currentPage == 1) {
-									if (Integer.parseInt(total_rows) < perPage) {
-										footText.setText("没有更多数据了！");
-										footerLinearLayout
-												.setVisibility(View.GONE);
-									}
-									adapter = new ArticleAdapter(
-											ArticleActivity.this, datas);
-									listView.setAdapter(adapter);
-									currentPage++;
-								} else {
-									adapter.notifyDataSetChanged();
-									currentPage++;
-								}
+								total_pages = total_row / perPage + 1;
 							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						}
+						String rows = jsonObject.getString("rows");
+						JSONArray jsonArray = new JSONArray(rows);
+						for (int i = 0; i < jsonArray.length(); i++) {
+							ArticleModel model = new ArticleModel();
+							JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+							String id = jsonObject2.getString("id");
+							String title = jsonObject2.getString("title");
+							String message;
+							if (isArticle == GlobalVariables.ARTICLE) {
+								message = jsonObject2.getString("message");
+							} else {
+								message = jsonObject2.getString("detail");
+							}
+							model.setId(id);
+							model.setTitle(title);
+							model.setMessage(message);
+							datas.add(model);
+						}
+						if (currentPage == 1) {
+							if (Integer.parseInt(total_rows) < perPage) {
+								footText.setText("没有更多数据了！");
+								footerLinearLayout.setVisibility(View.GONE);
+							}
+							adapter = new ArticleAdapter(ArticleActivity.this,
+									datas);
+							listView.setAdapter(adapter);
+							currentPage++;
+						} else {
+							adapter.notifyDataSetChanged();
+							currentPage++;
 						}
 					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
-					@Override
-					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
-							Throwable arg3) {
-						// TODO Auto-generated method stub
-						System.out.println(new String(arg2));
-					}
-				});
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+				// TODO Auto-generated method stub
+				System.out.println(new String(arg2));
+			}
+		});
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -222,5 +216,15 @@ public class ArticleActivity extends Activity {
 			this.finish();
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

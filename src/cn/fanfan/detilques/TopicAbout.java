@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.umeng.analytics.MobclickAgent;
+
 import cn.fanfan.main.R;
 import cn.fanfan.topic.TopicDetail;
 import android.app.ActionBar;
@@ -21,18 +23,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class TopicAbout extends Activity {
-	
+
 	private ListView topiclist;
 	private TopicAboutList aboutList;
 	private JSONArray array;
 	private List<String> ids;
-   
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.questopic);
-		topiclist  = (ListView)findViewById(R.id.topiclist);
+		topiclist = (ListView) findViewById(R.id.topiclist);
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);
 		actionBar.setTitle("相关话题");
@@ -43,8 +45,8 @@ public class TopicAbout extends Activity {
 		Intent intent = getIntent();
 		String info = intent.getStringExtra("topic");
 		try {
-			 array = new JSONArray(info);
-			 for (int i = 0; i < array.length(); i++) {
+			array = new JSONArray(info);
+			for (int i = 0; i < array.length(); i++) {
 				JSONObject jsonObject = array.getJSONObject(i);
 				String id = jsonObject.getString("topic_id");
 				ids.add(id);
@@ -68,16 +70,27 @@ public class TopicAbout extends Activity {
 			}
 		});
 	}
-	 public boolean onOptionsItemSelected(MenuItem item) {
-			// TODO Auto-generated method stub
-			switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				break;
 
-			default:
-				break;
-			}
-			return super.onOptionsItemSelected(item);
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
 		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
 }

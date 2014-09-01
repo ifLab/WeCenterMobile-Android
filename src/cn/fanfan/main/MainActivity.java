@@ -1,6 +1,7 @@
 package cn.fanfan.main;
 
 import com.loopj.android.http.PersistentCookieStore;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -75,6 +76,7 @@ public class MainActivity extends FragmentActivity implements
 		// 用户反馈：后台检查是否有新的来自开发者的回复。
 		FeedbackAgent mAgent = new FeedbackAgent(MainActivity.this);
 		mAgent.sync();
+		MobclickAgent.updateOnlineConfig(MainActivity.this);
 	}
 
 	@Override
@@ -253,5 +255,15 @@ public class MainActivity extends FragmentActivity implements
 		} else {
 		}
 		super.onStop();
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

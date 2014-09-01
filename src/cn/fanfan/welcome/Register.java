@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.NetLoad;
 import cn.fanfan.main.R;
@@ -71,39 +72,52 @@ public class Register extends Activity {
 			}
 		}
 	}
-	
-	private void Login(){
+
+	private void Login() {
 		RequestParams params = new RequestParams();
 		params.put("user_name", registerModel.getUserName());
 		params.put("email", registerModel.getMail());
 		params.put("password", registerModel.getPasswd());
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.post("http://w.hihwei.com/api/register.php", params, new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-				// TODO Auto-generated method stub
-				String result = new String(arg2);
-				JSONObject jsonObject;
-				try {
-					jsonObject = new JSONObject(result);
-					String err = jsonObject.getString("error");
-					String data = jsonObject.getString("data");
-					if (err.equals("")) {
-						Toast.makeText(Register.this, "×¢²á³É¹¦,ÇëµÇÂ¼!", Toast.LENGTH_SHORT).show();
-						finish();
+		client.post("http://w.hihwei.com/api/register.php", params,
+				new AsyncHttpResponseHandler() {
+
+					@Override
+					public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+						// TODO Auto-generated method stub
+						String result = new String(arg2);
+						JSONObject jsonObject;
+						try {
+							jsonObject = new JSONObject(result);
+							String err = jsonObject.getString("error");
+							String data = jsonObject.getString("data");
+							if (err.equals("")) {
+								Toast.makeText(Register.this, "×¢²á³É¹¦,ÇëµÇÂ¼!",
+										Toast.LENGTH_SHORT).show();
+								finish();
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			@Override
-			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+							Throwable arg3) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

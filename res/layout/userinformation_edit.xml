@@ -21,8 +21,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="25dp"
                 android:src="@drawable/ic_avatar_default"
                 app:border_color="#ffffff"
                 app:border_width="2dp" />

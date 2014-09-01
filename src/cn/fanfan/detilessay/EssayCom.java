@@ -18,6 +18,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -420,4 +421,12 @@ public class EssayCom extends Activity implements OnItemClickListener,
 	public void cancleTask() {
 		imageDownLoader.cacelTask();
 	}
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+		}
+		public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+		}
 }

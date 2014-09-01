@@ -9,6 +9,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.attentionuser.AttentionUser;
 import cn.fanfan.attentionuser.TestAttention;
@@ -419,9 +420,15 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tipsToast.setText(msgResId);
 	}
 
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+
 	// 重新返回时再次获取用户信息
 	protected void onResume() {
 		super.onResume();
+		MobclickAgent.onResume(this);
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();
 			if (networkState.isNetworkConnected(UserInfoActivity.this)) {

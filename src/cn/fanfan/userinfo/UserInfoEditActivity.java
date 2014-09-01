@@ -18,6 +18,7 @@ import org.json.JSONTokener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.AsyncFileUpLoad;
 import cn.fanfan.common.AsyncFileUpLoad.CallBack;
@@ -550,5 +551,15 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		} else {
 			Toast.makeText(this, "ÐÞ¸Ä³É¹¦£¡", Toast.LENGTH_LONG).show();
 		}
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

@@ -1,6 +1,7 @@
 package cn.fanfan.welcome;
 
 import com.loopj.android.http.PersistentCookieStore;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.main.MainActivity;
@@ -25,15 +26,18 @@ public class Welcome extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		PersistentCookieStore cookieStore = new PersistentCookieStore(Welcome.this);
-		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(Welcome.this);
+
+		PersistentCookieStore cookieStore = new PersistentCookieStore(
+				Welcome.this);
+		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(
+				Welcome.this);
 		boolean LoginStatus = fanfanSharedPreferences.getLogInStatus(false);
 		String uid = fanfanSharedPreferences.getUid("");
 		String userName = fanfanSharedPreferences.getUserName("");
 		String passwd = fanfanSharedPreferences.getPasswd("");
-		if (LoginStatus != false && !uid.equals("") && !passwd.equals("")&&!userName.equals("") && cookieStore.getCookies().size() != 0) {
-			Intent intent = new Intent(Welcome.this,MainActivity.class);
+		if (LoginStatus != false && !uid.equals("") && !passwd.equals("")
+				&& !userName.equals("") && cookieStore.getCookies().size() != 0) {
+			Intent intent = new Intent(Welcome.this, MainActivity.class);
 			startActivity(intent);
 			finish();
 		}
@@ -45,8 +49,8 @@ public class Welcome extends Activity {
 	private void init() {
 		// TODO Auto-generated method stub
 		login = (Button) findViewById(R.id.login);
-		register = (Button)findViewById(R.id.register);
-		lookAround = (TextView)findViewById(R.id.look_around);
+		register = (Button) findViewById(R.id.register);
+		lookAround = (TextView) findViewById(R.id.look_around);
 		login.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -58,7 +62,7 @@ public class Welcome extends Activity {
 			}
 		});
 		register.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -69,11 +73,12 @@ public class Welcome extends Activity {
 			}
 		});
 		lookAround.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(Welcome.this);
+				FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(
+						Welcome.this);
 				sharedPreferences.setLogInStatus(false);
 				Intent intent = new Intent();
 				intent.setClass(Welcome.this, MainActivity.class);
@@ -81,15 +86,25 @@ public class Welcome extends Activity {
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		if (isRegister) {
-			
-		}else {
+
+		} else {
 			finish();
 		}
 		super.onStop();
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }
