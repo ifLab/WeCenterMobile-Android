@@ -12,7 +12,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
-import cn.fanfan.detilques.Answer;
+import cn.fanfan.detailquestion.AnswerActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.BestAnswerModel;
 import cn.fanfan.topic.TopicDetailSecondAdapter;
@@ -73,7 +73,7 @@ public class MyAnswerActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MyAnswerActivity.this, Answer.class);
+				Intent intent = new Intent(MyAnswerActivity.this, AnswerActivity.class);
 				intent.putExtra("answerid",
 						String.valueOf(datas.get(arg2).getAnswer_id()));
 				startActivity(intent);
@@ -127,7 +127,6 @@ public class MyAnswerActivity extends Activity {
 					public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 						// TODO Auto-generated method stub
 						String information = new String(arg2);
-						System.out.println("success");
 						try {
 							JSONObject jsonObject = new JSONObject(information);
 							int errno = jsonObject.getInt("errno");
@@ -203,8 +202,6 @@ public class MyAnswerActivity extends Activity {
 					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 							Throwable arg3) {
 						// TODO Auto-generated method stub
-						System.out.println("faliure");
-						System.out.println(new String(arg2));
 					}
 				});
 	}

@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
-import cn.fanfan.detilques.Answer;
-import cn.fanfan.detilques.Detilques;
+import cn.fanfan.detailquestion.AnswerActivity;
+import cn.fanfan.detailquestion.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
@@ -99,7 +99,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(context, Detilques.class);
+				intent.setClass(context, DetailQuestionActivity.class);
 				intent.putExtra("questionid", String.valueOf(datas.get(position).getQuestion_id()));
 				context.startActivity(intent);
 			}
@@ -109,7 +109,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(context,Answer.class);
+				Intent intent = new Intent(context,AnswerActivity.class);
 				intent.putExtra("answerid", String.valueOf(datas.get(position).getAnswer_id()));
 				context.startActivity(intent);	
 			}

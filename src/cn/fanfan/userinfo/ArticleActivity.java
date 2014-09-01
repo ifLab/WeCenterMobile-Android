@@ -14,8 +14,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
-import cn.fanfan.detilessay.DetilEssay;
-import cn.fanfan.detilques.Detilques;
+import cn.fanfan.detailessay.DetailEssayActivity;
+import cn.fanfan.detailquestion.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -76,10 +76,10 @@ public class ArticleActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				if (isArticle == GlobalVariables.ARTICLE) {
-					intent.setClass(ArticleActivity.this, DetilEssay.class);
+					intent.setClass(ArticleActivity.this, DetailEssayActivity.class);
 					intent.putExtra("eid", datas.get(arg2).getId());
 				} else {
-					intent.setClass(ArticleActivity.this, Detilques.class);
+					intent.setClass(ArticleActivity.this, DetailQuestionActivity.class);
 					intent.putExtra("questionid", datas.get(arg2).getId());
 				}
 				startActivity(intent);
@@ -140,7 +140,6 @@ public class ArticleActivity extends Activity {
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				String information = new String(arg2);
-				System.out.println("success");
 				try {
 					JSONObject jsonObject = new JSONObject(information);
 					int errno = jsonObject.getInt("errno");
@@ -202,7 +201,6 @@ public class ArticleActivity extends Activity {
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				System.out.println(new String(arg2));
 			}
 		});
 	}

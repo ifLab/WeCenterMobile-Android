@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-
-import javax.security.auth.callback.Callback;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -23,13 +20,11 @@ import com.umeng.analytics.MobclickAgent;
 import cn.fanfan.common.AsyncFileUpLoad;
 import cn.fanfan.common.AsyncFileUpLoad.CallBack;
 import cn.fanfan.common.AsyncImageGet;
-import cn.fanfan.common.CompressAvata;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
 import cn.fanfan.question.Bimp;
-import android.R.string;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -43,8 +38,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.format.Time;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -122,7 +115,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
-						Log.i("getUserInfo", responseContent + "---Success");
 						JSONTokener jsonParser = new JSONTokener(
 								responseContent);
 						try {
@@ -130,14 +122,10 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 									.nextValue();
 							errno = result.getString("errno");
 							err = result.getString("err");
-							Log.i("errno", errno);
-							Log.i("err", err);
 							JSONArray rsm = new JSONArray();
 							rsm = result.getJSONArray("rsm");
-							Log.i("getJSONArray", rsm.toString());
 							// 解析数组rsm的数据
 							JSONObject rsmcontent = (JSONObject) rsm.get(0);
-							Log.i("rsmcontent", rsmcontent.toString());
 							JSONTokener jsonParser2 = new JSONTokener(
 									rsmcontent.toString());
 							JSONObject rsmcontents = (JSONObject) jsonParser2
@@ -147,9 +135,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							birthday = rsmcontents.getString("birthday");
 							job_id = rsmcontents.getString("job_id");
 							signature = rsmcontents.getString("signature");
-							Log.i("user_name", user_name);
-							Log.i("birthday", birthday);
-							Log.i("signature", signature);
 							updateUI();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -177,7 +162,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		if (birthday != "null") {
 			String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
 			tv_birthday_info.setText(date);
-			Log.i("date", date);
 		}
 
 		if (avatar_file != null) {
@@ -237,11 +221,9 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.et_uername:
 			user_name = et_username.getText().toString();
-			Log.i("user_name", user_name);
 			break;
 		case R.id.et_introduction:
 			signature = et_introduction.getText().toString();
-			Log.i("signature", signature);
 			break;
 		case R.id.tv_sex_m:
 			sex = 1;
@@ -342,9 +324,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 								public void callBack(String preview,
 										String err, String errno) {
 									GlobalVariables.uSER_IMAGE_URL = preview;
-									Log.i("callbackinfo", preview);
-									Log.i("err", err);
-									Log.i("errno", errno);
 									if (errno == "x") {
 										Toast.makeText(
 												UserInfoEditActivity.this,
@@ -372,7 +351,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 				// 从相册选择头像照片后操作
 				if (data != null) {
 					avatarUri = data.getData();
-					Log.i("avatarUri", avatarUri.getPath());
 					/* 根据uri在media数据库查询到真实的文件路径 */
 
 					String[] proj = { MediaStore.Images.Media.DATA };
@@ -407,9 +385,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 								public void callBack(String preview,
 										String err, String errno) {
 									// TODO Auto-generated method stub
-									Log.i("callbackinfo", preview);
-									Log.i("err", err);
-									Log.i("errno", errno);
 									if (errno == "x") {
 										Toast.makeText(
 												UserInfoEditActivity.this,
@@ -455,9 +430,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		// Do something with the date chosen by the user
-		Log.i("year", Integer.toString(year));
-		Log.i("month", Integer.toString((month + 1)));
-		Log.i("day", Integer.toString(day));
 		tv_birthday_info.setText(Integer.toString(year) + "-"
 				+ Integer.toString((month + 1)) + "-" + Integer.toString(day));
 		String dateString = Integer.toString(year) + "-"
@@ -471,10 +443,8 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("时间转换成 unix时间戳 出错");
 		}
 
-		Log.i("time", birthday);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -485,7 +455,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.edit_complete) {
-			Log.i("完成", "完成");
 			((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 					.hideSoftInputFromWindow(et_username.getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
@@ -518,7 +487,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
-						Log.i("upDateProfile", responseContent + "---Success");
 						JSONTokener jsonParser = new JSONTokener(
 								responseContent);
 						try {
@@ -526,8 +494,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 									.nextValue();
 							errno = result.getString("errno");
 							err = result.getString("err");
-							Log.i("errno", errno);
-							Log.i("err", err);
 							adviseUesr(err);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -540,7 +506,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 							Throwable arg3) {
 						// TODO Auto-generated method stub
-						Log.i("上传更改失败！", "x-x");
 					}
 				});
 	}

@@ -4,15 +4,12 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
-
-import cn.fanfan.attentionuser.AttentionUser;
-import cn.fanfan.attentionuser.TestAttention;
+import cn.fanfan.attentionuser.AttentionUserActivity;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
@@ -27,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,12 +91,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 				.getIntExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
 		// 判断UID是不是本机上已登录用户，如果是可以编辑并隐藏关注按钮。否则，隐藏编辑按钮显示关注按钮。
 		ffGetUid = new FanfanSharedPreferences(this);
-		Log.i("getUid", ffGetUid.getUid("nullxx"));
-		Log.i("UID", uid);
 		if (uid.equals(ffGetUid.getUid(""))) {
 			status = GlobalVariables.AVAILABLE_EDIT;
 		}
-		System.out.print(status);
 		init();// 初始化界面
 		// 获取网络状态，根据网络状态操作
 		if (uid != null) {
@@ -203,7 +196,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 						// TODO Auto-generated method stub
 						// get请求成功后处理json。
 						String responseContent = new String(responseBody);
-						Log.i("getUserInfo", responseContent + "---Success");
 						JSONTokener jsonParser = new JSONTokener(
 								responseContent);
 						try {
@@ -211,8 +203,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 									.nextValue();
 							errno = result.getString("errno");
 							err = result.getString("err");
-							Log.i("errno", errno);
-							Log.i("err", err);
 							JSONObject rsm = new JSONObject();
 							rsm = result.getJSONObject("rsm");
 							JSONTokener jsonParser2 = new JSONTokener(rsm
@@ -222,7 +212,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							user_name = rsmcontent.getString("user_name");
 							signature = rsmcontent.getString("signature");
 							avatar_file = rsmcontent.getString("avatar_file");
-							Log.i("avatar_file", avatar_file);
 							fans_count = rsmcontent.getString("fans_count");
 							friend_count = rsmcontent.getString("friend_count");
 							question_count = rsmcontent
@@ -244,10 +233,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 								bt_focus.setTextColor(android.graphics.Color.WHITE);
 								bt_focus.setText("关注");
 							}
-							Log.i("has_focus", haveFrocus + " ");
-							Log.i("answer_favorite_count",
-									answer_favorite_count);
-
 							// 处理完JSON后updateUI展示用户资料
 							updateUI(avatar_file);
 						} catch (JSONException e) {
@@ -303,14 +288,14 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.lv_focusi_person:
 			Intent intent2 = new Intent(UserInfoActivity.this,
-					AttentionUser.class);
+					AttentionUserActivity.class);
 			intent2.putExtra("userorme", GlobalVariables.ATTENEION_ME);
 			intent2.putExtra("uid", uid);
 			startActivity(intent2);
 			break;
 		case R.id.lv_ifocus_person:
 			Intent intent1 = new Intent(UserInfoActivity.this,
-					AttentionUser.class);
+					AttentionUserActivity.class);
 			intent1.putExtra("uid", uid);
 			intent1.putExtra("userorme", GlobalVariables.ATTENTION_USER);
 			startActivity(intent1);
@@ -378,8 +363,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
-						Log.i("changeFrocusStatus", responseContent
-								+ "---Success");
 					}
 
 					@Override
@@ -387,8 +370,6 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							byte[] responseBody, Throwable arg3) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
-						Log.i("changeFrocusStatus", responseContent
-								+ "---Failure");
 						// 更改按钮状态
 						if (haveFrocus == 1) {
 							haveFrocus = 0;

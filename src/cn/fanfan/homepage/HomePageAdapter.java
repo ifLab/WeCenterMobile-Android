@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.loopj.android.image.SmartImageView;
 
-import cn.fanfan.detilessay.DetilEssay;
-import cn.fanfan.detilques.Answer;
-import cn.fanfan.detilques.Detilques;
+import cn.fanfan.detailessay.DetailEssayActivity;
+import cn.fanfan.detailquestion.AnswerActivity;
+import cn.fanfan.detailquestion.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;
@@ -91,12 +91,12 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				if (itemModel.getAction().equals("发布该文章")
 						|| itemModel.getAction().equals("赞同该文章")) {
-					Intent mIntent = new Intent(context, DetilEssay.class);
+					Intent mIntent = new Intent(context, DetailEssayActivity.class);
 					mIntent.putExtra("eid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
 				} else {
-					Intent mIntent = new Intent(context, Detilques.class);
+					Intent mIntent = new Intent(context, DetailQuestionActivity.class);
 					mIntent.putExtra("questionid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
@@ -128,12 +128,12 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				if (itemModel.getAction().equals("发布该文章")
 						|| itemModel.getAction().equals("赞同该文章")) {
-					Intent mIntent = new Intent(context, DetilEssay.class);
+					Intent mIntent = new Intent(context, DetailEssayActivity.class);
 					mIntent.putExtra("eid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
 				} else {
-					Intent mIntent = new Intent(context, Detilques.class);
+					Intent mIntent = new Intent(context, DetailQuestionActivity.class);
 					mIntent.putExtra("questionid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
@@ -145,7 +145,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent mIntent = new Intent(context, Answer.class);
+				Intent mIntent = new Intent(context, AnswerActivity.class);
 				mIntent.putExtra("answerid",
 						Integer.toString(itemModel.getBestAnswerUid()));
 				context.startActivity(mIntent);

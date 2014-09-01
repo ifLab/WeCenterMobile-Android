@@ -9,10 +9,10 @@ import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.draft.Draft;
-import cn.fanfan.found.FoundFrg;
+import cn.fanfan.found.FoundFragment;
 import cn.fanfan.homepage.HomePageFragment;
-import cn.fanfan.question.Question;
-import cn.fanfan.topic.Fragment_topic;
+import cn.fanfan.question.QuestionFragmentActivity;
+import cn.fanfan.topic.TopicFragment;
 import cn.fanfan.topic.imageload.FileUtils;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -85,7 +85,7 @@ public class MainActivity extends FragmentActivity implements
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		if (position == 0) {
 			if (!GlobalVariables.IsLogin) {
-				Fragment fragment = new Fragment_topic();
+				Fragment fragment = new TopicFragment();
 				Bundle bundle = new Bundle();
 				bundle.putInt("isFocus", GlobalVariables.HOT_TOPIC);
 				bundle.putInt("position", position + 1);
@@ -105,10 +105,10 @@ public class MainActivity extends FragmentActivity implements
 			}
 		} else if (position == 1) {
 			fragmentManager.beginTransaction()
-					.replace(R.id.container, (new FoundFrg())).commit();
+					.replace(R.id.container, (new FoundFragment())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 2) {
-			Fragment fragment = new Fragment_topic();
+			Fragment fragment = new TopicFragment();
 			Bundle bundle = new Bundle();
 			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
 			bundle.putInt("position", position + 1);
@@ -121,7 +121,7 @@ public class MainActivity extends FragmentActivity implements
 					.replace(R.id.container, (new Draft())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 3) {
-			Intent intent = new Intent(MainActivity.this, Question.class);
+			Intent intent = new Intent(MainActivity.this, QuestionFragmentActivity.class);
 			startActivity(intent);
 		} else {
 			fragmentManager

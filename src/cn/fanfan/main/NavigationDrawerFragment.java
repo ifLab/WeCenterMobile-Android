@@ -208,7 +208,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.Login.class);
+				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.LoginActivity.class);
 				GlobalVariables.ISFANFANLOGIN = true;
 				startActivity(intent);
 			}
