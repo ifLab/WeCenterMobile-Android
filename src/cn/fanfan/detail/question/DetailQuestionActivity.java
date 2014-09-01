@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class DetailQuestionActivity extends Activity {
 	private CookieStore myCookieStore;
 	private ListView comlist;
 	private List<AnswerItem> comlists;
-	private ComAdapter adapter;
+	private CommentAdapter adapter;
 	private TextView questiontitle, questiondetil, focus, answercount;
 	private LinearLayout addanswer;
 	private AsyncHttpClient client;
@@ -68,7 +68,7 @@ public class DetailQuestionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.detailquestion);
+		setContentView(R.layout.question_detail);
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);
 		actionBar.setTitle("Œ Ã‚œÍœ∏");
@@ -254,7 +254,7 @@ public class DetailQuestionActivity extends Activity {
 
 					}
 
-					adapter = new ComAdapter(comlists, DetailQuestionActivity.this);
+					adapter = new CommentAdapter(comlists, DetailQuestionActivity.this);
 					comlist.setAdapter(adapter);
 				} else {
 					try {

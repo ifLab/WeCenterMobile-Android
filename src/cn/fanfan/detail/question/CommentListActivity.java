@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import com.loopj.android.http.RequestParams;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GetUserNamImage.onLoaderListener;
-import cn.fanfan.detailessay.EssayComActivity;
+import cn.fanfan.detail.essay.EssayCommentActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
 import android.app.ActionBar;
@@ -57,7 +57,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 
-public class ComListActivity extends Activity implements OnItemClickListener,
+public class CommentListActivity extends Activity implements OnItemClickListener,
 		OnScrollListener {
 	private AsyncHttpClient client;
 	private int totalItem;
@@ -68,8 +68,8 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 	private Dialog aDialog;
 	private ListView comlist;
 	private GetUserNamImage getUserNamImage;
-	private List<Comitem> comitems;
-	private ComListAdapter comListAdapter;
+	private List<CommentModel> comitems;
+	private CommentListAdapter comListAdapter;
 	private String answerid,comcount;
 	private EditText comment;
 	private ImageButton publish;
@@ -78,7 +78,7 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.comlist);
+		setContentView(R.layout.comment_list);
 
     	ActionBar actionBar = getActionBar();
     	actionBar.setIcon(null);
@@ -126,7 +126,7 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 			}
 
 		});
-		comitems = new ArrayList<Comitem>();
+		comitems = new ArrayList<CommentModel>();
 		Intent intent = getIntent();
 		answerid = intent.getStringExtra("answerid");
 		comcount = intent.getStringExtra("comcount");
@@ -240,7 +240,7 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 								jsonObject2 = rsm.getJSONObject(i);
 								JSONObject object = jsonObject2
 										.getJSONObject("at_user");
-								Comitem comitemno = new Comitem();
+								CommentModel comitemno = new CommentModel();
 								comitemno.setUid(jsonObject2.getString("uid"));
 								comitemno.setUsername(jsonObject2.getString("user_name"));
 								comitemno.setComcontent(jsonObject2.getString("content"));
@@ -256,7 +256,7 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 								//e.printStackTrace();
 								
 								try {
-									Comitem comitem = new Comitem();
+									CommentModel comitem = new CommentModel();
 									comitem.setUid(jsonObject2.getString("uid"));
 									comitem.setUsername(jsonObject2
 											.getString("user_name"));
@@ -276,12 +276,12 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 
 							}
 						}
-						comListAdapter = new ComListAdapter(ComListActivity.this, comitems);
+						comListAdapter = new CommentListAdapter(CommentListActivity.this, comitems);
 						comlist.setAdapter(comListAdapter);
 					} else {
                         try {
 							String err = jsonObject.getString("err");
-							Toast.makeText(ComListActivity.this, err,Toast.LENGTH_LONG).show();
+							Toast.makeText(CommentListActivity.this, err,Toast.LENGTH_LONG).show();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -304,14 +304,14 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(ComListActivity.this, "评论失败", Toast.LENGTH_LONG).show();
+				Toast.makeText(CommentListActivity.this, "评论失败", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				
-				Toast.makeText(ComListActivity.this, "评论成功", Toast.LENGTH_LONG).show();
+				Toast.makeText(CommentListActivity.this, "评论成功", Toast.LENGTH_LONG).show();
 				comment.setText("");
 			}
     		
@@ -360,7 +360,7 @@ public class ComListActivity extends Activity implements OnItemClickListener,
 								if (bitmap != null) {
 									userimage.setImageBitmap(bitmap);
 								} else {
-									userimage.setImageDrawable(ComListActivity.this.getResources()
+									userimage.setImageDrawable(CommentListActivity.this.getResources()
 											.getDrawable(R.drawable.logo));;
 								}
 						}

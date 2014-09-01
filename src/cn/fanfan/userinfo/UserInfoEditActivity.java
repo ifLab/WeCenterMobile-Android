@@ -72,7 +72,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.userinformation_edit);
+		setContentView(R.layout.user_information_edit);
 		// 添加返回按钮到ActionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);

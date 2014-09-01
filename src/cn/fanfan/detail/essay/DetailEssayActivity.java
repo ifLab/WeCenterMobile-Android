@@ -1,4 +1,4 @@
-package cn.fanfan.detailessay;
+package cn.fanfan.detail.essay;
 
 import org.apache.http.Header;
 import org.apache.http.client.CookieStore;
@@ -13,7 +13,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.TextShow;
-import cn.fanfan.detailquestion.TopicAboutActivity;
+import cn.fanfan.detail.question.TopicAboutActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
@@ -50,7 +50,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.detilessay);
+		setContentView(R.layout.essay_detail);
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);
 		actionBar.setTitle("ÎÄÕÂÏêÏ¸");
@@ -112,7 +112,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 		case R.id.addcom:
 			Intent intent = new Intent();
 			intent.putExtra("artid", articleid);
-			intent.setClass(this, EssayComActivity.class);
+			intent.setClass(this, EssayCommentActivity.class);
 			startActivity(intent);
 			break;
 		default:

@@ -1,6 +1,6 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
-public class Comitem {
+public class CommentModel {
      
 	private String username;
 	private String backname;

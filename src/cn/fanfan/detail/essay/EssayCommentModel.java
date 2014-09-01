@@ -1,6 +1,6 @@
-package cn.fanfan.detailessay;
+package cn.fanfan.detail.essay;
 
-public class EssatComitem {
+public class EssayCommentModel {
 	private int id;
 	private String username;
 	private String backname;

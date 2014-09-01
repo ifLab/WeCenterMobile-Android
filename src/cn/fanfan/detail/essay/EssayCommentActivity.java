@@ -1,4 +1,4 @@
-package cn.fanfan.detailessay;
+package cn.fanfan.detail.essay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class EssayComActivity extends Activity implements OnItemClickListener,
+public class EssayCommentActivity extends Activity implements OnItemClickListener,
 		OnScrollListener {
 
 	private AsyncHttpClient client;
@@ -55,8 +55,8 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 	private Dialog aDialog;
 	private ListView comlist;
 	private ImageDownLoader imageDownLoader;
-	private List<EssatComitem> comitems;
-	private EssayComAdapter comAdapter;
+	private List<EssayCommentModel> comitems;
+	private EssayCommentAdapter comAdapter;
 	private String id;
 	private EditText comment;
 	private ImageButton publish;
@@ -68,7 +68,7 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.comlist);
+		setContentView(R.layout.comment_list);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(null);
@@ -97,7 +97,7 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 				refresh();
 			}
 		});
-		comitems = new ArrayList<EssatComitem>();
+		comitems = new ArrayList<EssayCommentModel>();
 		imageDownLoader = new ImageDownLoader(this);
 		comlist = (ListView) findViewById(R.id.comlist);
 		isFirstEnter = true;
@@ -193,7 +193,7 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(EssayComActivity.this, "赞美失败", Toast.LENGTH_LONG).show();
+				Toast.makeText(EssayCommentActivity.this, "赞美失败", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
@@ -211,13 +211,13 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 				}
 
 				if (errno == 1) {
-					Toast.makeText(EssayComActivity.this, "赞美成功", Toast.LENGTH_LONG).show();
+					Toast.makeText(EssayCommentActivity.this, "赞美成功", Toast.LENGTH_LONG).show();
 					refresh();
 				} else {
 
 					try {
 						String err = jsonObject.getString("err");
-						Toast.makeText(EssayComActivity.this, err, Toast.LENGTH_LONG)
+						Toast.makeText(EssayCommentActivity.this, err, Toast.LENGTH_LONG)
 								.show();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -267,7 +267,7 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 							JSONArray rows = rsm.getJSONArray("rows");
 							for (int i = 0; i < rows.length(); i++) {
 								jsonObject2 = rows.getJSONObject(i);
-								EssatComitem comitemno = new EssatComitem();
+								EssayCommentModel comitemno = new EssayCommentModel();
 								comitemno.setUid(jsonObject2.getString("uid"));
 								JSONObject user_info = jsonObject2
 										.getJSONObject("user_info");
@@ -304,7 +304,7 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 				} else {
 					try {
 						String err = jsonObject.getString("err");
-						Toast.makeText(EssayComActivity.this, err, Toast.LENGTH_LONG)
+						Toast.makeText(EssayCommentActivity.this, err, Toast.LENGTH_LONG)
 								.show();
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -312,7 +312,7 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 					}
 
 				}
-				comAdapter = new EssayComAdapter(EssayComActivity.this, comitems,
+				comAdapter = new EssayCommentAdapter(EssayCommentActivity.this, comitems,
 						imageDownLoader);
 				comlist.setAdapter(comAdapter);
 
@@ -341,14 +341,14 @@ public class EssayComActivity extends Activity implements OnItemClickListener,
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(EssayComActivity.this, "评论失败", Toast.LENGTH_LONG).show();
+				Toast.makeText(EssayCommentActivity.this, "评论失败", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
 				atuid="";
-				Toast.makeText(EssayComActivity.this, "评论成功", Toast.LENGTH_LONG).show();
+				Toast.makeText(EssayCommentActivity.this, "评论成功", Toast.LENGTH_LONG).show();
 			}
 
 		});

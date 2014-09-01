@@ -1,6 +1,6 @@
 package cn.fanfan.found;
 
-public class Founditem {
+public class FoundItem {
 	private String name;
 	private String question;
 	private String type;
@@ -9,7 +9,7 @@ public class Founditem {
 	private String uid;
 	private int inttag;
 
-	public Founditem() {
+	public FoundItem() {
 		// TODO Auto-generated constructor stub
 	}
 	public String getName() {

@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.util.ArrayList;
 import java.util.List;

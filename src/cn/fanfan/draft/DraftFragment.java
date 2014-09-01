@@ -1,8 +1,6 @@
 package cn.fanfan.draft;
 
-import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class Draft extends Fragment {
+public class DraftFragment extends Fragment {
 	private ListView listView;
 
 	@Override

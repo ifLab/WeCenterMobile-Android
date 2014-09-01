@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GetUserNamImage.onLoaderListener;
 import cn.fanfan.main.R;
 
-public class ComListAdapter extends BaseAdapter {
+public class CommentListAdapter extends BaseAdapter {
 	private Context context;
-	private List<Comitem> comitems;
+	private List<CommentModel> comitems;
 
-	public ComListAdapter(Context context, List<Comitem> comitems) {
+	public CommentListAdapter(Context context, List<CommentModel> comitems) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.comitems = comitems;
@@ -51,7 +51,7 @@ public class ComListAdapter extends BaseAdapter {
 			hodler = new ViewHodler();
 
 			arg1 = LayoutInflater.from(context)
-					.inflate(R.layout.comdetil, null);
+					.inflate(R.layout.comment_detail, null);
 			hodler.name = (TextView) arg1.findViewById(R.id.username);
 			hodler.imageView = (ImageView) arg1.findViewById(R.id.userimg);
 			hodler.backname = (TextView) arg1.findViewById(R.id.backname);

@@ -29,8 +29,8 @@
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/username"
-                android:text="fanfan" />
+                android:textColor="@color/username" />
+
             <TextView
                 android:id="@+id/tag"
                 android:layout_width="wrap_content"
@@ -38,20 +38,19 @@
                 android:layout_marginLeft="5dp"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
-                android:visibility="gone"
                 android:text="回复了"
-                 />
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/backname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/username"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
                 android:text="fanfan"
+                android:textColor="@color/username"
                 android:visibility="gone" />
-
         </LinearLayout>
 
         <TextView
@@ -59,7 +58,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="不可不知的烘焙术语---蛋黄打发,不可不知的烘焙术语---蛋黄打发"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -85,8 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:text="2014-07-17" />
+                android:gravity="right" />
         </LinearLayout>
     </LinearLayout>
 

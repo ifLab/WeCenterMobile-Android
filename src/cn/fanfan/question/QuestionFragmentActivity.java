@@ -30,7 +30,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import cn.fanfan.common.Config;
-import cn.fanfan.detailquestion.DetailQuestionActivity;
+import cn.fanfan.detail.question.DetailQuestionActivity;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -80,7 +80,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
-		setContentView(R.layout.quespagr);
+		setContentView(R.layout.question_pager);
 		actionBar = getActionBar();
 		actionBar.setIcon(null);
 		actionBar.setTitle("提问");
@@ -135,7 +135,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 
 
 	private void InitImageView() {
-		Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.a);
+		Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.cursor_min);
 		bmpW = pic.getWidth();
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);

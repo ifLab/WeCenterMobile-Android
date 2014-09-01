@@ -41,7 +41,7 @@ public class TopicFragment extends Fragment {
 
 	private List<TopicModel> topicModels;
 	private ListView listView;
-	private FragmenTopicAdapter adapter;
+	private TopicFragmenAdapter adapter;
 	private boolean isFirstEnter;
 	private int mFirstVisibleItem;
 	private int mVisibleItemCount;
@@ -238,7 +238,7 @@ public class TopicFragment extends Fragment {
 							topicModels.add(topicModel);
 						}
 						if (currentPage == 1) {
-							adapter = new FragmenTopicAdapter(getActivity(),
+							adapter = new TopicFragmenAdapter(getActivity(),
 									topicModels, mImageDownLoader);
 							listView.setAdapter(adapter);
 							if (topicModels.size() < per_page) {

@@ -1,20 +1,20 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-public class ComListView extends ListView {
+public class CommentListView extends ListView {
 
-	public ComListView(Context context) {
+	public CommentListView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 	}
-	 public ComListView(Context context, AttributeSet attrs) { 
+	 public CommentListView(Context context, AttributeSet attrs) { 
 	        super(context, attrs); 
 	        // TODO Auto-generated constructor stub 
 	    } 
-	    public ComListView(Context context, AttributeSet attrs, int defStyle) { 
+	    public CommentListView(Context context, AttributeSet attrs, int defStyle) { 
 	        super(context, attrs, defStyle); 
 	        // TODO Auto-generated constructor stub 
 	    } 

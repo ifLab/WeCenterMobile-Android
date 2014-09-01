@@ -1,9 +1,9 @@
-package cn.fanfan.detailessay;
+package cn.fanfan.detail.essay;
 
 import java.util.List;
 
 import cn.fanfan.common.Config;
-import cn.fanfan.detailquestion.Comitem;
+import cn.fanfan.detail.question.CommentModel;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import android.content.Context;
@@ -15,12 +15,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class EssayComAdapter extends BaseAdapter {
+public class EssayCommentAdapter extends BaseAdapter {
 	private Context context;
-	private List<EssatComitem> comitems;
+	private List<EssayCommentModel> comitems;
 	private ImageDownLoader imageDownLoader;
 
-	public EssayComAdapter(Context context, List<EssatComitem> comitems,
+	public EssayCommentAdapter(Context context, List<EssayCommentModel> comitems,
 			ImageDownLoader imageDownLoader) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
@@ -56,7 +56,7 @@ public class EssayComAdapter extends BaseAdapter {
 			hodler = new ViewHodler();
 
 			arg1 = LayoutInflater.from(context)
-					.inflate(R.layout.essaycom, null);
+					.inflate(R.layout.essay_comment, null);
 			hodler.name = (TextView) arg1.findViewById(R.id.username);
 			hodler.imageView = (ImageView) arg1.findViewById(R.id.userimg);
 			hodler.backname = (TextView) arg1.findViewById(R.id.backname);

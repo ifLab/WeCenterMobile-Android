@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
-import cn.fanfan.detailquestion.AnswerActivity;
-import cn.fanfan.detailquestion.DetailQuestionActivity;
+import cn.fanfan.detail.question.AnswerActivity;
+import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;

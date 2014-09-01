@@ -17,7 +17,7 @@ import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.common.TipsToast;
 import cn.fanfan.main.R;
-import cn.fanfan.topic.TopicActivity;
+import cn.fanfan.topic.TopicFragmentActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -73,7 +73,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.userinformation_main);
+		setContentView(R.layout.user_information_show);
 		LinearLayout hidePart = (LinearLayout) findViewById(R.id.llHidePart);
 		hidePart.setVisibility(View.GONE);
 		// 添加返回按钮到ActionBar
@@ -282,7 +282,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.lv_topics:
 			Intent intent = new Intent(UserInfoActivity.this,
-					TopicActivity.class);
+					TopicFragmentActivity.class);
 			intent.putExtra("uid", uid);
 			startActivity(intent);
 			break;

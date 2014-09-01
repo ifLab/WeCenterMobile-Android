@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +49,7 @@ public class TopicAboutListAdapter extends BaseAdapter{
 		ViewHolder holder = null;
 		if (arg1 == null) {
 			holder = new ViewHolder();
-			arg1 = LayoutInflater.from(context).inflate(R.layout.topicques, null);
+			arg1 = LayoutInflater.from(context).inflate(R.layout.question_topic_list, null);
 			holder.tag = (TextView)arg1.findViewById(R.id.topictag);
 			arg1.setTag(holder);
 		} else {

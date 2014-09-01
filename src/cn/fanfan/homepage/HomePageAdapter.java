@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.loopj.android.image.SmartImageView;
 
-import cn.fanfan.detailessay.DetailEssayActivity;
-import cn.fanfan.detailquestion.AnswerActivity;
-import cn.fanfan.detailquestion.DetailQuestionActivity;
+import cn.fanfan.detail.essay.DetailEssayActivity;
+import cn.fanfan.detail.question.AnswerActivity;
+import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.content.Context;

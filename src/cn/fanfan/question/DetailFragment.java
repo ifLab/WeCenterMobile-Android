@@ -59,7 +59,7 @@ public class DetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		        View rootView ;
 				dp = getActivity().getResources().getDimension(R.dimen.dp);
-				rootView = inflater.inflate(R.layout.quesdetil, container, false);
+				rootView = inflater.inflate(R.layout.asking_bg, container, false);
 				editText = (EditText)rootView.findViewById(R.id.quesdet);
 				selectimg_horizontalScrollView = (HorizontalScrollView)rootView.findViewById(R.id.selectimg_horizontalScrollView);
 				gridview = (GridView) rootView.findViewById(R.id.noScrollgridview);

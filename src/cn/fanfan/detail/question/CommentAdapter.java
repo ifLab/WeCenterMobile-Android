@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,11 +21,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ComAdapter extends BaseAdapter {
+public class CommentAdapter extends BaseAdapter {
 	private List<AnswerItem> comitems;
 	private Context context;
 
-	public ComAdapter(List<AnswerItem> comitems, Context context) {
+	public CommentAdapter(List<AnswerItem> comitems, Context context) {
 		// TODO Auto-generated constructor stub
 		this.comitems = comitems;
 		this.context = context;
@@ -55,7 +55,7 @@ public class ComAdapter extends BaseAdapter {
 		ViewHodler hodler;
 		if (arg1 == null) {
 			hodler = new ViewHodler();
-			arg1 = LayoutInflater.from(context).inflate(R.layout.comitem,
+			arg1 = LayoutInflater.from(context).inflate(R.layout.comment_item,
 					null);
 			hodler.name = (TextView) arg1.findViewById(R.id.name);
 			hodler.agree = (TextView) arg1.findViewById(R.id.agree);

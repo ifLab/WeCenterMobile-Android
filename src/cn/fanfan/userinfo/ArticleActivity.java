@@ -14,8 +14,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
-import cn.fanfan.detailessay.DetailEssayActivity;
-import cn.fanfan.detailquestion.DetailQuestionActivity;
+import cn.fanfan.detail.essay.DetailEssayActivity;
+import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import android.app.ActionBar;
 import android.app.Activity;

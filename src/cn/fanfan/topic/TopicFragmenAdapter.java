@@ -14,14 +14,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class FragmenTopicAdapter extends BaseAdapter {
+public class TopicFragmenAdapter extends BaseAdapter {
 
 	private Context context;
 	private List<TopicModel> topicModels;
 	private ImageDownLoader mImageDownLoader;
 
 	
-	public FragmenTopicAdapter(Context context,List<TopicModel> topicModels,ImageDownLoader mImageDownLoader) {
+	public TopicFragmenAdapter(Context context,List<TopicModel> topicModels,ImageDownLoader mImageDownLoader) {
 		super();
 		this.context = context;
 		this.topicModels = topicModels;

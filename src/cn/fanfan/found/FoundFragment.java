@@ -34,7 +34,7 @@ public class FoundFragment extends Fragment {
      public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle savedInstanceState) {
 	
-         View rootView = inflater.inflate(R.layout.foundfrg, container, false);
+         View rootView = inflater.inflate(R.layout.foundfragment, container, false);
          cursor = (ImageView) rootView.findViewById(R.id.cursor);
          t1 = (TextView) rootView.findViewById(R.id.text1);
 	     t2 = (TextView) rootView.findViewById(R.id.text2);
@@ -59,7 +59,7 @@ public class FoundFragment extends Fragment {
 	        viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
 	    }
 	 private void InitImageView() {
-			bmpW = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.a).getWidth();// 获取图片宽度
+			bmpW = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.cursor_min).getWidth();// 获取图片宽度
 			DisplayMetrics dm = new DisplayMetrics();
 			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 			int screenW = dm.widthPixels;// 获取分辨率宽度
@@ -138,7 +138,7 @@ public class FoundFragment extends Fragment {
 				}
 				currIndex = arg0;
 				animation.setFillAfter(true);// True:图片停在动画结束位置
-				animation.setDuration(300);
+				animation.setDuration(200);
 				cursor.startAnimation(animation);
 
 			}

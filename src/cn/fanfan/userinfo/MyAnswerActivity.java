@@ -12,7 +12,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
-import cn.fanfan.detailquestion.AnswerActivity;
+import cn.fanfan.detail.question.AnswerActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.BestAnswerModel;
 import cn.fanfan.topic.TopicDetailSecondAdapter;

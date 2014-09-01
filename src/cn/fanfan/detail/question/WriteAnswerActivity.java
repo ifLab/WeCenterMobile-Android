@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,7 +85,7 @@ public class WriteAnswerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.writeanswer);
+		setContentView(R.layout.write_answer);
 		actionBar = getActionBar();
 		actionBar.setIcon(null);
 		actionBar.setTitle("»Ø´ð");

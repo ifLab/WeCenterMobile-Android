@@ -1,4 +1,4 @@
-package cn.fanfan.detailquestion;
+package cn.fanfan.detail.question;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +17,6 @@ import com.umeng.analytics.MobclickAgent;
 import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GetUserNamImage.onLoaderListener;
 import cn.fanfan.common.TextShow;
-import cn.fanfan.detailessay.EssayComActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoActivity;
 import android.app.ActionBar;
@@ -28,12 +27,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,7 +121,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.putExtra("answerid", answer_id);
 			intent.putExtra("comcount", comment_count);
-			intent.setClass(this, ComListActivity.class);
+			intent.setClass(this, CommentListActivity.class);
 			startActivity(intent);
 		default:
 			break;

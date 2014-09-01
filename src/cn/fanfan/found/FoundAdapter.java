@@ -22,10 +22,10 @@ import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.userinfo.UserInfoActivity;
 
 public class FoundAdapter extends BaseAdapter{
-		   private List<Founditem> newitems;
+		   private List<FoundItem> newitems;
 		   private Context context;
 		   private ImageDownLoader imageDownLoader;
-	     public FoundAdapter(List<Founditem> comitems,Context context,ImageDownLoader imageDownLoader) {
+	     public FoundAdapter(List<FoundItem> comitems,Context context,ImageDownLoader imageDownLoader) {
 			// TODO Auto-generated constructor stub
 	    	
 	    	 super();
@@ -57,7 +57,7 @@ public class FoundAdapter extends BaseAdapter{
 			final String mImageUrl = Config.getValue("userImageBaseUrl")+newitems.get(arg0).getAvatar_file();
 			 if(arg1 == null){
 				    hodler = new ViewHodler();			
-					arg1 = LayoutInflater.from(context).inflate(R.layout.foundques, null);
+					arg1 = LayoutInflater.from(context).inflate(R.layout.found_question, null);
 					hodler.name = (TextView)arg1.findViewById(R.id.username);
 					hodler.question = (TextView)arg1.findViewById(R.id.quescontent);
 					hodler.userimage = (ImageView)arg1.findViewById(R.id.userimage);

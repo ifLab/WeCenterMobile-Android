@@ -18,8 +18,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.common.Config;
-import cn.fanfan.detailessay.DetailEssayActivity;
-import cn.fanfan.detailquestion.DetailQuestionActivity;
+import cn.fanfan.detail.essay.DetailEssayActivity;
+import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.question.FileUtils;
 import cn.fanfan.topic.imageload.ImageDownLoader;
@@ -48,7 +48,7 @@ public class FoundPagerFragment extends Fragment {
 	private int mFirstVisibleItem;
 	private int mVisibleItemCount;
     private ListView listView;
-    private List<Founditem> newlist;
+    private List<FoundItem> newlist;
 	private FoundAdapter adapter;
 	private int currentPage = 1;
 	private ImageDownLoader imageDownLoader;
@@ -65,12 +65,12 @@ public class FoundPagerFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View rootView = inflater.inflate(R.layout.foundlist, container, false);
+		View rootView = inflater.inflate(R.layout.found_list, container, false);
 		listView = (ListView)rootView.findViewById(R.id.fodlist);
 		tvHomePageLoading = (TextView) rootView
 				.findViewById(R.id.tvHomePageLoading);
 		
-		newlist = new ArrayList<Founditem>();
+		newlist = new ArrayList<FoundItem>();
 		imageDownLoader = new ImageDownLoader(getActivity());
 		footerLinearLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.next_page_footer,null);
 		footText = (TextView)footerLinearLayout.findViewById(R.id.footer_text);	
@@ -192,10 +192,10 @@ public class FoundPagerFragment extends Fragment {
 						}
 			            JSONObject rows = rsm.getJSONObject("rows");
 	                        for (int i = 0; i < total_row; i++) {
-	                        	Founditem founditem = null;
+	                        	FoundItem founditem = null;
 	                        	JSONObject jsonObject = rows.getJSONObject(key.get(i));
 								int inttga = 0;
-								founditem = new Founditem();
+								founditem = new FoundItem();
 								String post_type = jsonObject.getString("post_type");
 								founditem.setType(post_type);
 								if (post_type.equals("question")) {

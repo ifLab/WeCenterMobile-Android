@@ -81,7 +81,7 @@
             android:background="#dcdcdc" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="8dp"
@@ -90,9 +90,8 @@
             android:paddingTop="8dp" >
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical" >
 
                 <TextView
@@ -115,30 +114,35 @@
                     android:textColor="#C4C4C4" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right" >
 
-                <Button
-                    android:id="@+id/focusques"
-                    android:layout_width="100dp"
-                    android:layout_height="35dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="7.5dp"
-                    android:background="@drawable/btn_green_normal"
-                    android:text="关注"
-                    android:textColor="@color/bg_white"
-                    android:textSize="15sp" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp" >
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="100dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="12.5dp"
-                    android:visibility="gone" />
-            </RelativeLayout>
+                    <Button
+                        android:id="@+id/focusques"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/btn_green_normal"
+                        android:text="关注"
+                        android:textColor="@color/bg_white"
+                        android:textSize="16sp" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <View
@@ -174,12 +178,11 @@
             android:layout_height="0.3dp"
             android:background="#dcdcdc" />
 
-        <cn.fanfan.detailquestion.ComListView
+        <cn.fanfan.detail.question.CommentListView
             android:id="@+id/comlist"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none" >
-        </cn.fanfan.detailquestion.ComListView>
+            android:scrollbars="none" />
 
         <View
             android:layout_width="fill_parent"

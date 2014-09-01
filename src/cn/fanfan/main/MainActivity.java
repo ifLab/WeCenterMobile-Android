@@ -8,7 +8,7 @@ import com.umeng.update.UmengUpdateAgent;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
-import cn.fanfan.draft.Draft;
+import cn.fanfan.draft.DraftFragment;
 import cn.fanfan.found.FoundFragment;
 import cn.fanfan.homepage.HomePageFragment;
 import cn.fanfan.question.QuestionFragmentActivity;
@@ -118,10 +118,11 @@ public class MainActivity extends FragmentActivity implements
 			mTitle = draweritems[position];
 		} else if (position == 4) {
 			fragmentManager.beginTransaction()
-					.replace(R.id.container, (new Draft())).commit();
+					.replace(R.id.container, (new DraftFragment())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 3) {
-			Intent intent = new Intent(MainActivity.this, QuestionFragmentActivity.class);
+			Intent intent = new Intent(MainActivity.this,
+					QuestionFragmentActivity.class);
 			startActivity(intent);
 		} else {
 			fragmentManager
