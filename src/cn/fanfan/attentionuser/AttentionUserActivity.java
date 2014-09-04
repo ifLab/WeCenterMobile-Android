@@ -18,7 +18,7 @@ import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -102,7 +102,7 @@ public class AttentionUserActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(AttentionUserActivity.this,
-						UserInfoActivity.class);
+						UserInfoShowActivity.class);
 				intent.putExtra("uid", attentionUserModels.get(position)
 						.getUid());
 				intent.putExtra("status", GlobalVariables.DISAVAILABLE_EDIT);

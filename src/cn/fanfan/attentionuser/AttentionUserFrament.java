@@ -17,7 +17,7 @@ import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -85,7 +85,7 @@ public class AttentionUserFrament extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-					Intent intent = new Intent(getActivity(),UserInfoActivity.class);
+					Intent intent = new Intent(getActivity(),UserInfoShowActivity.class);
 					intent.putExtra("uid", attentionUserModels.get(position).getUid());
 					intent.putExtra("status", GlobalVariables.DISAVAILABLE_EDIT);
 					startActivity(intent);

@@ -18,7 +18,7 @@ import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GetUserNamImage.onLoaderListener;
 import cn.fanfan.common.TextShow;
 import cn.fanfan.main.R;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
@@ -82,7 +82,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.putExtra("uid", uid);
-				intent.setClass(AnswerActivity.this, UserInfoActivity.class);
+				intent.setClass(AnswerActivity.this, UserInfoShowActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -94,7 +94,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.putExtra("uid", uid);
-				intent.setClass(AnswerActivity.this, UserInfoActivity.class);
+				intent.setClass(AnswerActivity.this, UserInfoShowActivity.class);
 				startActivity(intent);
 			}
 		});

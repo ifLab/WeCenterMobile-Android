@@ -8,7 +8,7 @@ import cn.fanfan.detail.essay.DetailEssayActivity;
 import cn.fanfan.detail.question.AnswerActivity;
 import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -108,7 +108,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserInfoActivity.actionStar(context,
+				UserInfoShowActivity.actionStar(context,
 						Integer.toString(itemModel.getUserUid()));
 			}
 		});
@@ -117,7 +117,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserInfoActivity.actionStar(context,
+				UserInfoShowActivity.actionStar(context,
 						Integer.toString(itemModel.getUserUid()));
 			}
 		});

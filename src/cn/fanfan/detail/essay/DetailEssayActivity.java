@@ -17,7 +17,7 @@ import cn.fanfan.detail.question.TopicAboutActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -83,7 +83,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 				// TODO Auto-generated method stub
 				Intent intent1 = new Intent();
 				intent1.putExtra("uid", uid);
-				intent1.setClass(DetailEssayActivity.this,UserInfoActivity.class);
+				intent1.setClass(DetailEssayActivity.this,UserInfoShowActivity.class);
 				startActivity(intent1);
 			}
 		});

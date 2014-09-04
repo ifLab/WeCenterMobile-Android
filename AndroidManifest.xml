@@ -67,7 +67,7 @@
         </activity>
         <activity android:name="cn.fanfan.attentionuser.AttentionUserActivity" >
         </activity>
-        <activity android:name="cn.fanfan.userinfo.UserInfoActivity" >
+        <activity android:name="cn.fanfan.userinfo.UserInfoShowActivity" >
         </activity>
         <activity
             android:name="cn.fanfan.userinfo.UserInfoEditActivity"

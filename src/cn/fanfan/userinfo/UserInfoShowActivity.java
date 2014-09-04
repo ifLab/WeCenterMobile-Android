@@ -4,11 +4,13 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
+
 import cn.fanfan.attentionuser.AttentionUserActivity;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
@@ -24,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +37,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserInfoActivity extends Activity implements OnClickListener {
-	private int haveFrocus = 0;// 1是已关注 。0未关注
+public class UserInfoShowActivity extends Activity implements OnClickListener {
+	private int haveFrocus = NO;// 1是已关注 。0未关注
+	private static final int YES = 1;
+	private static final int NO = 0;
 	private static TipsToast tipsToast;
 	private ImageView iv_avatar;
 	private Button bt_focus;
@@ -98,7 +103,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		// 获取网络状态，根据网络状态操作
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();
-			if (networkState.isNetworkConnected(UserInfoActivity.this)) {
+			if (networkState.isNetworkConnected(UserInfoShowActivity.this)) {
 				getUserInfo();
 			} else {
 				showTips(R.drawable.tips_error, R.string.net_notconnect);
@@ -116,7 +121,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	 *            是否是本机已登录用户
 	 */
 	public static void actionStar(Context context, String uid) {
-		Intent mIntent = new Intent(context, UserInfoActivity.class);
+		Intent mIntent = new Intent(context, UserInfoShowActivity.class);
 		mIntent.putExtra("uid", uid);
 		context.startActivity(mIntent);
 	}
@@ -171,7 +176,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 			tv_ifocus_person_comment.setText("他关注的人");
 			tv_topic_comment.setText("他关注的话题");
 		}
-		if (haveFrocus == 1) {
+		if (haveFrocus == YES) {
 			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 			bt_focus.setTextColor(android.graphics.Color.BLACK);
 			bt_focus.setText("取消关注");
@@ -224,7 +229,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 									.getString("answer_favorite_count");
 							answer_count = rsmcontent.getString("answer_count");
 							haveFrocus = rsmcontent.getInt("has_focus");
-							if (haveFrocus == 1) {
+							if (haveFrocus == YES) {
 								bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 								bt_focus.setTextColor(android.graphics.Color.BLACK);
 								bt_focus.setText("取消关注");
@@ -239,8 +244,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 							// TODO Auto-generated catch block
 							// showTips(R.drawable.tips_error,
 							// R.string.net_break);
-							Toast.makeText(UserInfoActivity.this, "网络不好，请重试！",
-									Toast.LENGTH_LONG).show();
+							Toast.makeText(UserInfoShowActivity.this,
+									"网络不好，请重试！", Toast.LENGTH_LONG).show();
 
 						}
 					}
@@ -266,12 +271,17 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		tv_collect.setText(answer_favorite_count);
 		tv_replys.setText(answer_count);
 		tv_asks.setText(question_count);
-		tvSignature.setText(signature);
+		if (!signature.equals("false")) {
+			tvSignature.setText(signature);
+		}
+
 		// 下载用户头像
-		if (avatarurl != "null") {
+		if ((avatarurl != null) && (!avatarurl.equals(""))) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
 					Config.getValue("AvatarPrefixUrl") + avatarurl, iv_avatar);
 			getAvatar.execute();
+		} else {
+			iv_avatar.setImageResource(R.drawable.ic_avatar_default);
 		}
 	}
 
@@ -281,61 +291,61 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.lv_topics:
-			Intent intent = new Intent(UserInfoActivity.this,
+			Intent intent = new Intent(UserInfoShowActivity.this,
 					TopicFragmentActivity.class);
 			intent.putExtra("uid", uid);
 			startActivity(intent);
 			break;
 		case R.id.lv_focusi_person:
-			Intent intent2 = new Intent(UserInfoActivity.this,
+			Intent intent2 = new Intent(UserInfoShowActivity.this,
 					AttentionUserActivity.class);
 			intent2.putExtra("userorme", GlobalVariables.ATTENEION_ME);
 			intent2.putExtra("uid", uid);
 			startActivity(intent2);
 			break;
 		case R.id.lv_ifocus_person:
-			Intent intent1 = new Intent(UserInfoActivity.this,
+			Intent intent1 = new Intent(UserInfoShowActivity.this,
 					AttentionUserActivity.class);
 			intent1.putExtra("uid", uid);
 			intent1.putExtra("userorme", GlobalVariables.ATTENTION_USER);
 			startActivity(intent1);
 			break;
 		case R.id.lv_articles:
-			Intent intent3 = new Intent(UserInfoActivity.this,
+			Intent intent3 = new Intent(UserInfoShowActivity.this,
 					ArticleActivity.class);
 			intent3.putExtra("isArticle", GlobalVariables.ARTICLE);
 			intent3.putExtra("uid", uid);
 			startActivity(intent3);
 			break;
 		case R.id.lv_asks:
-			Intent intent4 = new Intent(UserInfoActivity.this,
+			Intent intent4 = new Intent(UserInfoShowActivity.this,
 					ArticleActivity.class);
 			intent4.putExtra("isArticle", GlobalVariables.QUESTION);
 			intent4.putExtra("uid", uid);
 			startActivity(intent4);
 			break;
 		case R.id.lv_news:
-			Toast.makeText(UserInfoActivity.this, "lv_news", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(UserInfoShowActivity.this, "lv_news",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.lv_search_friens:
-			Toast.makeText(UserInfoActivity.this, "lv_search_friens",
+			Toast.makeText(UserInfoShowActivity.this, "lv_search_friens",
 					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.lv_replys:
-			Intent intent5 = new Intent(UserInfoActivity.this,
+			Intent intent5 = new Intent(UserInfoShowActivity.this,
 					MyAnswerActivity.class);
 			intent5.putExtra("uid", uid);
 			startActivity(intent5);
 			break;
 		case R.id.bt_focus:
-			if (haveFrocus == 1) {
-				haveFrocus = 0;
+			if (haveFrocus == YES) {
+				haveFrocus = NO;
 				bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
 				bt_focus.setTextColor(android.graphics.Color.WHITE);
 				bt_focus.setText("关注");
 			} else {
-				haveFrocus = 1;
+				haveFrocus = YES;
 				bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 				bt_focus.setTextColor(android.graphics.Color.BLACK);
 				bt_focus.setText("取消关注");
@@ -371,13 +381,13 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
 						// 更改按钮状态
-						if (haveFrocus == 1) {
-							haveFrocus = 0;
+						if (haveFrocus == YES) {
+							haveFrocus = NO;
 							bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
 							bt_focus.setTextColor(android.graphics.Color.WHITE);
 							bt_focus.setText("关注");
 						} else {
-							haveFrocus = 1;
+							haveFrocus = YES;
 							bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
 							bt_focus.setTextColor(android.graphics.Color.BLACK);
 							bt_focus.setText("取消关注");
@@ -412,7 +422,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		MobclickAgent.onResume(this);
 		if (uid != null) {
 			NetworkState networkState = new NetworkState();
-			if (networkState.isNetworkConnected(UserInfoActivity.this)) {
+			if (networkState.isNetworkConnected(UserInfoShowActivity.this)) {
 				getUserInfo();
 			} else {
 				showTips(R.drawable.tips_error, R.string.net_break);
@@ -437,7 +447,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.edit) {
-			Intent intent = new Intent(UserInfoActivity.this,
+			Intent intent = new Intent(UserInfoShowActivity.this,
 					UserInfoEditActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("uid", uid);

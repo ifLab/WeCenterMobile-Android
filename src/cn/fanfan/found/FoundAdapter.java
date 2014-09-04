@@ -19,7 +19,7 @@ import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
 import cn.fanfan.question.Bimp;
 import cn.fanfan.topic.imageload.ImageDownLoader;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 
 public class FoundAdapter extends BaseAdapter{
 		   private List<FoundItem> newitems;
@@ -98,7 +98,7 @@ public class FoundAdapter extends BaseAdapter{
 					public void onClick(View view) {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent();
-						intent.setClass(context, UserInfoActivity.class);
+						intent.setClass(context, UserInfoShowActivity.class);
 						intent.putExtra("uid", newitems.get(arg0).getUid());
 						context.startActivity(intent);
 					}

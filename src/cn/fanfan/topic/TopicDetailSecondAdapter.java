@@ -9,7 +9,7 @@ import cn.fanfan.common.Config;
 import cn.fanfan.detail.question.AnswerActivity;
 import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -90,7 +90,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserInfoActivity.actionStar(context, String.valueOf(datas.get(position).getUid()));
+				UserInfoShowActivity.actionStar(context, String.valueOf(datas.get(position).getUid()));
 			}
 		});
 		viewHolder.essence_title.setOnClickListener(new OnClickListener() {

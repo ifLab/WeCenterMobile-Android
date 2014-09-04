@@ -38,6 +38,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +57,7 @@ import android.widget.Toast;
 
 public class UserInfoEditActivity extends Activity implements OnClickListener,
 		DatePickerDialog.OnDateSetListener {
-	private int sex;// sex (int，1：男 2：女 3：保密)
+	private String sex;
 	private String birthday, errno, err, job_id, user_name, uid, signature,
 			avatarpath, avatar_file;// birthday为unix时间戳
 	private ImageView iv_avatar;
@@ -64,6 +65,10 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	private LinearLayout lv_birthday, lv_business;
 	private TextView tv_sex_f, tv_sex_m, tv_sex_f_background,
 			tv_sex_m_background, tv_birthday_info, tv_business_info;
+	// 性别：【1：男 2：女 3：保密】
+	private static final String MAN = "1";
+	private static final String FEMAN = "2";
+	private static final String SECRECY = "3";
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 	private Uri avatarUri;
@@ -78,20 +83,14 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		actionBar.setIcon(null);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
-		// actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.show();
+		// 接受其他Activity传来的参数
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		uid = bundle.getString("uid");
 		avatar_file = bundle.getString("avatar_file");
-		init();// 图形界面初始化
-
-		NetworkState networkState = new NetworkState();
-		if (networkState.isNetworkConnected(UserInfoEditActivity.this)) {
-			getUserProfile();
-		} else {
-			Toast.makeText(this, "没有网络，请连接后操作！", Toast.LENGTH_SHORT).show();
-		}
+		// 图形界面初始化
+		init();
 	}
 
 	// 获取用户资料
@@ -118,6 +117,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 						JSONTokener jsonParser = new JSONTokener(
 								responseContent);
 						try {
+							Log.d("userInfo", responseContent);
 							JSONObject result = (JSONObject) jsonParser
 									.nextValue();
 							errno = result.getString("errno");
@@ -131,7 +131,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							JSONObject rsmcontents = (JSONObject) jsonParser2
 									.nextValue();
 							user_name = rsmcontents.getString("user_name");
-							sex = Integer.parseInt(rsmcontents.getString("sex"));//
+							sex = rsmcontents.getString("sex");
 							birthday = rsmcontents.getString("birthday");
 							job_id = rsmcontents.getString("job_id");
 							signature = rsmcontents.getString("signature");
@@ -148,26 +148,36 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	protected void updateUI() {
 		// TODO Auto-generated method stub
 		et_username.setText(user_name);
-		et_introduction.setText(signature);
+		if (signature.equals("null")) {
+			et_introduction.setHint("点击设置签名!");
+		} else {
+			et_introduction.setText(signature);
+		}
+
 		// p
-		if (sex == 1) {
+		if (sex.equals(MAN)) {
 			tv_sex_m_background.setBackgroundColor(Color.parseColor("#3A7DF0"));
 			tv_sex_f_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 		}
-		if (sex == 2) {
+		if (sex.equals(FEMAN)) {
 			tv_sex_f_background.setBackgroundColor(Color.parseColor("#FB929C"));
 			tv_sex_m_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 		}
 		// 展示用户生日信息
-		if (birthday != "null") {
+		if (!birthday.equals("null")) {
 			String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
 			tv_birthday_info.setText(date);
+		} else {
+			tv_birthday_info.setText("未设置");
 		}
 
-		if (avatar_file != null) {
+		// 下载用户头像
+		if ((!avatar_file.equals("null")) & (!avatar_file.equals(""))) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
 					Config.getValue("AvatarPrefixUrl") + avatar_file, iv_avatar);
 			getAvatar.execute();
+		} else {
+			iv_avatar.setImageResource(R.drawable.ic_avatar_default);
 		}
 	}
 
@@ -204,6 +214,15 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		tv_sex_f.setOnClickListener(this);
 		tv_birthday_info.setOnClickListener(this);
 		tv_business_info.setOnClickListener(this);
+
+		// 网络判断
+		NetworkState networkState = new NetworkState();
+		if (networkState.isNetworkConnected(UserInfoEditActivity.this)) {
+			getUserProfile();
+		} else {
+			Toast.makeText(this, "没有网络，请连接后操作！", Toast.LENGTH_SHORT).show();
+		}
+
 	}
 
 	/* 主界面的view的监听 及处理 */
@@ -226,12 +245,12 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			signature = et_introduction.getText().toString();
 			break;
 		case R.id.tv_sex_m:
-			sex = 1;
+			sex = "1";
 			tv_sex_m_background.setBackgroundColor(Color.parseColor("#3A7DF0"));
 			tv_sex_f_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 			break;
 		case R.id.tv_sex_f:
-			sex = 2;
+			sex = "2";
 			tv_sex_f_background.setBackgroundColor(Color.parseColor("#FB929C"));
 			tv_sex_m_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 			break;
@@ -458,7 +477,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 					.hideSoftInputFromWindow(et_username.getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
-			upDateProfile();
+			upLoadProfile();
 			this.finish();
 		}
 		if (id == android.R.id.home) {
@@ -467,9 +486,15 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void upDateProfile() {
+	// 上传用户资料
+	private void upLoadProfile() {
 		// TODO Auto-generated method stub
 		signature = et_introduction.getText().toString();
+		if (signature.equals("null")) {
+			signature = "";
+			Log.i("userInfo", signature + "xx");
+		}
+		Log.i("userInfo", signature + "cc");
 		user_name = et_username.getText().toString();
 		AsyncHttpClient upLoadProfile = new AsyncHttpClient();
 		RequestParams UpParams = new RequestParams();
@@ -511,7 +536,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	}
 
 	private void adviseUesr(String err) {
-		if (err != "null") {
+		if (!err.equals("null")) {
 			Toast.makeText(this, err, Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(this, "修改成功！", Toast.LENGTH_LONG).show();
