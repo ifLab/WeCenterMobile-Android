@@ -93,7 +93,7 @@ public class EssayCommentAdapter extends BaseAdapter {
 			hodler.imageView.setImageBitmap(bitmap);
 		} else {
 			hodler.imageView.setImageDrawable(context.getResources()
-					.getDrawable(R.drawable.logo));
+					.getDrawable(R.drawable.ic_avatar_default));
 		}
 		return arg1;
 	}

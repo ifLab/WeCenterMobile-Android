@@ -17,11 +17,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import cn.fanfan.asking.FileUtils;
 import cn.fanfan.common.Config;
 import cn.fanfan.detail.essay.DetailEssayActivity;
 import cn.fanfan.detail.question.DetailQuestionActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.question.FileUtils;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
 import android.content.Intent;

@@ -34,6 +34,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +73,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 	protected String answer_favorite_count;
 	private LinearLayout lv_topics, lv_replys, lv_search_friens, lv_news,
 			lv_asks, lv_focusi_person, lv_ifocus_person, lv_articles;
+	private ProgressBar pb_change_follow;
 	private int status;
 	private AsyncHttpClient asyncHttpClient;
 	private FanfanSharedPreferences ffGetUid;
@@ -168,6 +170,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 		tv_ifocus_person_comment = (TextView) findViewById(R.id.tv_ifocus_person_comment);
 		tv_topic_comment = (TextView) findViewById(R.id.tv_topic_comment);
 		tvSignature = (TextView) findViewById(R.id.tvSignature);
+		pb_change_follow = (ProgressBar) findViewById(R.id.pb_change_follow);
 		// 判断本机上已登录用户，如果是可以编辑并隐藏关注按钮。否则，隐藏编辑按钮显示关注按钮。
 		if (status == GlobalVariables.AVAILABLE_EDIT) {
 			bt_focus.setVisibility(View.INVISIBLE);
@@ -350,6 +353,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 				bt_focus.setTextColor(android.graphics.Color.BLACK);
 				bt_focus.setText("取消关注");
 			}
+			pb_change_follow.setVisibility(View.VISIBLE);
 			changeFrocusStatus();
 			break;
 		default:
@@ -373,6 +377,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
+						pb_change_follow.setVisibility(View.GONE);
 					}
 
 					@Override
@@ -380,6 +385,9 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 							byte[] responseBody, Throwable arg3) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
+						Toast.makeText(UserInfoShowActivity.this,
+								responseContent + "关注失败，请重试！",
+								Toast.LENGTH_SHORT).show();
 						// 更改按钮状态
 						if (haveFrocus == YES) {
 							haveFrocus = NO;

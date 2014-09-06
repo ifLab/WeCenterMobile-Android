@@ -13,7 +13,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:src="@drawable/register" />
+        android:src="@drawable/ic_avatar_default" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:padding="3dp"
-            android:text="鲜奶油"
+            android:text=""
             android:textColor="@color/text_color_really_black"
             android:textSize="@dimen/text_size_small" />
 
@@ -40,7 +40,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:padding="3dp"
-            android:text="人见人爱的海绵蛋糕"
+            android:text=""
             android:textColor="@color/text_color_gray" />
     </LinearLayout>
 

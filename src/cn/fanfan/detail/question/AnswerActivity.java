@@ -255,7 +255,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 	private void showDialog() {
 		aDialog = new Dialog(this);
 		LayoutInflater inflater = LayoutInflater.from(this);
-		View view = inflater.inflate(R.layout.agranddis, null);
+		View view = inflater.inflate(R.layout.vote, null);
 		agree = (ImageView) view.findViewById(R.id.agree);
 		disagree = (ImageView) view.findViewById(R.id.disagree);
 		aDialog.setTitle("Ñ¡Ôñ");
@@ -309,7 +309,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 									userimage.setImageBitmap(bitmap);
 								} else {
 									userimage.setImageDrawable(AnswerActivity.this.getResources()
-											.getDrawable(R.drawable.logo));
+											.getDrawable(R.drawable.ic_avatar_default));
 								}
 							}
 							

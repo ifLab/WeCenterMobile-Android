@@ -81,7 +81,7 @@ public class HomePageFragment extends Fragment {
 		}
 
 		final MainActivity activity = (MainActivity) getActivity();
-		adapter = new HomePageAdapter(activity, R.layout.listitem_homepage,
+		adapter = new HomePageAdapter(activity, R.layout.list_item_homepage,
 				itemDataList);
 		mPullRefreshListView = (PullToRefreshListView) fragmentView
 				.findViewById(R.id.lvHomeListView);

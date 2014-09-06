@@ -1,4 +1,4 @@
-package cn.fanfan.question;
+package cn.fanfan.asking;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -206,7 +206,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				Toast.makeText(this, "请完善内容", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "请完善内�?", Toast.LENGTH_LONG).show();
 				;
 			}
 

@@ -22,11 +22,11 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.fanfan.asking.Bimp;
+import cn.fanfan.asking.FileUtils;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.MyProgressDialog;
 import cn.fanfan.main.R;
-import cn.fanfan.question.Bimp;
-import cn.fanfan.question.FileUtils;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;

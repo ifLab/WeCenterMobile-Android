@@ -59,7 +59,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(context).inflate(R.layout.listitem_topic_essence,null);
+			convertView = LayoutInflater.from(context).inflate(R.layout.list_item_topic_essence,null);
 			viewHolder = new ViewHolder();
 			viewHolder.essence_title = (TextView)convertView.findViewById(R.id.essence_title);
 			viewHolder.essence_image = (ImageView)convertView.findViewById(R.id.essence_image);

@@ -5,13 +5,13 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
+import cn.fanfan.asking.QuestionFragmentActivity;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
 import cn.fanfan.draft.DraftFragment;
 import cn.fanfan.found.FoundFragment;
 import cn.fanfan.homepage.HomePageFragment;
-import cn.fanfan.question.QuestionFragmentActivity;
 import cn.fanfan.topic.TopicFragment;
 import cn.fanfan.topic.imageload.FileUtils;
 import android.app.Activity;

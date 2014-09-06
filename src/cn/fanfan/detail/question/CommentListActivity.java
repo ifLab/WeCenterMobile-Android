@@ -361,7 +361,7 @@ public class CommentListActivity extends Activity implements OnItemClickListener
 									userimage.setImageBitmap(bitmap);
 								} else {
 									userimage.setImageDrawable(CommentListActivity.this.getResources()
-											.getDrawable(R.drawable.logo));;
+											.getDrawable(R.drawable.ic_avatar_default));;
 								}
 						}
 							}

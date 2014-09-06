@@ -95,7 +95,7 @@ public class CommentListAdapter extends BaseAdapter {
 							} else {
 								userimage.setImageDrawable(context
 										.getResources().getDrawable(
-												R.drawable.logo));
+												R.drawable.ic_avatar_default));
 							}
 
 						}

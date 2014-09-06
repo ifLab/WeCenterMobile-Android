@@ -12,7 +12,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
             android:background="#ffffff"
             android:orientation="horizontal" >
@@ -205,8 +204,8 @@
                 <TextView
                     android:id="@+id/tv_votes"
                     android:layout_width="wrap_content"
-                     android:layout_marginLeft="25dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
                     android:drawableLeft="@drawable/ic_vote_normal"
                     android:drawablePadding="5dp"
                     android:text="0"
@@ -214,9 +213,9 @@
 
                 <TextView
                     android:id="@+id/tv_collect"
-                     android:layout_marginLeft="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
                     android:drawableLeft="@drawable/ic_collect"
                     android:drawablePadding="5dp"
                     android:text="0"
@@ -225,27 +224,40 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" 
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:gravity="right">
+                android:gravity="right" >
 
-                <Button
-                    android:id="@+id/bt_focus"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/btn_green_normal"
-                    android:text="关注"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/bt_focus"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/btn_green_normal"
+                        android:text="关注"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_change_follow"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="15dp"
+            android:layout_height="12dp"
             android:background="#DCE0DD" />
 
         <LinearLayout
@@ -341,16 +353,16 @@
                 android:background="#DCE0DD" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="#DCE0DD" />
+
         <LinearLayout
             android:id="@+id/llHidePart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="#DCE0DD" />
 
             <LinearLayout
                 android:id="@+id/lv_news"
@@ -378,7 +390,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="12dp"
                 android:background="#DCE0DD" />
 
             <LinearLayout
@@ -406,9 +418,30 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
+                android:layout_height="12dp"
                 android:background="#DCE0DD" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_logout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/userinfo_item_style"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="退出我的账号"
+                android:textColor="#ff9966" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="#DCE0DD" />
     </LinearLayout>
 
 </ScrollView>

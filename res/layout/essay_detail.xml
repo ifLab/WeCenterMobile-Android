@@ -9,13 +9,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-             <LinearLayout
-                 android:id="@+id/linktopic"
+
+            <LinearLayout
+                android:id="@+id/linktopic"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_item"
@@ -25,57 +26,27 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="8dp"
                 android:paddingTop="8dp" >
-                 <TextView
-                android:id="@+id/tagtopic"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:textSize="20sp"
-                android:text="相关话题"
-              />
 
-             <!--    <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tagtopic"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:background="@drawable/label"
-                        android:text="烘培"
-                        android:textColor="#2C39F5" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:background="@drawable/label"
-                        android:text="下午茶"
-                        android:textColor="#2C39F5" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:background="@drawable/label"
-                        android:text="锅具"
-                        android:textColor="#2C39F5" />
-                </LinearLayout> -->
+                    android:text="相关话题"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/abc_ic_ab_holo_light" />
             </LinearLayout>
-            
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"
                 android:background="#dcdcdc" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="55dp"
@@ -90,14 +61,14 @@
                     android:id="@+id/userimage"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/ic_avatar_default" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical" >
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
 
                     <TextView
                         android:id="@+id/username"
@@ -105,7 +76,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/username" />
-                     <TextView
+
+                    <TextView
                         android:id="@+id/usersign"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -113,20 +85,20 @@
                         android:textColor="@color/text_color_gray" />
                 </LinearLayout>
             </LinearLayout>
-               <View
+
+            <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"
                 android:background="#dcdcdc" />
-            
-          
-           <TextView
+
+            <TextView
                 android:id="@+id/title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
-                android:paddingTop="8dp"
                 android:paddingRight="10dp"
+                android:paddingTop="8dp"
                 android:textSize="17sp" />
 
             <TextView
@@ -135,8 +107,8 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
-                android:paddingTop="8dp"
                 android:paddingRight="10dp"
+                android:paddingTop="8dp"
                 android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>

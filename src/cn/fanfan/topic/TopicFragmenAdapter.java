@@ -60,7 +60,7 @@ public class TopicFragmenAdapter extends BaseAdapter {
 		if (convertView == null) {
 			viewHodler = new ViewHodler();
 			convertView = LayoutInflater.from(context).inflate(
-					R.layout.listitem_topic, null);
+					R.layout.list_item_topic, null);
 			viewHodler.topicTitle = (TextView) convertView
 					.findViewById(R.id.topic_tag);
 			viewHodler.topicSummary = (TextView) convertView
@@ -80,7 +80,7 @@ public class TopicFragmenAdapter extends BaseAdapter {
 			viewHodler.imageView.setImageBitmap(bitmap);
 		} else {
 			viewHodler.imageView.setImageDrawable(context.getResources()
-					.getDrawable(R.drawable.logo));
+					.getDrawable(R.drawable.ic_topic_default));
 		}
 		return convertView;
 	}

@@ -1,4 +1,4 @@
-package cn.fanfan.question;
+package cn.fanfan.asking;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -105,7 +105,7 @@ public class DetailFragment extends Fragment {
 			if (Environment.MEDIA_MOUNTED.equals(sdcardState)) {
 				showDialog();
 			} else {
-				Toast.makeText(getActivity(), "sdcard不存在",
+				Toast.makeText(getActivity(), "sdcard不存�?",
 						Toast.LENGTH_SHORT).show();
 			}
 		} else {

@@ -17,6 +17,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.fanfan.asking.Bimp;
 import cn.fanfan.common.AsyncFileUpLoad;
 import cn.fanfan.common.AsyncFileUpLoad.CallBack;
 import cn.fanfan.common.AsyncImageGet;
@@ -24,7 +25,6 @@ import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
-import cn.fanfan.question.Bimp;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;

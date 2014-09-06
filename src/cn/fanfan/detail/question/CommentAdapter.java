@@ -85,7 +85,7 @@ public class CommentAdapter extends BaseAdapter {
 						userimage.setImageBitmap(bitmap);
 					} else {
 						userimage.setImageDrawable(context.getResources()
-								.getDrawable(R.drawable.logo));;
+								.getDrawable(R.drawable.ic_avatar_default));;
 					}
 					
 				}

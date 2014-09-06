@@ -1,4 +1,4 @@
-package cn.fanfan.question;
+package cn.fanfan.asking;
 
 import java.io.File;
 import java.io.FileNotFoundException;
