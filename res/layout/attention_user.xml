@@ -13,7 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:src="@drawable/register" />
+        android:src="@drawable/ic_avatar_default" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,14 +28,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text=""
-            android:textColor="@color/text_color_really_black"/>
+            android:textColor="@color/text_color_really_black" />
 
         <TextView
             android:id="@+id/topic1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:layout_marginTop="2dp"
+            android:ellipsize="end"
             android:maxLines="2"
             android:text=""
             android:textColor="@color/text_color_gray" />

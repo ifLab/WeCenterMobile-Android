@@ -23,14 +23,14 @@ public class TopicDetailAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int arg0) {
 		// TODO Auto-generated method stub
 		if (arg0 == 0) {
-			TopicDtailFirst topicDtailFirst = new TopicDtailFirst();
+			TopicDtailFirstFragment topicDtailFirst = new TopicDtailFirstFragment();
 			Bundle bundle = new Bundle();
 			bundle.putString("topic_id", topic_id);
 			bundle.putInt("isFocus", isFocus);
 			topicDtailFirst.setArguments(bundle);
 			return topicDtailFirst;
 		}else {
-			TopicDetailSecond topicDetailSecond = new TopicDetailSecond();
+			TopicDetailSecondFragment topicDetailSecond = new TopicDetailSecondFragment();
 			Bundle bundle = new Bundle();
 			bundle.putString("topic_id", topic_id);
 			topicDetailSecond.setArguments(bundle);

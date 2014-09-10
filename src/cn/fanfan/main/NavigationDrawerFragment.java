@@ -14,7 +14,7 @@ import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -198,7 +198,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),UserInfoActivity.class);
+				Intent intent = new Intent(getActivity(),UserInfoShowActivity.class);
 				intent.putExtra("uid", uid);
 				startActivity(intent);
 			}
@@ -208,7 +208,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.Login.class);
+				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.LoginActivity.class);
 				GlobalVariables.ISFANFANLOGIN = true;
 				startActivity(intent);
 			}

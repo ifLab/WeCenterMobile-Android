@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line" />
+
+    <TextView
+        android:id="@+id/essence_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/line1"
+        android:background="@drawable/bg_list_item"
+        android:paddingBottom="@dimen/vertical_padding_large"
+        android:paddingLeft="@dimen/horizontal_padding_xlarge"
+        android:paddingTop="@dimen/vertical_padding_large"
+        android:text=""
+        android:textSize="@dimen/text_size_large" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/essence_title"
+        android:background="@color/line" />
+
+    <cn.fanfan.common.CircleImageView
+        android:id="@+id/essence_image"
+        android:layout_width="@dimen/avatar_size_small"
+        android:layout_height="@dimen/avatar_size_small"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/line"
+        android:layout_marginLeft="@dimen/horizontal_padding_xlarge"
+        android:layout_marginTop="@dimen/vertical_padding_large"
+        android:src="@drawable/ic_avatar_default" />
+
+    <TextView
+        android:id="@+id/praise"
+        android:layout_width="@dimen/avatar_size_small"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/essence_image"
+        android:layout_below="@+id/essence_image"
+        android:layout_marginTop="@dimen/vertical_padding_large"
+        android:background="@color/fanfan_second"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/text_color_white" />
+
+    <TextView
+        android:id="@+id/essencejianlve"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:layout_below="@id/line"
+        android:layout_marginLeft="@dimen/horizontal_padding_medium"
+        android:layout_marginTop="@dimen/vertical_padding_large"
+        android:layout_toRightOf="@+id/essence_image"
+        android:background="@drawable/bg_list_item"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:paddingRight="@dimen/horizontal_padding_xxlarge"
+        android:text=""
+        android:textColor="@color/text_color_gray"
+        android:textSize="@dimen/text_size_medium" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/essencejianlve"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="@color/line" />
+
+</RelativeLayout>

@@ -1,71 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-   <LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="55dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
-        android:paddingLeft="18dp"
-        android:paddingRight="15dp"
-        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="12dp"
         android:paddingTop="8dp" >
-         <cn.fanfan.common.CircleImageView 
-             android:id="@+id/userimage"
-             android:layout_width="30dp"
-             android:layout_height="30dp"
-             android:src="@drawable/logo"/>
+
+        <cn.fanfan.common.CircleImageView
+            android:id="@+id/userimage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_avatar_default" />
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="3"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_weight="1" >
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/username"
                 android:layout_marginLeft="15dp"
-            
-             />
-             <TextView
+                android:textColor="@color/username" />
+
+            <TextView
                 android:id="@+id/sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_color_gray"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
-            
-             />
+                android:layout_marginTop="2dp"
+                android:textColor="@color/text_color_gray" />
         </LinearLayout>
-       
-         <LinearLayout
-             android:layout_weight="1"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="end" >
-    
-        
-           <TextView
+            android:layout_weight="1"
+            android:gravity="right" >
+
+            <TextView
                 android:id="@+id/zanorno"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:clickable="true"
-                android:gravity="center"
                 android:drawableLeft="@drawable/ic_vote_normal"
                 android:drawablePadding="10dp"
-                android:text="10"
+                android:gravity="center"
+                android:text="0"
                 android:textColor="#C4C4C4" />
         </LinearLayout>
     </LinearLayout>
-
 
     <View
         android:layout_width="fill_parent"
@@ -77,86 +74,77 @@
         android:layout_height="wrap_content"
         android:layout_weight="1" >
 
-     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-       
-       <!--  <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="15dp"
-            android:paddingTop="8dp"
-            android:textSize="18sp" />-->
-         <TextView
-            android:id="@+id/answerdetil"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:lineSpacingExtra="5dp"
-            android:paddingTop="8dp"
-            android:textSize="17sp" />
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:lineSpacingExtra="5dp"
-            android:paddingTop="8dp"
-            android:textSize="15sp" />
-    </LinearLayout>
-   </ScrollView>
-   <View
+            <TextView
+                android:id="@+id/answerdetil"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:lineSpacingExtra="5dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="#C9CFCA" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
-         >
-
-       
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/addcom"
-            android:clickable="true"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
             android:layout_weight="1"
             android:background="@drawable/list_item"
+            android:clickable="true"
             android:gravity="center"
-            android:textSize="15sp"
-            android:text="添加评论" />
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="添加评论"
+            android:textSize="15sp" />
+
         <View
-        android:layout_width="0.3dp"
-        android:layout_height="40dp"
-        android:background="#dcdcdc" />
+            android:layout_width="0.3dp"
+            android:layout_height="40dp"
+            android:background="#dcdcdc" />
+
         <Button
-            android:visibility="gone"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:background="#dcdcdc"
             android:drawableLeft="@drawable/ic_drawer_collect_normal"
             android:gravity="center"
-            android:background="#dcdcdc"
-            android:textSize="15sp"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="收藏" />
-        
-
+            android:text="收藏"
+            android:textSize="15sp"
+            android:visibility="gone" />
     </LinearLayout>
-  
+
 </LinearLayout>
