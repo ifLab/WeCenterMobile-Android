@@ -58,6 +58,7 @@ public class Register extends Activity {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.register_ok:
+				Toast.makeText(Register.this, "зЂВс", Toast.LENGTH_SHORT).show();
 				registerModel.setUserName(userNamEditText.getText().toString());
 				registerModel.setMail(maiEditText.getText().toString());
 				registerModel.setPasswd(passwdEditText.getText().toString());
