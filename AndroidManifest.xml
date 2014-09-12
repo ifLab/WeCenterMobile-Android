@@ -82,7 +82,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name="cn.fanfan.asking.QuestionFragmentActivity"
+            android:name="cn.fanfan.asking.AskingFragmentActivity"
             android:label="@string/app_name" >
         </activity>
         <activity

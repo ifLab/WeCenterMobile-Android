@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class QuestionFragment extends Fragment {
+public class AskingFragment extends Fragment {
 
 	 private EditText editText;
    @Override
@@ -17,7 +17,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	   View rootView ;
-		rootView = inflater.inflate(R.layout.question, container, false);
+		rootView = inflater.inflate(R.layout.asking, container, false);
 		editText = (EditText) rootView.findViewById(R.id.question);
 	return rootView;
 }

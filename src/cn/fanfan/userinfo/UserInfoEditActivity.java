@@ -434,7 +434,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	}
 
 	private void upLoadAnim() {
-		iv_avatar.setImageResource(R.drawable.ic_loading);
+		iv_avatar.setImageResource(R.drawable.anim_rotate_image_avatar);
 		RotateAnimation animation = new RotateAnimation(0, 359,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);

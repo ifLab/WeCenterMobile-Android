@@ -5,7 +5,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-import cn.fanfan.asking.QuestionFragmentActivity;
+import cn.fanfan.asking.AskingFragmentActivity;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
@@ -122,7 +122,7 @@ public class MainActivity extends FragmentActivity implements
 			mTitle = draweritems[position];
 		} else if (position == 3) {
 			Intent intent = new Intent(MainActivity.this,
-					QuestionFragmentActivity.class);
+					AskingFragmentActivity.class);
 			startActivity(intent);
 		} else {
 			fragmentManager
