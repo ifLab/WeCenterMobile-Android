@@ -18,6 +18,7 @@ import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.common.TipsToast;
+import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.TopicFragmentActivity;
 import android.app.ActionBar;
@@ -26,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +54,6 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 	private TextView tv_collect;
 	private TextView tv_replys;
 	private TextView tv_asks;
-	private TextView tv_articles, tv_news;
 	private TextView tvSignature;
 	private TextView tv_focusi_person_comment, tv_ifocus_person_comment,
 			tv_topic_comment;
@@ -77,6 +76,8 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 	private int status;
 	private AsyncHttpClient asyncHttpClient;
 	private FanfanSharedPreferences ffGetUid;
+	private LinearLayout ll_logout;
+	private FanfanSharedPreferences sharedPreferences;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,11 +156,9 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 		tv_asks = (TextView) findViewById(R.id.tv_asks);
 		lv_articles = (LinearLayout) findViewById(R.id.lv_articles);
 		lv_articles.setOnClickListener(this);
-		tv_articles = (TextView) findViewById(R.id.tv_articles);
 
 		lv_news = (LinearLayout) findViewById(R.id.lv_news);
 		lv_news.setOnClickListener(this);
-		tv_news = (TextView) findViewById(R.id.tv_news);
 
 		lv_search_friens = (LinearLayout) findViewById(R.id.lv_search_friens);
 		lv_search_friens.setOnClickListener(this);
@@ -171,10 +170,14 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 		tv_topic_comment = (TextView) findViewById(R.id.tv_topic_comment);
 		tvSignature = (TextView) findViewById(R.id.tvSignature);
 		pb_change_follow = (ProgressBar) findViewById(R.id.pb_change_follow);
+		ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
+		ll_logout.setOnClickListener(this);
 		// 判断本机上已登录用户，如果是可以编辑并隐藏关注按钮。否则，隐藏编辑按钮显示关注按钮。
 		if (status == GlobalVariables.AVAILABLE_EDIT) {
 			bt_focus.setVisibility(View.INVISIBLE);
+			ll_logout.setVisibility(View.VISIBLE);
 		} else {
+			ll_logout.setVisibility(View.GONE);
 			tv_focusi_person_comment.setText("关注他的人");
 			tv_ifocus_person_comment.setText("他关注的人");
 			tv_topic_comment.setText("他关注的话题");
@@ -293,6 +296,18 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
+		case R.id.ll_logout:
+			// 退出登录
+			sharedPreferences = new FanfanSharedPreferences(
+					UserInfoShowActivity.this);
+			sharedPreferences.clear();
+			PersistentCookieStore cookieStore = new PersistentCookieStore(
+					UserInfoShowActivity.this);
+			cookieStore.clear();
+			Intent mainIntent = new Intent(this, MainActivity.class);
+			mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(mainIntent);
+			break;
 		case R.id.lv_topics:
 			Intent intent = new Intent(UserInfoShowActivity.this,
 					TopicFragmentActivity.class);
@@ -355,6 +370,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 			}
 			pb_change_follow.setVisibility(View.VISIBLE);
 			changeFrocusStatus();
+			bt_focus.setClickable(false);
 			break;
 		default:
 			break;
@@ -377,6 +393,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
+						bt_focus.setClickable(true);
 						pb_change_follow.setVisibility(View.GONE);
 					}
 
@@ -389,6 +406,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 								responseContent + "关注失败，请重试！",
 								Toast.LENGTH_SHORT).show();
 						// 更改按钮状态
+						bt_focus.setClickable(true);
 						if (haveFrocus == YES) {
 							haveFrocus = NO;
 							bt_focus.setBackgroundResource(R.drawable.btn_green_normal);

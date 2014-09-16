@@ -82,18 +82,18 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name="cn.fanfan.asking.QuestionFragmentActivity"
+            android:name="cn.fanfan.asking.AskingFragmentActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="cn.fanfan.detail.question.DetailQuestionActivity"
+            android:name="cn.fanfan.detail.question.QuestionDetailActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="cn.fanfan.found.Found"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name="cn.fanfan.detail.essay.DetailEssayActivity" >
+        <activity android:name="cn.fanfan.detail.essay.EssayDetailActivity" >
         </activity>
         <activity android:name="cn.fanfan.detail.question.AnswerActivity" >
         </activity>

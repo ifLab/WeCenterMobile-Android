@@ -83,29 +83,27 @@ public class NavigationDrawerFragment extends Fragment {
 	private boolean mUserLearnedDrawer;
 	private LinearLayout login_header;
 	private RelativeLayout user_header;
-	
+
 	private String uid;
-	
+
 	private int prePosition = 0;
 	private int currentPosition = 0;
 	private String userNameString;
 
 	private ImageView login_icon;
+
 	public NavigationDrawerFragment() {
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(getActivity());
+		FanfanSharedPreferences fanfanSharedPreferences = new FanfanSharedPreferences(
+				getActivity());
 		GlobalVariables.IsLogin = fanfanSharedPreferences.getLogInStatus(false);
 		if (GlobalVariables.uSER_IMAGE_URL == null) {
-			System.out.println("login");
 			Login();
 		}
-		// Read in the flag indicating whether or not the user has demonstrated
-		// awareness of the
-		// drawer. See PREF_USER_LEARNED_DRAWER for details.
 		SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(getActivity());
 		mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
@@ -115,16 +113,12 @@ public class NavigationDrawerFragment extends Fragment {
 					.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
 		}
-
-		// Select either the default item (0) or the last selected item.
 		selectItem(mCurrentSelectedPosition);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// Indicate that this fragment would like to influence the set of
-		// actions in the action bar.
 		setHasOptionsMenu(true);
 	}
 
@@ -133,18 +127,21 @@ public class NavigationDrawerFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (GlobalVariables.uSER_IMAGE_URL != null) {
-			(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
+			(new AsyncImageGet(Config.getValue("userImageBaseUrl")
+					+ GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
 		}
 	}
-	private void Login(){
-		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
+
+	private void Login() {
+		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(
+				getActivity());
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams requestParams = new RequestParams();
 		requestParams.put("user_name", sharedPreferences.getUserName(""));
 		requestParams.put("password", sharedPreferences.getPasswd(""));
 		String url = Config.getValue("LoginUrl");
-		client.post(url,requestParams,new AsyncHttpResponseHandler() {
-			
+		client.post(url, requestParams, new AsyncHttpResponseHandler() {
+
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
@@ -155,33 +152,40 @@ public class NavigationDrawerFragment extends Fragment {
 					if (errno == -1) {
 						String err = jsonObject.getString("err");
 						if (err.equals("请输入正确的账号或密码")) {
-							Toast.makeText(getActivity(), "您的账号或密码已经修改，请重新登录", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getActivity(), "您的账号或密码已经修改，请重新登录",
+									Toast.LENGTH_SHORT).show();
 						}
-					}else {
+					} else {
 						String rsm = jsonObject.getString("rsm");
 						JSONObject jsonObject2 = new JSONObject(rsm);
-						String avatar_file = jsonObject2.getString("avatar_file");
+						String avatar_file = jsonObject2
+								.getString("avatar_file");
 						GlobalVariables.uSER_IMAGE_URL = avatar_file;
-						(new AsyncImageGet(Config.getValue("userImageBaseUrl")+GlobalVariables.uSER_IMAGE_URL, login_icon)).execute();
+						(new AsyncImageGet(Config.getValue("userImageBaseUrl")
+								+ GlobalVariables.uSER_IMAGE_URL, login_icon))
+								.execute();
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
-					
+
 					e.printStackTrace();
 				}
 			}
-			
+
 			@Override
-			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
 				// TODO Auto-generated method stub
-				//System.out.println(new String(arg2));
+				// System.out.println(new String(arg2));
 			}
 		});
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(getActivity());
+		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(
+				getActivity());
 		uid = sharedPreferences.getUid("1");
 		userNameString = sharedPreferences.getUserName("");
 		LinearLayout linearLayout = (LinearLayout) inflater.inflate(
@@ -191,24 +195,26 @@ public class NavigationDrawerFragment extends Fragment {
 		user_header = (RelativeLayout) linearLayout
 				.findViewById(R.id.drawer_header_user);
 		mDrawerListView = (ListView) linearLayout.findViewById(R.id.draw_list);
-		login_icon = (ImageView)user_header.findViewById(R.id.login_icon);
-		TextView userName = (TextView)user_header.findViewById(R.id.name);
+		login_icon = (ImageView) user_header.findViewById(R.id.login_icon);
+		TextView userName = (TextView) user_header.findViewById(R.id.name);
 		userName.setText(userNameString);
 		user_header.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),UserInfoShowActivity.class);
+				Intent intent = new Intent(getActivity(),
+						UserInfoShowActivity.class);
 				intent.putExtra("uid", uid);
 				startActivity(intent);
 			}
 		});
 		login_header.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),cn.fanfan.welcome.LoginActivity.class);
+				Intent intent = new Intent(getActivity(),
+						cn.fanfan.welcome.LoginActivity.class);
 				GlobalVariables.ISFANFANLOGIN = true;
 				startActivity(intent);
 			}
@@ -368,13 +374,13 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
 
-	private void selectItem(int position) {
+	public void selectItem(int position) {
 		mCurrentSelectedPosition = position;
 		if (mDrawerListView != null) {
 			if (position == 3) {
 				mDrawerListView.setItemChecked(position, false);
 				mDrawerListView.setItemChecked(prePosition, true);
-			}else {
+			} else {
 				mDrawerListView.setItemChecked(position, true);
 			}
 		}
@@ -423,7 +429,7 @@ public class NavigationDrawerFragment extends Fragment {
 		// showGlobalContextActionBar, which controls the top-left area of the
 		// action bar.
 		if (mDrawerLayout != null && isDrawerOpen()) {
-			//inflater.inflate(R.menu.global, menu);
+			// inflater.inflate(R.menu.global, menu);
 			showGlobalContextActionBar();
 		}
 		super.onCreateOptionsMenu(menu, inflater);
@@ -435,12 +441,11 @@ public class NavigationDrawerFragment extends Fragment {
 			return true;
 		}
 
-		/*if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
-					.show();
-			return true;
-		}
-*/
+		/*
+		 * if (item.getItemId() == R.id.action_example) {
+		 * Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
+		 * .show(); return true; }
+		 */
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -470,5 +475,5 @@ public class NavigationDrawerFragment extends Fragment {
 		 */
 		void onNavigationDrawerItemSelected(int position);
 	}
-	
+
 }

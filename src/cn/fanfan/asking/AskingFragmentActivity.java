@@ -30,7 +30,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import cn.fanfan.common.Config;
-import cn.fanfan.detail.question.DetailQuestionActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -55,7 +55,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class QuestionFragmentActivity extends FragmentActivity {
+public class AskingFragmentActivity extends FragmentActivity {
 	private AsyncHttpClient client;
 	private CookieStore myCookieStore;
 	private cn.fanfan.common.MyProgressDialog progressDialog;
@@ -87,7 +87,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
-		text1 = new QuestionFragment();
+		text1 = new AskingFragment();
 		text2 = new DetailFragment();
 		text3 = new TagFragment();
 		cursor = (ImageView) findViewById(R.id.cursor);
@@ -192,7 +192,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 			try {
 				String quesdetil = ((DetailFragment) text2).getTextString()
 						.getText().toString();
-				String question = ((QuestionFragment) text1).getTextString().getText()
+				String question = ((AskingFragment) text1).getTextString().getText()
 						.toString();
 				String questag = ((TagFragment) text3).getTextString().getText()
 						.toString();
@@ -206,7 +206,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				Toast.makeText(this, "请完善内�?", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "请完善内�?", Toast.LENGTH_LONG).show();
 				;
 			}
 
@@ -312,7 +312,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 					e.printStackTrace();
 				}
 				if (errno == 1) {
-					Toast.makeText(QuestionFragmentActivity.this, "上传成功", Toast.LENGTH_LONG)
+					Toast.makeText(AskingFragmentActivity.this, "上传成功", Toast.LENGTH_LONG)
 							.show();
 					try {
 						rsm = jsonObject.getJSONObject("rsm");
@@ -326,7 +326,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 					((DetailFragment) text2).showpic(photoUri.getPath());
 				}
 				if (errno == -1) {
-					Toast.makeText(QuestionFragmentActivity.this, err, Toast.LENGTH_LONG)
+					Toast.makeText(AskingFragmentActivity.this, err, Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -369,7 +369,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 				}
 				progressDialog.hideAndCancle();
 				if (errno.equals("1")) {
-					Toast.makeText(QuestionFragmentActivity.this, "发布成功", Toast.LENGTH_LONG)
+					Toast.makeText(AskingFragmentActivity.this, "发布成功", Toast.LENGTH_LONG)
 							.show();
 					attach_access_key = md5(getAttachKey());
 					try {
@@ -377,7 +377,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 						String question_id = rsm.getString("question_id");
 						Intent intent = new Intent();
 						intent.putExtra("questionid", question_id);
-						intent.setClass(QuestionFragmentActivity.this, DetailQuestionActivity.class);
+						intent.setClass(AskingFragmentActivity.this, QuestionDetailActivity.class);
 						startActivity(intent);
 						Thread.currentThread();
 						Thread.sleep(1000);
@@ -388,7 +388,7 @@ public class QuestionFragmentActivity extends FragmentActivity {
 					}
 				}
 				if (errno.equals("-1")) {
-					Toast.makeText(QuestionFragmentActivity.this, err, Toast.LENGTH_LONG)
+					Toast.makeText(AskingFragmentActivity.this, err, Toast.LENGTH_LONG)
 							.show();
 				}
 

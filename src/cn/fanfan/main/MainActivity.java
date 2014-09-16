@@ -5,7 +5,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-import cn.fanfan.asking.QuestionFragmentActivity;
+import cn.fanfan.asking.AskingFragmentActivity;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity implements
 	 * Fragment managing the behaviors, interactions and presentation of the
 	 * navigation drawer.
 	 */
-	private NavigationDrawerFragment mNavigationDrawerFragment;
+	public static NavigationDrawerFragment mNavigationDrawerFragment;
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -46,7 +46,7 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	private CharSequence mTitle;
 	private String[] draweritems;
-	private int touchTimes = 0;
+	private long exitTime = 0;
 	private FanfanSharedPreferences sharedPreferences;
 
 	@Override
@@ -122,7 +122,7 @@ public class MainActivity extends FragmentActivity implements
 			mTitle = draweritems[position];
 		} else if (position == 3) {
 			Intent intent = new Intent(MainActivity.this,
-					QuestionFragmentActivity.class);
+					AskingFragmentActivity.class);
 			startActivity(intent);
 		} else {
 			fragmentManager
@@ -228,23 +228,27 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (touchTimes == 0) {
-				Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
-						.show();
-				touchTimes++;
-				return false;
-			}
+			ExitApp(); // 调用双击退出函数
+		}
+		return false;
+	}
+
+	public void ExitApp() {
+
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
 			FileUtils fileUtils = new FileUtils(MainActivity.this);
 			ImageFileUtils imageFileUtils = new ImageFileUtils(
 					MainActivity.this);
 			fileUtils.deleteFile();
 			imageFileUtils.deleteFile();
+			finish();
 		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -267,4 +271,5 @@ public class MainActivity extends FragmentActivity implements
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	
 }

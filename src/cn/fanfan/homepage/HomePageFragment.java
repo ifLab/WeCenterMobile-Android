@@ -23,6 +23,7 @@ import cn.fanfan.common.Config;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -103,7 +104,6 @@ public class HomePageFragment extends Fragment {
 								.setPullLabel("上拉加载更多");
 						mPullRefreshListView.getLoadingLayoutProxy()
 								.setReleaseLabel("释放开始加载");
-						Log.i(TAG, "滑到底部");
 					}
 				});
 		mPullRefreshListView
@@ -196,9 +196,17 @@ public class HomePageFragment extends Fragment {
 						// 如果请求成功totalRow为0时说明无更多数据了
 						if (totalRow == 0) {
 							// 已经加载全部的数据
-							mPage = mPage - 1;
-							Toast.makeText(activity, "亲，今天就这么多了！",
-									Toast.LENGTH_LONG).show();
+
+							if (mPage == 0) {
+								// TODO 没有数据跳转到发现
+								Toast.makeText(activity, "没有东东哦，快去关注别人吧！",
+										Toast.LENGTH_LONG).show();
+								MainActivity.mNavigationDrawerFragment.selectItem(1);
+							} else {
+								mPage = mPage - 1;
+								Toast.makeText(activity, "亲，今天就这么多了！",
+										Toast.LENGTH_LONG).show();
+							}
 							mPullRefreshListView.onRefreshComplete();
 						}
 						JSONArray rows = rsm.getJSONArray("rows");

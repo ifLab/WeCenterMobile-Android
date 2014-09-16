@@ -4,14 +4,13 @@ import java.util.List;
 
 import com.loopj.android.image.SmartImageView;
 
-import cn.fanfan.detail.essay.DetailEssayActivity;
+import cn.fanfan.detail.essay.EssayDetailActivity;
 import cn.fanfan.detail.question.AnswerActivity;
-import cn.fanfan.detail.question.DetailQuestionActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -91,12 +90,12 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				if (itemModel.getAction().equals("发布该文章")
 						|| itemModel.getAction().equals("赞同该文章")) {
-					Intent mIntent = new Intent(context, DetailEssayActivity.class);
+					Intent mIntent = new Intent(context, EssayDetailActivity.class);
 					mIntent.putExtra("eid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
 				} else {
-					Intent mIntent = new Intent(context, DetailQuestionActivity.class);
+					Intent mIntent = new Intent(context, QuestionDetailActivity.class);
 					mIntent.putExtra("questionid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
@@ -128,12 +127,12 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				if (itemModel.getAction().equals("发布该文章")
 						|| itemModel.getAction().equals("赞同该文章")) {
-					Intent mIntent = new Intent(context, DetailEssayActivity.class);
+					Intent mIntent = new Intent(context, EssayDetailActivity.class);
 					mIntent.putExtra("eid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
 				} else {
-					Intent mIntent = new Intent(context, DetailQuestionActivity.class);
+					Intent mIntent = new Intent(context, QuestionDetailActivity.class);
 					mIntent.putExtra("questionid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);

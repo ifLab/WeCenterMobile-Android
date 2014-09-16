@@ -14,8 +14,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.common.Config;
 import cn.fanfan.common.GlobalVariables;
-import cn.fanfan.detail.essay.DetailEssayActivity;
-import cn.fanfan.detail.question.DetailQuestionActivity;
+import cn.fanfan.detail.essay.EssayDetailActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -76,10 +76,10 @@ public class ArticleActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				if (isArticle == GlobalVariables.ARTICLE) {
-					intent.setClass(ArticleActivity.this, DetailEssayActivity.class);
+					intent.setClass(ArticleActivity.this, EssayDetailActivity.class);
 					intent.putExtra("eid", datas.get(arg2).getId());
 				} else {
-					intent.setClass(ArticleActivity.this, DetailQuestionActivity.class);
+					intent.setClass(ArticleActivity.this, QuestionDetailActivity.class);
 					intent.putExtra("questionid", datas.get(arg2).getId());
 				}
 				startActivity(intent);

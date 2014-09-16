@@ -245,8 +245,8 @@
                         android:textSize="15sp" />
 
                     <ProgressBar
+                        style="@android:attr/progressBarStyleSmall"
                         android:id="@+id/pb_change_follow"
-                        style="?android:attr/progressBarStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -427,6 +427,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/userinfo_item_style"
+            android:clickable="true"
             android:orientation="horizontal" >
 
             <TextView

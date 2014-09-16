@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DetailEssayActivity extends Activity implements OnClickListener {
+public class EssayDetailActivity extends Activity implements OnClickListener {
 	private CookieStore myCookieStore;
 	private AsyncHttpClient client;
 	private TextView agree, name, sign;
@@ -83,7 +83,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 				// TODO Auto-generated method stub
 				Intent intent1 = new Intent();
 				intent1.putExtra("uid", uid);
-				intent1.setClass(DetailEssayActivity.this,UserInfoShowActivity.class);
+				intent1.setClass(EssayDetailActivity.this,UserInfoShowActivity.class);
 				startActivity(intent1);
 			}
 		});
@@ -222,7 +222,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(DetailEssayActivity.this, "获取失败", Toast.LENGTH_LONG)
+				Toast.makeText(EssayDetailActivity.this, "获取失败", Toast.LENGTH_LONG)
 						.show();
 			}
 
@@ -249,7 +249,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 								// TODO Auto-generated method stub
 								Intent intent = new Intent();
 								intent.putExtra("topic", article_topics);
-								intent.setClass(DetailEssayActivity.this,
+								intent.setClass(EssayDetailActivity.this,
 										TopicAboutActivity.class);
 								startActivity(intent);
 							}
@@ -258,7 +258,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 						getWindowManager().getDefaultDisplay().getMetrics(dm);
 						float screenW = dm.widthPixels;
 						TextShow show = new TextShow(JSONTokener(message),
-								artdetail, DetailEssayActivity.this, screenW);
+								artdetail, EssayDetailActivity.this, screenW);
 						show.execute();
 						name.setText(artinfo.getString("user_name"));
 						sign.setText(artinfo.getString("signature"));
@@ -266,7 +266,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 						zanorno();
 						//Date date = new Date();
 						ImageDownLoader imageDownLoader = new ImageDownLoader(
-								DetailEssayActivity.this);
+								EssayDetailActivity.this);
 						imageDownLoader.getBitmap(
 								Config.getValue("userImageBaseUrl")+artinfo.getString("avatar_file"),
 								new onImageLoaderListener() {
@@ -281,7 +281,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 
 					} else {
 						String err = jsonObject.getString("err");
-						Toast.makeText(DetailEssayActivity.this, err, Toast.LENGTH_LONG)
+						Toast.makeText(EssayDetailActivity.this, err, Toast.LENGTH_LONG)
 								.show();
 					}
 				} catch (JSONException e) {
@@ -306,7 +306,7 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(DetailEssayActivity.this, "选择失败", Toast.LENGTH_LONG)
+				Toast.makeText(EssayDetailActivity.this, "选择失败", Toast.LENGTH_LONG)
 						.show();
 			}
 
@@ -326,13 +326,13 @@ public class DetailEssayActivity extends Activity implements OnClickListener {
 
 				if (errno == 1) {
 					zanno(id);
-					Toast.makeText(DetailEssayActivity.this, "选择成功", Toast.LENGTH_LONG)
+					Toast.makeText(EssayDetailActivity.this, "选择成功", Toast.LENGTH_LONG)
 							.show();
 				} else {
 
 					try {
 						String err = jsonObject.getString("err");
-						Toast.makeText(DetailEssayActivity.this, err, Toast.LENGTH_LONG)
+						Toast.makeText(EssayDetailActivity.this, err, Toast.LENGTH_LONG)
 								.show();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
