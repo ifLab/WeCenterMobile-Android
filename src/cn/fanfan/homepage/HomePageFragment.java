@@ -17,13 +17,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.umeng.update.UmengUpdateAgent;
-
 import cn.fanfan.common.Config;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -323,7 +320,6 @@ public class HomePageFragment extends Fragment {
 							default:
 								break;
 							}
-
 							// º”‘ÿµΩListItemModel
 							HomePageItemModel item = new HomePageItemModel(
 									layoutType, avatarUrl, userName, userUid,
