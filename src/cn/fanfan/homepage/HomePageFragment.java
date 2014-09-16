@@ -198,6 +198,7 @@ public class HomePageFragment extends Fragment {
 								// TODO 没有数据跳转到发现
 								Toast.makeText(activity, "没有东东哦，快去关注别人吧！",
 										Toast.LENGTH_LONG).show();
+								MainActivity.mNavigationDrawerFragment.selectItem(1);
 							} else {
 								mPage = mPage - 1;
 								Toast.makeText(activity, "亲，今天就这么多了！",

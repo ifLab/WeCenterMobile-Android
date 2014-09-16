@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity implements
 	 * Fragment managing the behaviors, interactions and presentation of the
 	 * navigation drawer.
 	 */
-	private NavigationDrawerFragment mNavigationDrawerFragment;
+	public static NavigationDrawerFragment mNavigationDrawerFragment;
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -271,4 +271,5 @@ public class MainActivity extends FragmentActivity implements
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	
 }
