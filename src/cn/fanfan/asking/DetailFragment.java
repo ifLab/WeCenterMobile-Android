@@ -105,7 +105,7 @@ public class DetailFragment extends Fragment {
 			if (Environment.MEDIA_MOUNTED.equals(sdcardState)) {
 				showDialog();
 			} else {
-				Toast.makeText(getActivity(), "sdcard不存�?",
+				Toast.makeText(getActivity(), "sdcard不存�?",
 						Toast.LENGTH_SHORT).show();
 			}
 		} else {
