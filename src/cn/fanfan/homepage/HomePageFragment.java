@@ -104,7 +104,6 @@ public class HomePageFragment extends Fragment {
 								.setPullLabel("上拉加载更多");
 						mPullRefreshListView.getLoadingLayoutProxy()
 								.setReleaseLabel("释放开始加载");
-						Log.i(TAG, "滑到底部");
 					}
 				});
 		mPullRefreshListView
@@ -199,6 +198,7 @@ public class HomePageFragment extends Fragment {
 							// 已经加载全部的数据
 
 							if (mPage == 0) {
+								// TODO 没有数据跳转到发现
 								Toast.makeText(activity, "没有东东哦，快去关注别人吧！",
 										Toast.LENGTH_LONG).show();
 							} else {

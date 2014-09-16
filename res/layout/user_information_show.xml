@@ -245,11 +245,11 @@
                         android:textSize="15sp" />
 
                     <ProgressBar
+                        style="@android:attr/progressBarStyleSmall"
                         android:id="@+id/pb_change_follow"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:indeterminateDrawable="@drawable/progress_rotate_anim"
                         android:visibility="gone" />
                 </FrameLayout>
             </LinearLayout>
@@ -427,6 +427,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/userinfo_item_style"
+            android:clickable="true"
             android:orientation="horizontal" >
 
             <TextView

@@ -30,7 +30,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import cn.fanfan.common.Config;
-import cn.fanfan.detail.question.DetailQuestionActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
@@ -377,7 +377,7 @@ public class AskingFragmentActivity extends FragmentActivity {
 						String question_id = rsm.getString("question_id");
 						Intent intent = new Intent();
 						intent.putExtra("questionid", question_id);
-						intent.setClass(AskingFragmentActivity.this, DetailQuestionActivity.class);
+						intent.setClass(AskingFragmentActivity.this, QuestionDetailActivity.class);
 						startActivity(intent);
 						Thread.currentThread();
 						Thread.sleep(1000);

@@ -58,7 +58,7 @@ import android.widget.Toast;
 public class UserInfoEditActivity extends Activity implements OnClickListener,
 		DatePickerDialog.OnDateSetListener {
 	private String sex;
-	private String birthday, errno, err, job_id, user_name, uid, signature,
+	private String birthday, err, job_id, user_name, uid, signature,
 			avatarpath, avatar_file;// birthday为unix时间戳
 	private ImageView iv_avatar;
 	private EditText et_username, et_introduction;
@@ -68,7 +68,6 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	// 性别：【1：男 2：女 3：保密】
 	private static final String MAN = "1";
 	private static final String FEMAN = "2";
-	private static final String SECRECY = "3";
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 	private Uri avatarUri;
@@ -120,7 +119,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							Log.d("userInfo", responseContent);
 							JSONObject result = (JSONObject) jsonParser
 									.nextValue();
-							errno = result.getString("errno");
+							result.getString("errno");
 							err = result.getString("err");
 							JSONArray rsm = new JSONArray();
 							rsm = result.getJSONArray("rsm");
@@ -334,8 +333,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					e.printStackTrace();
 				}
 				if (newAvatarPath != null) {
-					AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
-							UserInfoEditActivity.this,
+					new AsyncFileUpLoad(UserInfoEditActivity.this,
 							Config.getValue("AvatarUploadUrl"), newAvatarPath,
 							new CallBack() {
 								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
@@ -395,8 +393,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					if (avatarpath != null) {
 
 					}
-					AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
-							UserInfoEditActivity.this,
+					new AsyncFileUpLoad(UserInfoEditActivity.this,
 							Config.getValue("AvatarUploadUrl"), newAvatarPath,
 							new CallBack() {
 								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
@@ -517,7 +514,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 						try {
 							JSONObject result = (JSONObject) jsonParser
 									.nextValue();
-							errno = result.getString("errno");
+							result.getString("errno");
 							err = result.getString("err");
 							adviseUesr(err);
 						} catch (JSONException e) {

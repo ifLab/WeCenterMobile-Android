@@ -136,10 +136,10 @@
 
                     <ProgressBar
                         android:id="@+id/pb_change_follow"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        style="@android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:indeterminateDrawable="@drawable/progress_rotate_anim"
                         android:visibility="gone" />
                 </FrameLayout>
             </LinearLayout>

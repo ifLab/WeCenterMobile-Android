@@ -19,8 +19,8 @@ import com.loopj.android.http.RequestParams;
 
 import cn.fanfan.asking.FileUtils;
 import cn.fanfan.common.Config;
-import cn.fanfan.detail.essay.DetailEssayActivity;
-import cn.fanfan.detail.question.DetailQuestionActivity;
+import cn.fanfan.detail.essay.EssayDetailActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.topic.imageload.ImageDownLoader.onImageLoaderListener;
@@ -88,11 +88,11 @@ public class FoundPagerFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if (newlist.get(arg2).getType().equals("question")) {
 					intent.putExtra("questionid", newlist.get(arg2).getQuestion_id());
-					intent.setClass(getActivity(), DetailQuestionActivity.class);
+					intent.setClass(getActivity(), QuestionDetailActivity.class);
 					
 				} else {
 					intent.putExtra("eid", newlist.get(arg2).getQuestion_id());
-					intent.setClass(getActivity(), DetailEssayActivity.class);
+					intent.setClass(getActivity(), EssayDetailActivity.class);
 				}
 				
 				startActivity(intent);

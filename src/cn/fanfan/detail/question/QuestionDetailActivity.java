@@ -44,7 +44,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DetailQuestionActivity extends Activity {
+public class QuestionDetailActivity extends Activity {
 	private CookieStore myCookieStore;
 	private ListView comlist;
 	private List<AnswerItem> comlists;
@@ -99,7 +99,7 @@ public class DetailQuestionActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.putExtra("answerid", comlists.get(arg2).getAnswer_id());
-				intent.setClass(DetailQuestionActivity.this,
+				intent.setClass(QuestionDetailActivity.this,
 						AnswerActivity.class);
 				startActivity(intent);
 			}
@@ -116,7 +116,7 @@ public class DetailQuestionActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.putExtra("questionid", question_id);
-				intent.setClass(DetailQuestionActivity.this,
+				intent.setClass(QuestionDetailActivity.this,
 						WriteAnswerActivity.class);
 				startActivityForResult(intent, 1);
 
@@ -144,7 +144,7 @@ public class DetailQuestionActivity extends Activity {
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(DetailQuestionActivity.this, "网络连接失败！",
+				Toast.makeText(QuestionDetailActivity.this, "网络连接失败！",
 						Toast.LENGTH_LONG).show();
 			}
 
@@ -186,7 +186,7 @@ public class DetailQuestionActivity extends Activity {
 								// TODO Auto-generated method stub
 								Intent intent = new Intent();
 								intent.putExtra("topic", question_topics);
-								intent.setClass(DetailQuestionActivity.this,
+								intent.setClass(QuestionDetailActivity.this,
 										TopicAboutActivity.class);
 								startActivity(intent);
 							}
@@ -201,7 +201,7 @@ public class DetailQuestionActivity extends Activity {
 						getWindowManager().getDefaultDisplay().getMetrics(dm);
 						float screenW = dm.widthPixels;
 						textShow = new TextShow(JSONTokener(question_detail),
-								questiondetil, DetailQuestionActivity.this,
+								questiondetil, QuestionDetailActivity.this,
 								screenW);
 						textShow.execute();
 						focus.setText(focus_count);
@@ -254,12 +254,12 @@ public class DetailQuestionActivity extends Activity {
 					}
 
 					adapter = new CommentAdapter(comlists,
-							DetailQuestionActivity.this);
+							QuestionDetailActivity.this);
 					comlist.setAdapter(adapter);
 				} else {
 					try {
 						String err = jsonObject.getString("err");
-						Toast.makeText(DetailQuestionActivity.this, err,
+						Toast.makeText(QuestionDetailActivity.this, err,
 								Toast.LENGTH_LONG).show();
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -282,7 +282,7 @@ public class DetailQuestionActivity extends Activity {
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 					Throwable arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(DetailQuestionActivity.this, "网络连接失败！",
+				Toast.makeText(QuestionDetailActivity.this, "网络连接失败！",
 						Toast.LENGTH_LONG).show();
 			}
 
@@ -306,7 +306,7 @@ public class DetailQuestionActivity extends Activity {
 						setFollow();
 					} else {
 						String err = jsonObject.getString("err");
-						Toast.makeText(DetailQuestionActivity.this, err,
+						Toast.makeText(QuestionDetailActivity.this, err,
 								Toast.LENGTH_LONG).show();
 					}
 
@@ -332,12 +332,12 @@ public class DetailQuestionActivity extends Activity {
 		if (focustag == 1) {
 			focusques.setBackgroundResource(R.drawable.btn_silver_normal);
 			focusques.setText("取消关注");
-			focusques.setTextColor(DetailQuestionActivity.this.getResources()
+			focusques.setTextColor(QuestionDetailActivity.this.getResources()
 					.getColor(R.color.text_color_gray));
 		} else {
 			focusques.setBackgroundResource(R.drawable.btn_green_normal);
 			focusques.setText("关注");
-			focusques.setTextColor(DetailQuestionActivity.this.getResources()
+			focusques.setTextColor(QuestionDetailActivity.this.getResources()
 					.getColor(R.color.text_color_white));
 		}
 	}

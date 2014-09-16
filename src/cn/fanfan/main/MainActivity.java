@@ -46,7 +46,7 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	private CharSequence mTitle;
 	private String[] draweritems;
-	private int touchTimes = 0;
+	private long exitTime = 0;
 	private FanfanSharedPreferences sharedPreferences;
 
 	@Override
@@ -228,23 +228,27 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (touchTimes == 0) {
-				Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
-						.show();
-				touchTimes++;
-				return false;
-			}
+			ExitApp(); // 调用双击退出函数
+		}
+		return false;
+	}
+
+	public void ExitApp() {
+
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
 			FileUtils fileUtils = new FileUtils(MainActivity.this);
 			ImageFileUtils imageFileUtils = new ImageFileUtils(
 					MainActivity.this);
 			fileUtils.deleteFile();
 			imageFileUtils.deleteFile();
+			finish();
 		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override

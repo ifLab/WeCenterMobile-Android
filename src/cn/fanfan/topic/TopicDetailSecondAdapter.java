@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.detail.question.AnswerActivity;
-import cn.fanfan.detail.question.DetailQuestionActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Context;
@@ -99,7 +99,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(context, DetailQuestionActivity.class);
+				intent.setClass(context, QuestionDetailActivity.class);
 				intent.putExtra("questionid", String.valueOf(datas.get(position).getQuestion_id()));
 				context.startActivity(intent);
 			}
