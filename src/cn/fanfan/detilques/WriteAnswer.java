@@ -76,7 +76,7 @@ public class WriteAnswer extends Activity {
 	public List<String> drr = new ArrayList<String>();
 	private String[] items = new String[] { "选择本地图片", "拍照" };
 	private HorizontalScrollView selectimg_horizontalScrollView;
-	private static String attach_access_key ;
+	private String attach_access_key ;
 	private EditText editText;
     @SuppressLint("NewApi") @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +115,13 @@ public class WriteAnswer extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.publish:
+			 progressDialog.show();
 			 RequestParams params = new RequestParams();
 			 params.put("question_id", question_id);
 			 params.put("answer_content", editText.getText().toString());
 			 params.put("attach_access_key", attach_access_key);			 
              postanswer(params);
-          
+             
 			break;
 		case android.R.id.home:
 			finish();
@@ -290,12 +291,7 @@ public class WriteAnswer extends Activity {
     public void postanswer(RequestParams params) {
 		String url = Config.getValue("PostAnswer");
 		client.post(url, params, new AsyncHttpResponseHandler(){
-			@Override
-			public void onStart() {
-				// TODO Auto-generated method stub
-				progressDialog.show();
-				super.onStart();
-			}
+			
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				// TODO Auto-generated method stub
@@ -315,7 +311,7 @@ public class WriteAnswer extends Activity {
 				progressDialog.hideAndCancle();
                 if (errno == 1) {
                 	Toast.makeText(WriteAnswer.this, "回答成功！", Toast.LENGTH_LONG).show();
-                	attach_access_key = md5(getAttachKey());
+                	//attach_access_key = md5(getAttachKey());
                 	setResult(RESULT_OK);
                 	
 				}

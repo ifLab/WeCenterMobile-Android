@@ -1,5 +1,7 @@
 package cn.fanfan.detilques;
 
+import java.util.ArrayList;
+
 public class AnswerItem {
 
 	private String answer_id;
@@ -8,6 +10,7 @@ public class AnswerItem {
 	private String uid;
 	private String name;
 	private String avatar_file;
+	private ArrayList<String> urls;
 
 	public String getAnswer_id() {
 		return answer_id;
@@ -55,6 +58,14 @@ public class AnswerItem {
 
 	public void setAvatar_file(String avatar_file) {
 		this.avatar_file = avatar_file;
+	}
+
+	public ArrayList<String> getUrls() {
+		return urls;
+	}
+
+	public void setUrls(ArrayList<String> urls) {
+		this.urls = urls;
 	}
 
 }

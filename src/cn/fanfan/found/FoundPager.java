@@ -1,16 +1,13 @@
 package cn.fanfan.found;
 
-import java.io.IOException;
-import java.io.StringReader;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -28,7 +25,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +33,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -142,9 +139,8 @@ public class FoundPager extends Fragment {
 		// 注：firstVisibleItem + visibleItemCount-1 = 20 1其中包括了footview，这儿一定要小心！
 		for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount
 				- 1; i++) {
-			String mImageUrl = newlist.get(i).getAvatar_file();
-			//System.out.println(mImageUrl);
-			if (!mImageUrl.equals("") ) {
+			String mImageUrl = newlist.get(i).getAvatar_file();			
+			if (!mImageUrl.equals("") ) {				
 				mImageUrl = Config.getValue("userImageBaseUrl")+mImageUrl;
 				//System.err.println(mImageUrl);
 				final ImageView mImageView = (ImageView) listView
@@ -158,9 +154,23 @@ public class FoundPager extends Fragment {
 						}
 					}
 				});
-			}else {
-				continue;
 			}
+			final ArrayList<String> thumbs = newlist.get(i).getThumbs();
+			GridView gridView = (GridView)  listView.findViewWithTag(newlist.get(i).getQuestion_id()+"gridview");
+            if (thumbs != null && thumbs.size() >0 ) {
+				for (int j = 0; j < thumbs.size(); j++) {
+					String thumb = thumbs.get(j);
+					final ImageView imageView = (ImageView)gridView.findViewWithTag(thumb);
+					imageDownLoader.getBitmap(thumb, new onImageLoaderListener() {
+						
+						@Override
+						public void onImageLoader(Bitmap bitmap, String url) {
+							// TODO Auto-generated method stub
+							imageView.setImageBitmap(bitmap);
+						}
+					});
+				}
+			} 
 		}
 	}
 	private void getInformation(String page){
@@ -168,7 +178,7 @@ public class FoundPager extends Fragment {
 			pagrtag = page;
 			RequestParams params = new RequestParams();
 			//String url = Config.getValue("FoundList");
-			String url = "http://w.hihwei.com/?/api/explore_ios/";
+			String url = "http://w.hihwei.com/?/api/explore_v2/";
 			AsyncHttpClient client = new AsyncHttpClient();
 			Log.v(FoundPager.TAG, page+type);
 			params.put("page", page);
@@ -180,24 +190,19 @@ public class FoundPager extends Fragment {
 					// TODO Auto-generated method stub
 					String string = new String(arg2);
 					try {
-					List<String> key = new ArrayList<String>();
-					Pattern p = Pattern.compile("(question_id_|article_id_)[0-9]{1,}");
-					Matcher m = p.matcher(string);
-					while(m.find()){					
-						key.add(m.group());
-					}
-					
-			             
 						JSONObject all = new JSONObject(string);
 						JSONObject rsm = all.getJSONObject("rsm");
 			            total_row = rsm.getInt("total_rows");
 			            if (total_row < 10) {
 							listView.removeFooterView(footerLinearLayout);
 						}
-			            JSONObject rows = rsm.getJSONObject("rows");
-	                        for (int i = 0; i < total_row; i++) {
+			            JSONArray rows = rsm.getJSONArray("rows");
+	                        for (int i = 0; i < rows.length(); i++) {
+	                        	ArrayList<String> urls = new ArrayList<String>();
+	                        	ArrayList<String> thumbs = new ArrayList<String>(); 
+	                        	ArrayList<String> nums = new ArrayList<String>();
 	                        	Founditem founditem = null;
-	                        	JSONObject jsonObject = rows.getJSONObject(key.get(i));
+	                        	JSONObject jsonObject = rows.getJSONObject(i);
 								int inttga = 0;
 								founditem = new Founditem();
 								String post_type = jsonObject.getString("post_type");
@@ -205,6 +210,26 @@ public class FoundPager extends Fragment {
 								if (post_type.equals("question")) {
 									founditem.setQuestion_id(jsonObject.getString("question_id"));
 									founditem.setQuestion(jsonObject.getString("question_content"));
+									String detail = jsonObject.getString("question_detail");
+									Pattern pattern = Pattern.compile("\\[attach(.*?)attach\\]");
+									Matcher matcher = pattern.matcher(detail);
+									while (matcher.find()) {
+										Pattern p = Pattern.compile("[0-9]{1,}");
+                                        Matcher m = p.matcher(matcher.group());
+                                        while (m.find()) {
+											nums.add(m.group());
+										}
+									 }
+									if (nums.size() > 0) {
+										JSONObject attachs = jsonObject.getJSONObject("attachs");
+										for (int j = 0; j < nums.size(); j++) {
+											JSONObject attach = attachs.getJSONObject(nums.get(j));
+											urls.add(attach.getString("attachment"));
+											thumbs.add(attach.getString("thumb"));
+										}
+									}
+									founditem.setUrls(urls);
+									founditem.setThumbs(thumbs);
 									int answer_count = jsonObject.getInt("answer_count");
 									JSONObject object = jsonObject.getJSONObject("user_info");
 									founditem.setAvatar_file(object.getString("avatar_file"));

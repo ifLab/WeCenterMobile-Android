@@ -323,7 +323,7 @@ public class Question extends FragmentActivity {
 					}
 					System.out.println(attach_id + " pppppp");
 					((Detilfrang) text2).getTextString().append(
-							"[attach]" + attach_id + "[/attach]");
+							"\n[attach]" + attach_id + "[/attach]\n");
 					((Detilfrang) text2).showpic(photoUri.getPath());
 				}
 				if (errno == -1) {

@@ -43,7 +43,16 @@
                android:layout_height="wrap_content"
                android:layout_marginTop="5dp"
         />
-
+         <cn.fanfan.common.NoScrollGridView 
+             android:id="@+id/gridView"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:horizontalSpacing="1dp"
+             android:numColumns="3"
+             android:stretchMode="columnWidth"
+             android:visibility="gone"
+             android:verticalSpacing="1dp">             
+         </cn.fanfan.common.NoScrollGridView>
     </LinearLayout>
 
 </LinearLayout>

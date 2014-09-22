@@ -266,7 +266,7 @@ public class DetilEssay extends Activity implements OnClickListener {
 						float screenW = dm.widthPixels;
 						TextShow show = new TextShow(JSONTokener(message),
 								artdetail, DetilEssay.this, screenW);
-						show.execute();
+						//show.execute();
 						name.setText(artinfo.getString("user_name"));
 						sign.setText(artinfo.getString("signature"));
 						tagagree = artinfo.getInt("vote_value");

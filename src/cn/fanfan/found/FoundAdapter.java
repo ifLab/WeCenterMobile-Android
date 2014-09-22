@@ -1,5 +1,6 @@
 package cn.fanfan.found;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -12,10 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import cn.fanfan.common.Config;
+import cn.fanfan.common.MyGridAdapter;
+import cn.fanfan.common.ShowPic;
+import cn.fanfan.detilessay.DetilEssay;
+import cn.fanfan.detilques.Answer;
+import cn.fanfan.detilques.Detilques;
 import cn.fanfan.main.R;
 import cn.fanfan.question.Bimp;
 import cn.fanfan.topic.imageload.ImageDownLoader;
@@ -62,12 +71,33 @@ public class FoundAdapter extends BaseAdapter{
 					hodler.question = (TextView)arg1.findViewById(R.id.quescontent);
 					hodler.userimage = (ImageView)arg1.findViewById(R.id.userimage);
 					hodler.tag = (TextView)arg1.findViewById(R.id.tag);
+					hodler.gridView = (GridView) arg1.findViewById(R.id.gridView);
 					arg1.setTag(hodler);
 				
 			} else {
 				hodler = (ViewHodler)arg1.getTag();
 			}
+			 hodler.gridView.setTag(newitems.get(arg0).getQuestion_id()+"gridview");
 			 hodler.userimage.setTag(mImageUrl);
+			 arg1.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						// TODO Auto-generated method stub
+						Intent intent = new Intent();
+						// TODO Auto-generated method stub
+						if (newitems.get(arg0).getType().equals("question")) {
+							intent.putExtra("questionid", newitems.get(arg0).getQuestion_id());
+							intent.setClass(context, Detilques.class);
+							
+						} else {
+							intent.putExtra("eid", newitems.get(arg0).getQuestion_id());
+							intent.setClass(context, DetilEssay.class);
+						}
+						
+						context.startActivity(intent);
+					}
+				});
 			 hodler.name.setText(newitems.get(arg0).getName());
 			 hodler.question.setText(newitems.get(arg0).getQuestion());
 			switch (newitems.get(arg0).getInttag()) {
@@ -103,11 +133,32 @@ public class FoundAdapter extends BaseAdapter{
 						context.startActivity(intent);
 					}
 				});
+				 final ArrayList<String> urls = newitems.get(arg0).getUrls();
+				if (urls != null && urls.size()>0 ) {
+					hodler.gridView.setVisibility(View.VISIBLE);
+					hodler.gridView.setAdapter(new MyGridAdapter(newitems.get(arg0).getThumbs(), context));
+					hodler.gridView.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int arg2, long arg3) {
+							// TODO Auto-generated method stub
+							Intent intent = new Intent();
+							intent.putStringArrayListExtra("images", urls);
+				        	intent.putExtra("tag",arg2);
+				        	intent.setClass(context, ShowPic.class);
+				        	context.startActivity(intent);
+						}
+					});
+				} else {
+					hodler.gridView.setVisibility(View.GONE);
+				}
 			return arg1;
 		}
 		class ViewHodler{
 			private TextView name,question,tag;
 			private ImageView userimage;
+			private GridView gridView;
 	}  
 }
 

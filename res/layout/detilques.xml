@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:focusableInTouchMode="true"
@@ -9,7 +10,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="559dp"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        >
 
         <LinearLayout
             android:id="@+id/linear"
@@ -34,6 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
+                    android:clickable="false"
                     android:text="相关话题"
                     android:textSize="20sp" />
 
@@ -69,6 +72,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/text_color_white"
                 android:src="@drawable/abc_ic_ab_holo_light" />
         </LinearLayout>
 
@@ -80,7 +84,9 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:gravity="center_horizontal" 
+            android:background="@color/text_color_white">
 
             <TextView
                 android:id="@+id/question_contents"
@@ -91,8 +97,8 @@
                 android:paddingRight="15dp"
                 android:paddingTop="8dp"
                 android:textSize="17sp" />
-
-            <TextView
+         
+              <TextView
                 android:id="@+id/question_detail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -101,6 +107,8 @@
                 android:paddingRight="20dp"
                 android:paddingTop="8dp"
                 android:textSize="17sp" />
+
+           
         </LinearLayout>
 
         <View
@@ -112,6 +120,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/text_color_white"
             android:paddingBottom="8dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -121,10 +130,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/text_color_white"
                 android:gravity="center_vertical" >
 
                 <TextView
                     android:id="@+id/focus_count"
+                    android:background="@color/text_color_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_followers"
@@ -134,6 +145,7 @@
 
                 <TextView
                     android:id="@+id/answer_count"
+                    android:background="@color/text_color_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -144,12 +156,13 @@
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content" 
+                android:background="@color/text_color_white">
 
                 <Button
                     android:id="@+id/focusques"
                     android:layout_width="100dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="7.5dp"
                     android:background="@drawable/btn_green_normal"
@@ -173,20 +186,49 @@
             android:layout_width="fill_parent"
             android:layout_height="0.3dp"
             android:background="#dcdcdc" />
-
-        <LinearLayout
-            android:id="@+id/addanswer"
-            android:layout_width="fill_parent"
+        <LinearLayout 
+             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+         <LinearLayout
+            android:id="@+id/answerlist"
+            android:layout_weight="1"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/list_item"
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingBottom="12dp"
-            android:paddingLeft="100dp"
-            android:paddingRight="100dp"
-            android:paddingTop="12dp" >
+ >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:drawableLeft="@drawable/ic_drawer"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="回答列表" />
 
+        </LinearLayout>
+         <View
+            android:layout_width="0.3dp"
+            android:layout_height="42dp"
+            android:background="#dcdcdc" />
+        <LinearLayout
+            android:id="@+id/addanswer"
+            android:layout_weight="1"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_item"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+ >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -195,8 +237,11 @@
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="添加回答" />
-        </LinearLayout>
 
+        </LinearLayout>
+            
+        </LinearLayout>
+       
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.3dp"
@@ -204,6 +249,7 @@
 
         <cn.fanfan.detilques.ComListView
             android:id="@+id/comlist"
+            android:background="@color/text_color_white"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >

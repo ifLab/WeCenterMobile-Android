@@ -32,25 +32,22 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/username"
                 android:layout_marginLeft="15dp"
-            
              />
              <TextView
                 android:id="@+id/sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_color_gray"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginLeft="15dp"
             
              />
         </LinearLayout>
        
          <LinearLayout
-             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end" >
-    
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:gravity="end" >
         
            <TextView
                 android:id="@+id/zanorno"

@@ -8,11 +8,13 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bg_white"
         android:layout_weight="1" >
         
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/bg_white"
             android:orientation="vertical" >
              <LinearLayout
                  android:id="@+id/linktopic"
@@ -81,6 +83,7 @@
                 android:layout_height="55dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:background="@color/bg_white"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
@@ -97,6 +100,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
+                    
                     android:gravity="center_vertical" >
 
                     <TextView
@@ -120,6 +124,7 @@
             
           
            <TextView
+                android:background="@color/bg_white"
                 android:id="@+id/title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -131,6 +136,7 @@
 
             <TextView
                 android:id="@+id/essaydetil"
+                android:background="@color/bg_white"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"

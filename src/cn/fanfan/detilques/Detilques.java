@@ -1,49 +1,31 @@
 package cn.fanfan.detilques;
 
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.http.Header;
 import org.apache.http.client.CookieStore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
-
-
 import cn.fanfan.common.Config;
-import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.TextShow;
 import cn.fanfan.main.R;
+import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
-
-
-
 import com.loopj.android.http.PersistentCookieStore;
-
-import cn.fanfan.common.Config;
-import cn.fanfan.common.TextShow;
-import cn.fanfan.main.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.Menu;
-
-
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -53,12 +35,11 @@ import android.widget.Toast;
 
 public class Detilques extends Activity {
     private CookieStore myCookieStore;
-	private ListView comlist;
-	private List<AnswerItem> comlists;
-	private ComAdapter adapter;
-	private TextView  questiontitle, questiondetil, focus,
+	private static ArrayList<AnswerItem> comlists;;
+	private TextView  questiontitle, focus,
 			answercount;
-	private LinearLayout addanswer;
+	private TextView questiondetil;
+	private LinearLayout addanswer,answerlist;
 	private AsyncHttpClient client;
 	private TextShow textShow;
 	private String question_content;// 标题
@@ -67,7 +48,7 @@ public class Detilques extends Activity {
 	private int focustag = 1;
 	private LinearLayout layout;
 	private ProgressBar progressBar;
-
+	private ImageDownLoader downLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -79,12 +60,29 @@ public class Detilques extends Activity {
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
-		client = new AsyncHttpClient();
-		layout = (LinearLayout)findViewById(R.id.linear);
+		client = new AsyncHttpClient();		
 		myCookieStore = new PersistentCookieStore(this);
 		client.setCookieStore(myCookieStore);
+		layout = (LinearLayout)findViewById(R.id.linear);
 		focusques = (Button)findViewById(R.id.focusques);
 		progressBar = (ProgressBar)findViewById(R.id.progressBar);
+		addanswer = (LinearLayout) findViewById(R.id.addanswer);
+		questiontitle = (TextView) findViewById(R.id.question_contents);
+		questiondetil = (TextView) findViewById(R.id.question_detail);
+		focus = (TextView) findViewById(R.id.focus_count);
+		answercount = (TextView) findViewById(R.id.answer_count);
+		answerlist = (LinearLayout)findViewById(R.id.answerlist);
+		answerlist.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(Detilques.this, AnswerList.class);
+				startActivity(intent);
+			}
+		});
+		downLoader = new ImageDownLoader(this);
 		focusques.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -95,41 +93,28 @@ public class Detilques extends Activity {
 				Focusorno();
 			}
 		});
-		comlist = (ListView) findViewById(R.id.comlist);
+		
 		comlists = new ArrayList<AnswerItem>();
 		Intent intent = getIntent();
 		question_id = intent.getStringExtra("questionid");
-		comlist.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.putExtra("answerid", comlists.get(arg2).getAnswer_id());
-				intent.setClass(Detilques.this, Answer.class);
-				startActivity(intent);
-			}
-		});
-		addanswer = (LinearLayout) findViewById(R.id.addanswer);
-		questiontitle = (TextView) findViewById(R.id.question_contents);
-		questiondetil = (TextView) findViewById(R.id.question_detail);
-		focus = (TextView) findViewById(R.id.focus_count);
-		answercount = (TextView) findViewById(R.id.answer_count);
+		
 		addanswer.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent();
+				Intent intent =new Intent();
 				intent.putExtra("questionid", question_id);
 				intent.setClass(Detilques.this, WriteAnswer.class);
 				startActivityForResult(intent, 1);
+				
                 
 			}
 		});
-		GetQuestion(question_id);
+		GetQuestion(question_id);		
 	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -139,6 +124,7 @@ public class Detilques extends Activity {
 		}
 			
 	}
+	
 
 	private void GetQuestion(String questionId) {
 		String url = "http://w.hihwei.com/?/api/question/question/?id="
@@ -162,7 +148,6 @@ public class Detilques extends Activity {
 				JSONObject jsonObject = null;
 				try {
  	                jsonObject = new JSONObject(information);
- 	                System.out.println(jsonObject);
 					errno = jsonObject.getInt("errno");
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
@@ -203,23 +188,43 @@ public class Detilques extends Activity {
 						DisplayMetrics dm = new DisplayMetrics();
 						getWindowManager().getDefaultDisplay().getMetrics(dm);
 						float screenW = dm.widthPixels;
-						textShow = new TextShow(JSONTokener(question_detail), questiondetil,Detilques.this,screenW);
-						textShow.execute();
+						textShow = new TextShow(JSONTokener(question_detail), questiondetil,Detilques.this,screenW);						
 						focus.setText(focus_count);
 						if (!answer_count.equals("0")) {
 							JSONArray answers = rsm.getJSONArray("answers");
 							for (int i = 0; i < answers.length(); i++) {
+								ArrayList<String> urls = new ArrayList<String>();
 								JSONObject answer = answers.getJSONObject(i);
 								AnswerItem answerItem = new AnswerItem();
 								answerItem.setAnswer_id(answer.getString("answer_id"));
-								answerItem.setAnswer_content(JSONTokener(answer
-										.getString("answer_content")));
+								
+								String content = answer
+										.getString("answer_content");
+								Pattern p=Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
+								//System.out.println(content);
+							    Matcher m=p.matcher(content);
+							    while (m.find()) {
+							    	Pattern pp = Pattern.compile("http://[([a-z0-9]|.|/|\\-)]+.[(jpg)|(bmp)|(gif)|(png)]");
+							   
+							    	Matcher mm = pp.matcher(m.group());
+							    	while (mm.find()) {
+							    		urls.add(mm.group());
+									}
+								}
+							    content = m.replaceAll("");						    
+								answerItem.setAnswer_content(content);
+								answerItem.setUrls(urls);
 								answerItem.setAgree_count(answer
 										.getString("agree_count"));
 								answerItem.setUid(answer.getString("uid"));
 								answerItem.setName(answer.getString("user_name"));
 			
 								comlists.add(answerItem);
+								if (i==2) {
+									
+								}else if ((i+1)%3== 0) {
+									//adapter.notifyDataSetChanged();
+								}
 							}
 
 						}
@@ -231,17 +236,42 @@ public class Detilques extends Activity {
 						try {
 							JSONObject answers = rsm.getJSONObject("answers");
 							for (int i = 0; i < Integer.valueOf(answer_count); i++) {
+								ArrayList<String> urls = new ArrayList<String>();
 								JSONObject answer = answers.getJSONObject(String.valueOf(i+1));
 								AnswerItem answerItem = new AnswerItem();
-								answerItem.setAnswer_id(answer.getString("answer_id"));
-								answerItem.setAnswer_content(JSONTokener(answer
-										.getString("answer_content")));
+								answerItem.setAnswer_id(answer.getString("answer_id"));								
+								String content = answer
+										.getString("answer_content");
+								Pattern p=Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
+								
+							    Matcher m=p.matcher(content);
+							    while (m.find()) {
+							    	String url = m.group();
+							    	Pattern pp = Pattern.compile("http://[([a-z0-9]|.|/|\\-)]+.[(jpg)|(bmp)|(gif)|(png)]");
+							    	Matcher mm = pp.matcher(url);
+							    	while (mm.find()) {
+							    		urls.add(mm.group()); 
+								 
+									}
+							    	
+								}
+							    content = m.replaceAll("");		
+							    
+								answerItem.setAnswer_content(content);
+								answerItem.setUrls(urls);
+
 								answerItem.setAgree_count(answer
 										.getString("agree_count"));
 								answerItem.setUid(answer.getString("uid"));
 								answerItem.setName(answer.getString("user_name"));
 								//answerItem.setAvatar_file(answer.getString("avatar_file"));
 								comlists.add(answerItem);
+								if (i==2) {
+									System.out.println(comlists.size());
+									
+								}else if ((i+1)%3 == 0) {
+									//adapter.notifyDataSetChanged();
+								}
 							}
 						} catch (Exception e2) {
 							// TODO: handle exception
@@ -249,9 +279,7 @@ public class Detilques extends Activity {
 						}
 						
 					}
-
-					adapter = new ComAdapter(comlists, Detilques.this);
-					comlist.setAdapter(adapter);
+					
 				} else {
                    try {
 					String err = jsonObject.getString("err");
@@ -324,7 +352,6 @@ public class Detilques extends Activity {
      
 	private void setFollow(){
 		if (focustag == 1) {
-			System.out.println(123);
 			focusques.setBackgroundResource(R.drawable.btn_silver_normal);
 			focusques.setText("取消关注");
 			focusques.setTextColor(Detilques.this.getResources().getColor(R.color.text_color_gray));
@@ -334,7 +361,13 @@ public class Detilques extends Activity {
 			focusques.setTextColor(Detilques.this.getResources().getColor(R.color.text_color_white));
 		}
 	}
-	 public boolean onOptionsItemSelected(MenuItem item) {
+	public void cancleTask(){
+		downLoader.cacelTask();
+	}
+	public static ArrayList<AnswerItem> getlist(){
+		return comlists;		
+	}
+	public boolean onOptionsItemSelected(MenuItem item) {
 			// TODO Auto-generated method stub
 			switch (item.getItemId()) {
 			case android.R.id.home:
@@ -342,6 +375,7 @@ public class Detilques extends Activity {
 				break;
 			case  R.id.share:
 				showShare();
+				break;
 			default:
 				break;
 			}

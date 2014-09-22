@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="12dp"
@@ -46,5 +47,15 @@
              android:textColor="@color/text_color_gray"
              android:layout_height="wrap_content"
              android:layout_marginTop="10dp"/>
+         <cn.fanfan.common.NoScrollGridView 
+             android:id="@+id/gridView"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:horizontalSpacing="1dp"
+             android:numColumns="3"
+             android:stretchMode="columnWidth"
+             android:visibility="gone"
+             android:verticalSpacing="1dp">             
+         </cn.fanfan.common.NoScrollGridView>
     </LinearLayout>
 </LinearLayout>
