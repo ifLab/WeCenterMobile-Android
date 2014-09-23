@@ -12,7 +12,7 @@
         android:id="@+id/login_icon"
         android:layout_width="@dimen/avatar_size_medium"
         android:layout_height="@dimen/avatar_size_medium"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_avatar_default"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true" />
 
@@ -27,7 +27,7 @@
         android:layout_toRightOf="@id/login_icon"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="黄陈"
+        android:text=""
         android:textAppearance="@style/Zhihu.TextAppearance.Title.Main.Large" />
 
 </RelativeLayout>
