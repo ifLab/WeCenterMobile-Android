@@ -4,14 +4,13 @@ import java.util.List;
 
 import com.loopj.android.image.SmartImageView;
 
-import cn.fanfan.detilessay.DetilEssay;
-import cn.fanfan.detilques.Answer;
-import cn.fanfan.detilques.Detilques;
+import cn.fanfan.detail.essay.EssayDetailActivity;
+import cn.fanfan.detail.question.AnswerActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -91,12 +90,12 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				if (itemModel.getAction().equals("发布该文章")
 						|| itemModel.getAction().equals("赞同该文章")) {
-					Intent mIntent = new Intent(context, DetilEssay.class);
+					Intent mIntent = new Intent(context, EssayDetailActivity.class);
 					mIntent.putExtra("eid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
 				} else {
-					Intent mIntent = new Intent(context, Detilques.class);
+					Intent mIntent = new Intent(context, QuestionDetailActivity.class);
 					mIntent.putExtra("questionid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
@@ -108,7 +107,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserInfoActivity.actionStar(context,
+				UserInfoShowActivity.actionStar(context,
 						Integer.toString(itemModel.getUserUid()));
 			}
 		});
@@ -117,7 +116,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserInfoActivity.actionStar(context,
+				UserInfoShowActivity.actionStar(context,
 						Integer.toString(itemModel.getUserUid()));
 			}
 		});
@@ -128,12 +127,12 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 				// TODO Auto-generated method stub
 				if (itemModel.getAction().equals("发布该文章")
 						|| itemModel.getAction().equals("赞同该文章")) {
-					Intent mIntent = new Intent(context, DetilEssay.class);
+					Intent mIntent = new Intent(context, EssayDetailActivity.class);
 					mIntent.putExtra("eid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
 				} else {
-					Intent mIntent = new Intent(context, Detilques.class);
+					Intent mIntent = new Intent(context, QuestionDetailActivity.class);
 					mIntent.putExtra("questionid",
 							Integer.toString(itemModel.getItemTitleUid()));
 					context.startActivity(mIntent);
@@ -145,7 +144,7 @@ public class HomePageAdapter extends ArrayAdapter<HomePageItemModel> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent mIntent = new Intent(context, Answer.class);
+				Intent mIntent = new Intent(context, AnswerActivity.class);
 				mIntent.putExtra("answerid",
 						Integer.toString(itemModel.getBestAnswerUid()));
 				context.startActivity(mIntent);

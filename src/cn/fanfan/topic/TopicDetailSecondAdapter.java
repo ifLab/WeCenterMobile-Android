@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 
 import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
-import cn.fanfan.detilques.Answer;
-import cn.fanfan.detilques.Detilques;
+import cn.fanfan.detail.question.AnswerActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -59,7 +59,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(context).inflate(R.layout.listitem_topic_essence,null);
+			convertView = LayoutInflater.from(context).inflate(R.layout.list_item_topic_essence,null);
 			viewHolder = new ViewHolder();
 			viewHolder.essence_title = (TextView)convertView.findViewById(R.id.essence_title);
 			viewHolder.essence_image = (ImageView)convertView.findViewById(R.id.essence_image);
@@ -90,7 +90,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserInfoActivity.actionStar(context, String.valueOf(datas.get(position).getUid()));
+				UserInfoShowActivity.actionStar(context, String.valueOf(datas.get(position).getUid()));
 			}
 		});
 		viewHolder.essence_title.setOnClickListener(new OnClickListener() {
@@ -99,7 +99,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(context, Detilques.class);
+				intent.setClass(context, QuestionDetailActivity.class);
 				intent.putExtra("questionid", String.valueOf(datas.get(position).getQuestion_id()));
 				context.startActivity(intent);
 			}
@@ -109,7 +109,7 @@ public class TopicDetailSecondAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(context,Answer.class);
+				Intent intent = new Intent(context,AnswerActivity.class);
 				intent.putExtra("answerid", String.valueOf(datas.get(position).getAnswer_id()));
 				context.startActivity(intent);	
 			}

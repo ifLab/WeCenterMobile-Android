@@ -15,7 +15,7 @@
         android:paddingLeft="@dimen/horizontal_padding_medium"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_horizontal_margin"
-        android:text="知乎上关于美食的精彩问答有那些"
+        android:text=""
         android:textSize="@dimen/text_size_large" />
 
     <RelativeLayout
@@ -32,7 +32,7 @@
             android:layout_height="@dimen/avatar_size_medium"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="7.5dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/ic_avatar_masker" />
 
         <TextView
             android:id="@+id/answer_user"
@@ -42,7 +42,7 @@
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/answer_avater"
-            android:text="hcjcch" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tellone"
@@ -52,7 +52,7 @@
             android:layout_below="@+id/answer_user"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="青山依旧在，几度夕阳红" />
+            android:text="" />
 
         <View
             android:id="@+id/view1"
@@ -79,7 +79,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/good"
-            android:text="11050" />
+            android:text="" />
     </RelativeLayout>
 
     <WebView

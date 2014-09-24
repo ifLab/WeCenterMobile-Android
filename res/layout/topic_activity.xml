@@ -6,7 +6,7 @@
     
     <fragment  
         android:id="@+id/topic_activity"  
-        android:name="cn.fanfan.topic.Fragment_topic" 
+        android:name="cn.fanfan.topic.TopicFragment" 
         android:layout_width="match_parent"  
         android:layout_height="match_parent"  />  
 

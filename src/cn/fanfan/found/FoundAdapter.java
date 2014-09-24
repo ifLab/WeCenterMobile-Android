@@ -22,19 +22,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.MyGridAdapter;
 import cn.fanfan.common.ShowPic;
-import cn.fanfan.detilessay.DetilEssay;
-import cn.fanfan.detilques.Answer;
-import cn.fanfan.detilques.Detilques;
+import cn.fanfan.detail.essay.EssayDetailActivity;
+import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.question.Bimp;
 import cn.fanfan.topic.imageload.ImageDownLoader;
-import cn.fanfan.userinfo.UserInfoActivity;
+import cn.fanfan.userinfo.UserInfoShowActivity;
+
 
 public class FoundAdapter extends BaseAdapter{
-		   private List<Founditem> newitems;
+		   private List<FoundItem> newitems;
 		   private Context context;
 		   private ImageDownLoader imageDownLoader;
-	     public FoundAdapter(List<Founditem> comitems,Context context,ImageDownLoader imageDownLoader) {
+	     public FoundAdapter(List<FoundItem> comitems,Context context,ImageDownLoader imageDownLoader) {
 			// TODO Auto-generated constructor stub
 	    	
 	    	 super();
@@ -66,7 +65,7 @@ public class FoundAdapter extends BaseAdapter{
 			final String mImageUrl = Config.getValue("userImageBaseUrl")+newitems.get(arg0).getAvatar_file();
 			 if(arg1 == null){
 				    hodler = new ViewHodler();			
-					arg1 = LayoutInflater.from(context).inflate(R.layout.foundques, null);
+					arg1 = LayoutInflater.from(context).inflate(R.layout.found_question, null);
 					hodler.name = (TextView)arg1.findViewById(R.id.username);
 					hodler.question = (TextView)arg1.findViewById(R.id.quescontent);
 					hodler.userimage = (ImageView)arg1.findViewById(R.id.userimage);
@@ -88,11 +87,11 @@ public class FoundAdapter extends BaseAdapter{
 						// TODO Auto-generated method stub
 						if (newitems.get(arg0).getType().equals("question")) {
 							intent.putExtra("questionid", newitems.get(arg0).getQuestion_id());
-							intent.setClass(context, Detilques.class);
+							intent.setClass(context, QuestionDetailActivity.class);
 							
 						} else {
 							intent.putExtra("eid", newitems.get(arg0).getQuestion_id());
-							intent.setClass(context, DetilEssay.class);
+							intent.setClass(context, EssayDetailActivity.class);
 						}
 						
 						context.startActivity(intent);
@@ -120,7 +119,7 @@ public class FoundAdapter extends BaseAdapter{
 					hodler.userimage.setImageBitmap(bitmap);
 				} else {
 					hodler.userimage.setImageDrawable(context.getResources()
-							.getDrawable(R.drawable.logo));
+							.getDrawable(R.drawable.ic_avatar_default));
 				}
 				hodler.userimage.setOnClickListener(new OnClickListener() {
 					
@@ -128,7 +127,7 @@ public class FoundAdapter extends BaseAdapter{
 					public void onClick(View view) {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent();
-						intent.setClass(context, UserInfoActivity.class);
+						intent.setClass(context, UserInfoShowActivity.class);
 						intent.putExtra("uid", newitems.get(arg0).getUid());
 						context.startActivity(intent);
 					}

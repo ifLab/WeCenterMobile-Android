@@ -6,7 +6,7 @@
     
     <fragment  
         android:id="@+id/attention_user_activity"  
-        android:name="cn.fanfan.attentionuser.FramentAttentionUser" 
+        android:name="cn.fanfan.attentionuser.AttentionUserFrament" 
         android:layout_width="match_parent"  
         android:layout_height="match_parent"  />  
 

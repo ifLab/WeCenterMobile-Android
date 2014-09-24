@@ -1,17 +1,18 @@
 package cn.fanfan.main;
 
 import com.loopj.android.http.PersistentCookieStore;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
+import cn.fanfan.asking.AskingFragmentActivity;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.ImageFileUtils;
-import cn.fanfan.draft.Draft;
-import cn.fanfan.found.FoundFrg;
+import cn.fanfan.draft.DraftFragment;
+import cn.fanfan.found.FoundFragment;
 import cn.fanfan.homepage.HomePageFragment;
-import cn.fanfan.question.Question;
-import cn.fanfan.topic.Fragment_topic;
+import cn.fanfan.topic.TopicFragment;
 import cn.fanfan.topic.imageload.FileUtils;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -37,7 +38,7 @@ public class MainActivity extends FragmentActivity implements
 	 * Fragment managing the behaviors, interactions and presentation of the
 	 * navigation drawer.
 	 */
-	private NavigationDrawerFragment mNavigationDrawerFragment;
+	public static NavigationDrawerFragment mNavigationDrawerFragment;
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -45,7 +46,7 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	private CharSequence mTitle;
 	private String[] draweritems;
-	private int touchTimes = 0;
+	private long exitTime = 0;
 	private FanfanSharedPreferences sharedPreferences;
 
 	@Override
@@ -75,6 +76,7 @@ public class MainActivity extends FragmentActivity implements
 		// 用户反馈：后台检查是否有新的来自开发者的回复。
 		FeedbackAgent mAgent = new FeedbackAgent(MainActivity.this);
 		mAgent.sync();
+		MobclickAgent.updateOnlineConfig(MainActivity.this);
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class MainActivity extends FragmentActivity implements
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		if (position == 0) {
 			if (!GlobalVariables.IsLogin) {
-				Fragment fragment = new Fragment_topic();
+				Fragment fragment = new TopicFragment();
 				Bundle bundle = new Bundle();
 				bundle.putInt("isFocus", GlobalVariables.HOT_TOPIC);
 				bundle.putInt("position", position + 1);
@@ -103,10 +105,10 @@ public class MainActivity extends FragmentActivity implements
 			}
 		} else if (position == 1) {
 			fragmentManager.beginTransaction()
-					.replace(R.id.container, (new FoundFrg())).commit();
+					.replace(R.id.container, (new FoundFragment())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 2) {
-			Fragment fragment = new Fragment_topic();
+			Fragment fragment = new TopicFragment();
 			Bundle bundle = new Bundle();
 			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
 			bundle.putInt("position", position + 1);
@@ -116,10 +118,11 @@ public class MainActivity extends FragmentActivity implements
 			mTitle = draweritems[position];
 		} else if (position == 4) {
 			fragmentManager.beginTransaction()
-					.replace(R.id.container, (new Draft())).commit();
+					.replace(R.id.container, (new DraftFragment())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 3) {
-			Intent intent = new Intent(MainActivity.this, Question.class);
+			Intent intent = new Intent(MainActivity.this,
+					AskingFragmentActivity.class);
 			startActivity(intent);
 		} else {
 			fragmentManager
@@ -225,23 +228,27 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (touchTimes == 0) {
-				Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT)
-						.show();
-				touchTimes++;
-				return false;
-			}
+			ExitApp(); // 调用双击退出函数
+		}
+		return false;
+	}
+
+	public void ExitApp() {
+
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
 			FileUtils fileUtils = new FileUtils(MainActivity.this);
 			ImageFileUtils imageFileUtils = new ImageFileUtils(
 					MainActivity.this);
 			fileUtils.deleteFile();
 			imageFileUtils.deleteFile();
+			finish();
 		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -254,4 +261,15 @@ public class MainActivity extends FragmentActivity implements
 		}
 		super.onStop();
 	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+	
 }

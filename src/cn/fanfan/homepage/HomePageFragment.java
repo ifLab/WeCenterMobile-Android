@@ -17,8 +17,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
-import com.umeng.update.UmengUpdateAgent;
-
 import cn.fanfan.common.Config;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.MainActivity;
@@ -81,7 +79,7 @@ public class HomePageFragment extends Fragment {
 		}
 
 		final MainActivity activity = (MainActivity) getActivity();
-		adapter = new HomePageAdapter(activity, R.layout.listitem_homepage,
+		adapter = new HomePageAdapter(activity, R.layout.list_item_homepage,
 				itemDataList);
 		mPullRefreshListView = (PullToRefreshListView) fragmentView
 				.findViewById(R.id.lvHomeListView);
@@ -103,7 +101,6 @@ public class HomePageFragment extends Fragment {
 								.setPullLabel("上拉加载更多");
 						mPullRefreshListView.getLoadingLayoutProxy()
 								.setReleaseLabel("释放开始加载");
-						Log.i(TAG, "滑到底部");
 					}
 				});
 		mPullRefreshListView
@@ -165,7 +162,7 @@ public class HomePageFragment extends Fragment {
 					// TODO Auto-generated method stub
 					// 请求失败后提示用户
 					Toast.makeText((MainActivity) getActivity(),
-							" 网络有点不好哦，请重试！！", Toast.LENGTH_LONG).show();
+							"网络有点不好哦，请重试！", Toast.LENGTH_LONG).show();
 					mPullRefreshListView.onRefreshComplete();
 				}
 
@@ -196,9 +193,17 @@ public class HomePageFragment extends Fragment {
 						// 如果请求成功totalRow为0时说明无更多数据了
 						if (totalRow == 0) {
 							// 已经加载全部的数据
-							mPage = mPage - 1;
-							Toast.makeText(activity, "亲，今天就这么多了！",
-									Toast.LENGTH_LONG).show();
+
+							if (mPage == 0) {
+								// TODO 没有数据跳转到发现
+								Toast.makeText(activity, "没有东东哦，快去关注别人吧！",
+										Toast.LENGTH_LONG).show();
+								MainActivity.mNavigationDrawerFragment.selectItem(1);
+							} else {
+								mPage = mPage - 1;
+								Toast.makeText(activity, "亲，今天就这么多了！",
+										Toast.LENGTH_LONG).show();
+							}
 							mPullRefreshListView.onRefreshComplete();
 						}
 						JSONArray rows = rsm.getJSONArray("rows");
@@ -316,7 +321,6 @@ public class HomePageFragment extends Fragment {
 							default:
 								break;
 							}
-
 							// 加载到ListItemModel
 							HomePageItemModel item = new HomePageItemModel(
 									layoutType, avatarUrl, userName, userUid,

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="头发一股很健康"
+        android:text=""
         android:maxLines="1"
         android:ellipsize="end"
         android:paddingTop="@dimen/horizontal_padding_small"
@@ -32,7 +32,7 @@
         android:paddingLeft="@dimen/horizontal_padding_medium"
         android:paddingRight="@dimen/horizontal_padding_medium"
         android:paddingBottom="@dimen/horizontal_padding_medium"
-        android:text="我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你"
+        android:text=""
         android:textColor="@color/text_color_gray" />
 
 </RelativeLayout>

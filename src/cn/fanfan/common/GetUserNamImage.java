@@ -58,7 +58,7 @@ public class GetUserNamImage {
 								listener.onPicLoader(bitmap, userimage);
 							} else {
 								userimage.setImageDrawable(context.getResources()
-										.getDrawable(R.drawable.logo));
+										.getDrawable(R.drawable.ic_avatar_default));
 							
 						downLoader.getBitmap(mImageUrl,
 								new onImageLoaderListener() {
