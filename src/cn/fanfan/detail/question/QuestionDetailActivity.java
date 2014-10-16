@@ -383,6 +383,7 @@ public class QuestionDetailActivity extends Activity {
 		}
     private void flash(){
     	comlists.clear();
+    	questiondetil.setText("");
 		GetQuestion(question_id);
     }
 

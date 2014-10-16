@@ -49,6 +49,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -135,16 +136,17 @@ public class AskingFragmentActivity extends FragmentActivity {
 
 
 	private void InitImageView() {
-		Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.cursor_min);
-		bmpW = pic.getWidth();
+		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.cursor_min).getWidth();// 获取图片宽度
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		float screenW = dm.widthPixels;
-		offset = (screenW / itemcount - bmpW) / 2;
+		int screenW = dm.widthPixels;// 获取分辨率宽度
+		LayoutParams params = cursor.getLayoutParams();
+		params.width = screenW/3;
+		cursor.setLayoutParams(params);
+		offset = (screenW / itemcount - bmpW) / 2;// 计算偏移量
 		Matrix matrix = new Matrix();
-		;
 		matrix.postTranslate(offset, 0);
-		cursor.setImageMatrix(matrix);
+		cursor.setImageMatrix(matrix);// 设置动画初始位置
 	}
 
 	private void InitViewPager() {
@@ -322,7 +324,7 @@ public class AskingFragmentActivity extends FragmentActivity {
 						e.printStackTrace();
 					}
 					((DetailFragment) text2).getTextString().append(
-							"[attach]" + attach_id + "[/attach]");
+							"\n[attach]" + attach_id + "[/attach]\n");
 					((DetailFragment) text2).showpic(photoUri.getPath());
 				}
 				if (errno == -1) {

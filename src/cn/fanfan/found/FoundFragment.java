@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -63,6 +64,9 @@ public class FoundFragment extends Fragment {
 			DisplayMetrics dm = new DisplayMetrics();
 			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 			int screenW = dm.widthPixels;// 获取分辨率宽度
+			LayoutParams params = cursor.getLayoutParams();
+			params.width = screenW/3;
+			cursor.setLayoutParams(params);
 			offset = (screenW / itemcount - bmpW) / 2;// 计算偏移量
 			Matrix matrix = new Matrix();
 			matrix.postTranslate(offset, 0);
