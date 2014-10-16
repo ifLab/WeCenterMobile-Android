@@ -1,5 +1,7 @@
 package cn.fanfan.found;
 
+import java.util.ArrayList;
+
 public class FoundItem {
 	private String name;
 	private String question;
@@ -8,6 +10,7 @@ public class FoundItem {
 	private String question_id;
 	private String uid;
 	private int inttag;
+	private ArrayList<String> urls,thumbs;
 
 	public FoundItem() {
 		// TODO Auto-generated constructor stub
@@ -58,6 +61,18 @@ public class FoundItem {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public ArrayList<String> getThumbs() {
+		return thumbs;
+	}
+	public void setThumbs(ArrayList<String> thumbs) {
+		this.thumbs = thumbs;
+	}
+	public ArrayList<String> getUrls() {
+		return urls;
+	}
+	public void setUrls(ArrayList<String> urls) {
+		this.urls = urls;
 	}
 
 }

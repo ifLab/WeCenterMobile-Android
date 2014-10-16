@@ -287,7 +287,11 @@ public class AnswerActivity extends Activity implements OnClickListener {
 						String signature = rsm.getString("signature");
 						tag = rsm.getInt("vote_value");
 						zanstatus();
-						sign.setText(signature);
+						if (!signature.equals("")) {
+							sign.setText(signature);
+						} else {
+							sign.setVisibility(View.GONE);							
+						}						
 						 String agree_count = rsm.getString("agree_count");
 						 uid = rsm.getString("uid");
 						comment_count = rsm.getString("comment_count");
@@ -299,7 +303,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 						float screenW = dm.widthPixels;
 						textShow = new TextShow(JSONTokener(answer_content), answerdetil,AnswerActivity.this
 							,screenW);
-						textShow.execute();
+						//textShow.execute();
 						zanorno.setText(agree_count);
 						namImage.getuserinfo(uid,name,userimage,new onLoaderListener() {
 							

@@ -117,8 +117,8 @@
         </activity>
         <activity android:name="cn.fanfan.detail.essay.EssayCommentActivity" >
         </activity>
-        <activity android:name="cn.fanfan.detail.question.QuestionDetailActivity"></activity>
-        <activity android:name="cn.fanfan.detail.essay.EssayDetailActivity"></activity>
+        
+        <activity android:name="cn.fanfan.detail.question.AnswerList"></activity>
         <!-- 友盟组件相关activity与服务注册 -->
         <service
             android:name="com.umeng.update.net.DownloadingService"

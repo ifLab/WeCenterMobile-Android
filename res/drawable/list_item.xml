@@ -3,4 +3,8 @@
     <item  android:state_focused="false"
         android:state_pressed="true"
        android:drawable="@drawable/item"></item>
+    <item  android:state_focused="false"
+        android:state_pressed="false">
+        <color android:color="#FFFFFF"/>
+    </item>
 </selector>

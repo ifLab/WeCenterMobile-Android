@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:focusableInTouchMode="true"
@@ -9,7 +10,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="559dp"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        >
 
         <LinearLayout
             android:id="@+id/linear"
@@ -34,13 +36,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
+                    android:clickable="false"
                     android:text="相关话题"
                     android:textSize="20sp" />
+
+                <!--
+            <TextView
+                android:id="@+id/tagtopic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/label"
+                android:text="烘培"
+                android:textColor="#2C39F5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/label"
+                android:text="下午茶"
+                android:textColor="#2C39F5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/label"
+                android:text="锅具"
+                android:textColor="#2C39F5" />
+                -->
+
             </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/text_color_white"
                 android:src="@drawable/abc_ic_ab_holo_light" />
         </LinearLayout>
 
@@ -52,7 +84,9 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:gravity="center_horizontal" 
+            android:background="@color/text_color_white">
 
             <TextView
                 android:id="@+id/question_contents"
@@ -63,8 +97,8 @@
                 android:paddingRight="15dp"
                 android:paddingTop="8dp"
                 android:textSize="17sp" />
-
-            <TextView
+         
+              <TextView
                 android:id="@+id/question_detail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +107,8 @@
                 android:paddingRight="20dp"
                 android:paddingTop="8dp"
                 android:textSize="17sp" />
+
+           
         </LinearLayout>
 
         <View
@@ -81,21 +117,25 @@
             android:background="#dcdcdc" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/text_color_white"
             android:paddingBottom="8dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="8dp" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/text_color_white"
                 android:gravity="center_vertical" >
 
                 <TextView
                     android:id="@+id/focus_count"
+                    android:background="@color/text_color_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_followers"
@@ -105,6 +145,7 @@
 
                 <TextView
                     android:id="@+id/answer_count"
+                    android:background="@color/text_color_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -113,56 +154,81 @@
                     android:text="0"
                     android:textColor="#C4C4C4" />
             </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:background="@color/text_color_white">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right" >
+                <Button
+                    android:id="@+id/focusques"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="7.5dp"
+                    android:background="@drawable/btn_green_normal"
+                    android:text="关注"
+                    android:textColor="@color/bg_white"
+                    android:textSize="15sp" />
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp" >
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:visibility="gone"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="12.5dp"                    
+                    android:layout_width="100dp"
+                    android:layout_height="25dp" />
+            </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/focusques"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/btn_green_normal"
-                        android:text="关注"
-                        android:textColor="@color/bg_white"
-                        android:textSize="15sp" />
-
-                    <ProgressBar
-                        android:id="@+id/pb_change_follow"
-                        style="@android:attr/progressBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone" />
-                </FrameLayout>
-            </LinearLayout>
         </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.3dp"
             android:background="#dcdcdc" />
-
-        <LinearLayout
-            android:id="@+id/addanswer"
-            android:layout_width="fill_parent"
+        <LinearLayout 
+             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+         <LinearLayout
+            android:id="@+id/answerlist"
+            android:layout_weight="1"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/list_item"
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingBottom="12dp"
-            android:paddingLeft="100dp"
-            android:paddingRight="100dp"
-            android:paddingTop="12dp" >
+ >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:drawableLeft="@drawable/ic_drawer"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="回答列表" />
 
+        </LinearLayout>
+         <View
+            android:layout_width="0.3dp"
+            android:layout_height="42dp"
+            android:background="#dcdcdc" />
+        <LinearLayout
+            android:id="@+id/addanswer"
+            android:layout_weight="1"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_item"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+ >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,8 +237,11 @@
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="添加回答" />
-        </LinearLayout>
 
+        </LinearLayout>
+            
+        </LinearLayout>
+       
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.3dp"
@@ -180,9 +249,11 @@
 
         <cn.fanfan.detail.question.CommentListView
             android:id="@+id/comlist"
+            android:background="@color/text_color_white"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none" />
+            android:scrollbars="none" >
+        </cn.fanfan.detail.question.CommentListView>
 
         <View
             android:layout_width="fill_parent"

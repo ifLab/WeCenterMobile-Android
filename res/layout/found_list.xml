@@ -7,7 +7,8 @@
     <ListView
         android:id="@+id/fodlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@color/text_color_white" >
     </ListView>
     <RelativeLayout
         android:id="@+id/rlHomePageLoading"
