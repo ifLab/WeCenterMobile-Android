@@ -162,7 +162,7 @@ public class HomePageFragment extends Fragment {
 					// TODO Auto-generated method stub
 					// 请求失败后提示用户
 					Toast.makeText((MainActivity) getActivity(),
-							" 网络有点不好哦，请重试！！", Toast.LENGTH_LONG).show();
+							"网络有点不好哦，请重试！", Toast.LENGTH_LONG).show();
 					mPullRefreshListView.onRefreshComplete();
 				}
 
