@@ -182,7 +182,7 @@ public class EssayCommentActivity extends Activity implements OnItemClickListene
 	}
 
 	private void dozan(int id, int value) {
-		String url = "http://w.hihwei.com/?/article/ajax/article_vote/";
+		String url = Config.getValue("EssayComment");
 		RequestParams params = new RequestParams();
 		params.put("type", "comment");
 		params.put("item_id", id);

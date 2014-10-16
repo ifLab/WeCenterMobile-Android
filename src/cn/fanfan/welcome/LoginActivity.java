@@ -10,6 +10,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.main.MainActivity;
@@ -71,7 +72,7 @@ public class LoginActivity extends Activity {
 
 	public void login() {
 		client.post(LoginActivity.this,
-				"http://w.hihwei.com/?/api/account/login_process/", params,
+				Config.getValue("Login"), params,
 				new AsyncHttpResponseHandler() {
 
 					@Override

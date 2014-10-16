@@ -136,7 +136,7 @@ public class QuestionDetailActivity extends Activity {
 	}
 
 	private void GetQuestion(String questionId) {
-		String url = "http://w.hihwei.com/?/api/question/question/?id="
+		String url = Config.getValue("QuestionDetail")
 				+ questionId;
 		client.get(url, new AsyncHttpResponseHandler() {
 

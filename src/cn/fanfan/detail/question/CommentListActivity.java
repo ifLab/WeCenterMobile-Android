@@ -201,7 +201,7 @@ public class CommentListActivity extends Activity implements OnItemClickListener
 	}
 
 	private void Getcom(String id) {
-		String url = "http://w.hihwei.com/api/answer_comment.php?id=" + id;
+		String url = Config.getValue("CommentList")+ id;
 		client.get(url, new AsyncHttpResponseHandler() {
 
 			@Override

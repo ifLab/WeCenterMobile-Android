@@ -14,6 +14,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.fanfan.common.Config;
 import cn.fanfan.common.GetUserNamImage;
 import cn.fanfan.common.GetUserNamImage.onLoaderListener;
 import cn.fanfan.common.TextShow;
@@ -202,7 +203,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 		}
 	}
     private void dozan(final int value){
-    	String url = "http://w.hihwei.com/?/question/ajax/answer_vote/";
+    	String url = Config.getValue("QuestionDozan");
     	RequestParams params = new RequestParams();
     	params.put("answer_id", answer_id);
     	params.put("value", value);

@@ -9,18 +9,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 public class TagFragment extends Fragment {
-	 private EditText editText;
-  @Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
-	// TODO Auto-generated method stub
-	   View rootView ;
+	private EditText editText;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		View rootView;
 		rootView = inflater.inflate(R.layout.asking_add_tag, container, false);
-		editText = (EditText)rootView.findViewById(R.id.questag);
-	return rootView;
-  }
+		editText = (EditText) rootView.findViewById(R.id.questag);
+		return rootView;
+	}
+
 	public EditText getTextString() {
 		return editText;
-		
+
 	}
 }

@@ -214,7 +214,7 @@ public class EssayDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void Getinfo() {
-		String url = "http://w.hihwei.com/?/api/article/article/?id="
+		String url = Config.getValue("EssayDetail")
 				+ articleid;
 		client.get(url, new AsyncHttpResponseHandler() {
 
@@ -295,7 +295,7 @@ public class EssayDetailActivity extends Activity implements OnClickListener {
 	}
 
 	private void dozan(int value,final int id) {
-		String url = "http://w.hihwei.com/?/article/ajax/article_vote/";
+		String url = Config.getValue("ArticleDozan");
 		RequestParams params = new RequestParams();
 		params.put("type", "article");
 		params.put("item_id", articleid);

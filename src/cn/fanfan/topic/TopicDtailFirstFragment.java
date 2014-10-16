@@ -133,7 +133,7 @@ public class TopicDtailFirstFragment extends Fragment {
 		RequestParams params = new RequestParams();
 		params.put("uid", uid);
 		params.put("topic_id", topic_id);
-		client.get("http://w.hihwei.com/api/topic.php", params,
+		client.get(Config.getValue("Topic"), params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
