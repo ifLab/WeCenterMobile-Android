@@ -72,7 +72,6 @@ public class HomePageFragment extends Fragment {
 		if (networkState.isNetworkConnected(getActivity())) {
 			getHomePageInfo(mPage, false);// 获取数据
 		} else {
-
 			Toast.makeText(getActivity(), "没有网络耶！设置下吧", Toast.LENGTH_LONG)
 					.show();
 			tvHomePageLoading.setText("没有网络耶！设置下吧");

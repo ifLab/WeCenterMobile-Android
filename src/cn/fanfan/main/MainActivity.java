@@ -102,6 +102,7 @@ public class MainActivity extends FragmentActivity implements
 				fragment.setArguments(bundle);
 				fragmentManager.beginTransaction()
 						.replace(R.id.container, fragment).commit();
+				mTitle = "Ê×Ò³";
 			}
 		} else if (position == 1) {
 			fragmentManager.beginTransaction()

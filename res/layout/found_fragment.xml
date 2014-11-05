@@ -48,10 +48,10 @@
 
     <ImageView
         android:id="@+id/cursor"
-        android:layout_width="fill_parent"
+        android:layout_width="50dp"
         android:layout_height="3dp"
         android:scaleType="matrix"
-        android:src="@drawable/cursor_min" />
+        android:background="#f6832f"/>
 
     <View
         android:layout_width="fill_parent"

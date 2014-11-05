@@ -10,9 +10,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ public class FoundFragment extends Fragment {
 	 private ImageView cursor;// 动画图片
 	 private TextView t1, t2, t3;// 页卡头标
 	 private FoundPageAdapter foundPageAdapter;
+	 
 	 public FoundFragment() {
 		// TODO Auto-generated constructor stub
 	}
@@ -36,6 +39,12 @@ public class FoundFragment extends Fragment {
 	
          View rootView = inflater.inflate(R.layout.found_fragment, container, false);
          cursor = (ImageView) rootView.findViewById(R.id.cursor);
+         DisplayMetrics dm = new DisplayMetrics();
+		 getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+		 int screenW = dm.widthPixels;// 获取分辨率宽度
+		 LayoutParams ps = cursor.getLayoutParams();
+		 ps.width = screenW/3;
+         cursor.setLayoutParams(ps);
          t1 = (TextView) rootView.findViewById(R.id.text1);
 	     t2 = (TextView) rootView.findViewById(R.id.text2);
 	     t3 = (TextView) rootView.findViewById(R.id.text3);
