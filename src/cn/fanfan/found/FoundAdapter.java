@@ -2,10 +2,6 @@ package cn.fanfan.found;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;

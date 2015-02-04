@@ -39,11 +39,11 @@ public class TextShow{
 		Pattern p = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
 		Matcher m = p.matcher(text);
 		while(m.find()){
-			text = text.replace(m.group(), "^^#"+m.group());
+			text = text.replace(m.group(), "^^#"+m.group()+"<br>");
 		}
 		String[] sourceStrArray = text.split("\\^\\^#");
 		for (int i = 0; i < sourceStrArray.length; i++) {
-			AsyncShow asyncShow = new AsyncShow(sourceStrArray[i], textView, context, screenW);
+			AsyncShow asyncShow = new AsyncShow(sourceStrArray[i]+"<br>", textView, context, screenW);
 			asyncShow.execute();
 		}
 	}
@@ -54,6 +54,7 @@ public class TextShow{
 		private FileUtils fileUtils;
 		private float screenW;
 		private  Context context;
+		private int start = 0;
 		
 		
 
@@ -77,6 +78,7 @@ public class TextShow{
 		protected Spanned doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
 			final Spanned spanned;
+		
 			ImageGetter imgGetter = new Html.ImageGetter() {
 				@SuppressWarnings("deprecation")
 				@Override
@@ -118,7 +120,8 @@ public class TextShow{
 							float h =  (screenW-100)*so;
 							d.setBounds(0, 0,(int)(screenW-100),(int)h);
 						} else {
-							d.setBounds(0, 0,bm.getWidth(),bm.getHeight());
+							start =  (int) (screenW - bm.getWidth())/2;
+							d.setBounds(start, 0,bm.getWidth()+start,bm.getHeight());
 						}
 						
 
