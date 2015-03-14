@@ -1,12 +1,10 @@
 package cn.fanfan.userinfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-
-import javax.security.auth.callback.Callback;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -17,14 +15,17 @@ import org.json.JSONTokener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
+import cn.fanfan.asking.Bimp;
 import cn.fanfan.common.AsyncFileUpLoad;
 import cn.fanfan.common.AsyncFileUpLoad.CallBack;
 import cn.fanfan.common.AsyncImageGet;
-import cn.fanfan.common.CompressAvata;
+import cn.fanfan.common.Config;
+import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
 import cn.fanfan.main.R;
-import android.R.string;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
@@ -37,13 +38,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,46 +57,48 @@ import android.widget.Toast;
 
 public class UserInfoEditActivity extends Activity implements OnClickListener,
 		DatePickerDialog.OnDateSetListener {
-	private String uid, signature, avatarpath, avatar_file;
-	private int sex;// sex (int，1：男 2：女 3：保密)
-	private String birthday;// unix时间戳
+	private String sex;
+	private String birthday, err, job_id, user_name, uid, signature,
+			avatarpath, avatar_file;// birthday为unix时间戳
 	private ImageView iv_avatar;
 	private EditText et_username, et_introduction;
-	private LinearLayout lv_birthday, lv_business, lv_location;
+	private LinearLayout lv_birthday, lv_business;
 	private TextView tv_sex_f, tv_sex_m, tv_sex_f_background,
-			tv_sex_m_background, tv_birthday_info, tv_business_info,
-			tv_location_info;
+			tv_sex_m_background, tv_birthday_info, tv_business_info;
+	// 性别：【1：男 2：女 3：保密】
+	private static final String MAN = "1";
+	private static final String FEMAN = "2";
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 	private Uri avatarUri;
-	SelectPicPopupWindow menuWindow;// 点击头像弹出选择拍照或者选择图库的弹出菜单
-	protected String errno;
-	protected String err;
-	protected String job_id;
-	protected String user_name;
+	private SelectPicPopupWindow menuWindow;// 点击头像弹出选择拍照或者选择图库的弹出菜单
+	private String newAvatarPath;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.userinformation_edit);
+		setContentView(R.layout.user_information_edit);
+		// 添加返回按钮到ActionBar
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.show();
+		// 接受其他Activity传来的参数
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		uid = bundle.getString("uid");
 		avatar_file = bundle.getString("avatar_file");
-		init();// 初始化
-		NetworkState networkState = new NetworkState();
-		if (networkState.isNetworkConnected(UserInfoEditActivity.this)) {
-			getUserProfile();
-		} else {
-			Toast.makeText(this, "没有网络，请连接后操作！", Toast.LENGTH_SHORT).show();
-		}
+		// 图形界面初始化
+		init();
 	}
 
+	// 获取用户资料
 	private void getUserProfile() {
 		// TODO Auto-generated method stub
 		AsyncHttpClient getUserInfo = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("uid", uid);
-		getUserInfo.get("http://w.hihwei.com/api/profile.php", params,
+		getUserInfo.get(Config.getValue("ProfileUrl"), params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
@@ -108,34 +113,27 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
-						Log.i("getUserInfo", responseContent + "---Success");
 						JSONTokener jsonParser = new JSONTokener(
 								responseContent);
 						try {
+							Log.d("userInfo", responseContent);
 							JSONObject result = (JSONObject) jsonParser
 									.nextValue();
-							errno = result.getString("errno");
+							result.getString("errno");
 							err = result.getString("err");
-							Log.i("errno", errno);
-							Log.i("err", err);
 							JSONArray rsm = new JSONArray();
 							rsm = result.getJSONArray("rsm");
-							Log.i("getJSONArray", rsm.toString());
 							// 解析数组rsm的数据
 							JSONObject rsmcontent = (JSONObject) rsm.get(0);
-							Log.i("rsmcontent", rsmcontent.toString());
 							JSONTokener jsonParser2 = new JSONTokener(
 									rsmcontent.toString());
 							JSONObject rsmcontents = (JSONObject) jsonParser2
 									.nextValue();
 							user_name = rsmcontents.getString("user_name");
-							sex = Integer.parseInt(rsmcontents.getString("sex"));//
+							sex = rsmcontents.getString("sex");
 							birthday = rsmcontents.getString("birthday");
 							job_id = rsmcontents.getString("job_id");
 							signature = rsmcontents.getString("signature");
-							Log.i("user_name", user_name);
-							Log.i("birthday", birthday);
-							Log.i("signature", signature);
 							updateUI();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -149,25 +147,36 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	protected void updateUI() {
 		// TODO Auto-generated method stub
 		et_username.setText(user_name);
-		et_introduction.setText(signature);
-		// p
-		if (sex == 1) {
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+		if (signature.equals("null")) {
+			et_introduction.setHint("点击设置签名!");
+		} else {
+			et_introduction.setText(signature);
 		}
-		if (sex == 2) {
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+
+		// p
+		if (sex.equals(MAN)) {
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#3A7DF0"));
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#E5FFED"));
+		}
+		if (sex.equals(FEMAN)) {
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#FB929C"));
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 		}
 		// 展示用户生日信息
-		String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
-		tv_birthday_info.setText(date);
-		Log.i("date", date);
-		if (avatar_file != null) {
+		if (!birthday.equals("null")) {
+			String date = TimeStamp2Date(birthday, "yyyy-MM-dd ");
+			tv_birthday_info.setText(date);
+		} else {
+			tv_birthday_info.setText("未设置");
+		}
+
+		// 下载用户头像
+		if ((!avatar_file.equals("null")) & (!avatar_file.equals(""))) {
 			AsyncImageGet getAvatar = new AsyncImageGet(
-					"http://w.hihwei.com/uploads/avatar/" + avatar_file,
-					iv_avatar);
+					Config.getValue("AvatarPrefixUrl") + avatar_file, iv_avatar);
 			getAvatar.execute();
+		} else {
+			iv_avatar.setImageResource(R.drawable.ic_avatar_default);
 		}
 	}
 
@@ -187,27 +196,32 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		et_introduction = (EditText) findViewById(R.id.et_introduction);
 		lv_birthday = (LinearLayout) findViewById(R.id.lv_birthday);
 		lv_business = (LinearLayout) findViewById(R.id.lv_business);
-		lv_location = (LinearLayout) findViewById(R.id.lv_location);
 		tv_sex_f = (TextView) findViewById(R.id.tv_sex_f);
 		tv_sex_m = (TextView) findViewById(R.id.tv_sex_m);
 		tv_sex_f_background = (TextView) findViewById(R.id.tv_sex_f_background);
 		tv_sex_m_background = (TextView) findViewById(R.id.tv_sex_m_background);
 		tv_birthday_info = (TextView) findViewById(R.id.tv_birthday_info);
 		tv_business_info = (TextView) findViewById(R.id.tv_business_info);
-		tv_location_info = (TextView) findViewById(R.id.tv_location_info);
 		iv_avatar.setOnClickListener(this);
 		et_username.setOnClickListener(this);
 		et_introduction.setOnClickListener(this);
 		lv_birthday.setOnClickListener(this);
 		lv_business.setOnClickListener(this);
-		lv_location.setOnClickListener(this);
 		tv_sex_f_background.setOnClickListener(this);
 		tv_sex_m_background.setOnClickListener(this);
 		tv_sex_m.setOnClickListener(this);
 		tv_sex_f.setOnClickListener(this);
 		tv_birthday_info.setOnClickListener(this);
 		tv_business_info.setOnClickListener(this);
-		tv_location_info.setOnClickListener(this);
+
+		// 网络判断
+		NetworkState networkState = new NetworkState();
+		if (networkState.isNetworkConnected(UserInfoEditActivity.this)) {
+			getUserProfile();
+		} else {
+			Toast.makeText(this, "没有网络，请连接后操作！", Toast.LENGTH_SHORT).show();
+		}
+
 	}
 
 	/* 主界面的view的监听 及处理 */
@@ -225,33 +239,29 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.et_uername:
 			user_name = et_username.getText().toString();
-			Log.i("user_name", user_name);
 			break;
 		case R.id.et_introduction:
 			signature = et_introduction.getText().toString();
-			Log.i("signature", signature);
 			break;
 		case R.id.tv_sex_m:
-			sex = 1;
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+			sex = "1";
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#3A7DF0"));
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 			break;
 		case R.id.tv_sex_f:
-			sex = 2;
-			tv_sex_f_background.setBackgroundColor(Color.parseColor("#50FCFF"));
-			tv_sex_m_background.setBackgroundColor(Color.parseColor("#DCE0DD"));
+			sex = "2";
+			tv_sex_f_background.setBackgroundColor(Color.parseColor("#FB929C"));
+			tv_sex_m_background.setBackgroundColor(Color.parseColor("#E5FFED"));
 			break;
 		case R.id.lv_birthday:
 			DialogFragment newFragment = new DatePickerFragment();
 			newFragment.show(getFragmentManager(), "datePicker");
 			break;
-		case R.id.lv_business:
-			Toast.makeText(this, "手机端暂不支持更改，请登录网站更改！", Toast.LENGTH_LONG)
-					.show();
+		case R.id.tv_birthday_info:
+			DialogFragment newFragment2 = new DatePickerFragment();
+			newFragment2.show(getFragmentManager(), "datePicker");
 			break;
-		case R.id.lv_location:
-			Toast.makeText(this, "手机端暂不支持更改，请登录网站更改！", Toast.LENGTH_LONG)
-					.show();
+		case R.id.lv_business:
 			break;
 
 		default:
@@ -311,30 +321,42 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 			if (resultCode == RESULT_OK) {
 				// 拍照头像照片成功后上传头像
 				upLoadAnim();
-				CompressAvata compressAvata = new CompressAvata(avatarpath);// 压缩处理。
-				AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
-						UserInfoEditActivity.this,
-						"http://w.hihwei.com/?/api/account/avatar_upload/",
-						compressAvata.getCompressAvatarPath(), new CallBack() {
-							/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
-							@Override
-							public void callBack(String preview, String err,
-									String errno) {
-								Log.i("callbackinfo", preview);
-								Log.i("err", err);
-								Log.i("errno", errno);
-								if (errno == "x") {
-									Toast.makeText(UserInfoEditActivity.this,
-											"网络有点不好哦，再来一次吧！", Toast.LENGTH_LONG)
-											.show();
-								} else {
-									AsyncImageGet getAvatarPreview = new AsyncImageGet(
-											preview, iv_avatar);
-									getAvatarPreview.execute();
-								}
+				// CompressAvata compressAvata = new
+				// CompressAvata(avatarpath);// 压缩处理。
+				// compressAvata.getCompressAvatarPath()
+				try {
+					newAvatarPath = Bimp.revitionImageSize(avatarpath);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(UserInfoEditActivity.this, "选择照片失败，请重新选择。",
+							Toast.LENGTH_LONG).show();
+					e.printStackTrace();
+				}
+				if (newAvatarPath != null) {
+					new AsyncFileUpLoad(UserInfoEditActivity.this,
+							Config.getValue("AvatarUploadUrl"), newAvatarPath,
+							new CallBack() {
+								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
+								@Override
+								public void callBack(String preview,
+										String err, String errno) {
+									GlobalVariables.uSER_IMAGE_URL = preview;
+									if (errno == "x") {
+										Toast.makeText(
+												UserInfoEditActivity.this,
+												"网络有点不好哦，再来一次吧！",
+												Toast.LENGTH_LONG).show();
+									} else {
+										iv_avatar.clearAnimation();
+										AsyncImageGet getAvatarPreview = new AsyncImageGet(
+												preview, iv_avatar);
+										getAvatarPreview.execute();
+									}
 
-							}
-						});
+								}
+							});
+				}
+
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the Pick avatar
 			} else {
@@ -346,8 +368,7 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 				// 从相册选择头像照片后操作
 				if (data != null) {
 					avatarUri = data.getData();
-					Log.i("avatarUri", avatarUri.getPath());
-					/* 根据uir在media数据库查询到真实的文件路径 */
+					/* 根据uri在media数据库查询到真实的文件路径 */
 
 					String[] proj = { MediaStore.Images.Media.DATA };
 					CursorLoader loader = new CursorLoader(
@@ -360,33 +381,33 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					avatarpath = cursor.getString(column_index);
 
 					// 获取完路径
-					CompressAvata compressAvata = new CompressAvata(avatarpath);// 压缩处理。
-					// if (compressAvata.isConformSize()) {
-					// Log.i("符合大小", "ok");
-					// } else {
-					// Log.i("no符合大小", "ok");
-					// }
-					// 上传头像
 					upLoadAnim();// 上传时的动画
-					AsyncFileUpLoad asyncFileUpLoad = new AsyncFileUpLoad(
-							UserInfoEditActivity.this,
-							"http://w.hihwei.com/?/api/account/avatar_upload/",
-							compressAvata.getCompressAvatarPath(),
+					try {
+						newAvatarPath = Bimp.revitionImageSize(avatarpath);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						Toast.makeText(UserInfoEditActivity.this,
+								"选择照片失败，请重新选择。", Toast.LENGTH_LONG).show();
+						e.printStackTrace();
+					}
+					if (avatarpath != null) {
+
+					}
+					new AsyncFileUpLoad(UserInfoEditActivity.this,
+							Config.getValue("AvatarUploadUrl"), newAvatarPath,
 							new CallBack() {
 								/* 上传后对结果操作，如果成功下载头像，失败输出err信息 */
 								@Override
 								public void callBack(String preview,
 										String err, String errno) {
 									// TODO Auto-generated method stub
-									Log.i("callbackinfo", preview);
-									Log.i("err", err);
-									Log.i("errno", errno);
 									if (errno == "x") {
 										Toast.makeText(
 												UserInfoEditActivity.this,
 												"网络有点不好哦，再来一次吧！",
 												Toast.LENGTH_LONG).show();
 									} else {
+										iv_avatar.clearAnimation();
 										AsyncImageGet getAvatarPreview = new AsyncImageGet(
 												preview, iv_avatar);
 										getAvatarPreview.execute();
@@ -410,16 +431,21 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	}
 
 	private void upLoadAnim() {
-		iv_avatar.setImageResource(R.drawable.ic_loading);
+		iv_avatar.setImageResource(R.drawable.anim_rotate_image_avatar);
+		RotateAnimation animation = new RotateAnimation(0, 359,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		LinearInterpolator linearInterpolator = new LinearInterpolator();
+		animation.setDuration(1000);
+		animation.setInterpolator(linearInterpolator);
+		animation.setRepeatCount(-1);
+		iv_avatar.startAnimation(animation);
 	}
 
 	/* datepicker的回调 处理用户设定生日后的操作 */
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		// Do something with the date chosen by the user
-		Log.i("year", Integer.toString(year));
-		Log.i("month", Integer.toString((month + 1)));
-		Log.i("day", Integer.toString(day));
 		tv_birthday_info.setText(Integer.toString(year) + "-"
 				+ Integer.toString((month + 1)) + "-" + Integer.toString(day));
 		String dateString = Integer.toString(year) + "-"
@@ -433,10 +459,8 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("时间转换成 unix时间戳 出错");
 		}
 
-		Log.i("time", birthday);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -447,18 +471,27 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.edit_complete) {
-			Log.i("完成", "完成");
 			((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 					.hideSoftInputFromWindow(et_username.getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
-			upDateProfile();
+			upLoadProfile();
+			this.finish();
+		}
+		if (id == android.R.id.home) {
+			this.finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void upDateProfile() {
+	// 上传用户资料
+	private void upLoadProfile() {
 		// TODO Auto-generated method stub
 		signature = et_introduction.getText().toString();
+		if (signature.equals("null")) {
+			signature = "";
+			Log.i("userInfo", signature + "xx");
+		}
+		Log.i("userInfo", signature + "cc");
 		user_name = et_username.getText().toString();
 		AsyncHttpClient upLoadProfile = new AsyncHttpClient();
 		RequestParams UpParams = new RequestParams();
@@ -468,24 +501,21 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 		UpParams.put("signature", signature);
 		UpParams.put("job_id", job_id);
 		UpParams.put("birthday", birthday);
-		upLoadProfile.post("http://w.hihwei.com/api/profile_setting.php",
-				UpParams, new AsyncHttpResponseHandler() {
+		upLoadProfile.post(Config.getValue("ProfileSettingUrl"), UpParams,
+				new AsyncHttpResponseHandler() {
 
 					@Override
 					public void onSuccess(int arg0, Header[] arg1,
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
 						String responseContent = new String(responseBody);
-						Log.i("upDateProfile", responseContent + "---Success");
 						JSONTokener jsonParser = new JSONTokener(
 								responseContent);
 						try {
 							JSONObject result = (JSONObject) jsonParser
 									.nextValue();
-							errno = result.getString("errno");
+							result.getString("errno");
 							err = result.getString("err");
-							Log.i("errno", errno);
-							Log.i("err", err);
 							adviseUesr(err);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -498,16 +528,25 @@ public class UserInfoEditActivity extends Activity implements OnClickListener,
 					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 							Throwable arg3) {
 						// TODO Auto-generated method stub
-						Log.i("上传更改失败！", "x-x");
 					}
 				});
 	}
 
 	private void adviseUesr(String err) {
-		if (err != "null") {
+		if (!err.equals("null")) {
 			Toast.makeText(this, err, Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(this, "修改成功！", Toast.LENGTH_LONG).show();
 		}
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

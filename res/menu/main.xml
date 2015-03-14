@@ -3,9 +3,14 @@
     tools:context="cn.fanfan.main.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/logout"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="退出"/>
+    <item
+        android:id="@+id/feedback"
+        android:orderInCategory="200"
+        android:showAsAction="never"
+        android:title="反馈"/>
 
 </menu>

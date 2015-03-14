@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/horizontal_padding_large"
+    android:paddingLeft="@dimen/horizontal_padding_large"
+    android:paddingRight="@dimen/horizontal_padding_large"
+    android:paddingTop="@dimen/horizontal_padding_large" >
+
+    <ImageView
+        android:id="@+id/attention_user_image"
+        android:layout_width="@dimen/avatar_size_medium"
+        android:layout_height="@dimen/avatar_size_medium"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_avatar_default" />
+
+    <TextView
+        android:id="@+id/atention_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/attention_user_image"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_toRightOf="@+id/attention_user_image"
+        android:text="黄陈" />
+
+    <TextView
+        android:id="@+id/attention_user_say"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/attention_user_image"
+        android:layout_alignLeft="@+id/atention_user_name"
+        android:text="青山依旧在，几度夕阳红！"
+        android:textColor="@color/text_color_gray" />
+
+</RelativeLayout>

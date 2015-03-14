@@ -1,34 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/li_login"
+    android:id="@+id/login"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:background="@drawable/bg_selectable"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/horizontal_padding_xxlarge"
+    android:paddingLeft="@dimen/horizontal_padding_xlarge"
+    android:paddingRight="@dimen/horizontal_padding_xlarge"
+    android:paddingTop="@dimen/vertical_padding_xxlarge" >
 
-    <LinearLayout
-        android:id="@+id/login"
-        android:layout_width="fill_parent"
+    <cn.fanfan.common.CircleImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_selectable"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/horizontal_padding_xxlarge"
-        android:paddingLeft="@dimen/horizontal_padding_xlarge"
-        android:paddingRight="@dimen/horizontal_padding_xlarge"
-        android:paddingTop="@dimen/vertical_padding_xxlarge" >
+        android:src="@drawable/ic_drawer_login_normal" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_drawer_login_normal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:text="@string/drawer_login"
-            android:textAppearance="@style/Zhihu.TextAppearance.Title.Main.Large" />
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:text="@string/drawer_login"
+        android:textAppearance="@style/Zhihu.TextAppearance.Title.Main.Large" />
 
 </LinearLayout>

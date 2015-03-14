@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/bestquestion"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/text_color_light_gray"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/horizontal_padding_medium"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:text=""
+        android:textSize="@dimen/text_size_large" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bestquestion"
+        android:background="@color/text_color_white" >
+
+        <ImageView
+            android:id="@+id/answer_avater"
+            android:layout_width="@dimen/avatar_size_medium"
+            android:layout_height="@dimen/avatar_size_medium"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7.5dp"
+            android:src="@drawable/ic_avatar_masker" />
+
+        <TextView
+            android:id="@+id/answer_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/answer_avater"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@+id/answer_avater"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/tellone"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/answer_user"
+            android:layout_below="@+id/answer_user"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="12.5dp"
+            android:layout_toRightOf="@id/tellone"
+            android:background="@color/text_color_gray" />
+
+        <ImageView
+            android:id="@+id/good"
+            android:layout_width="@dimen/avatar_size_small"
+            android:layout_height="@dimen/avatar_size_small"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="13.5dp"
+            android:layout_toRightOf="@+id/view1"
+            android:src="@drawable/ic_vote_normal" />
+
+        <TextView
+            android:id="@+id/good_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/good"
+            android:text="" />
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1" />
+
+</RelativeLayout>

@@ -14,6 +14,7 @@ public class FileUtils {
 			.getExternalStorageDirectory().getPath();
 	private static String dataRootPath = null;
 	private final static String FOLDER_NAME = "/fanfantopic";
+	public static String SAVE_PATH = sdRootPath+FOLDER_NAME;
 
 	public FileUtils(Context context) {
 		dataRootPath = context.getCacheDir().getPath();

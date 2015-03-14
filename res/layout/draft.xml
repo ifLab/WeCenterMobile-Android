@@ -7,6 +7,7 @@
         android:id="@+id/draft_lisview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:dividerHeight="5dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
     </ListView>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/register"
+    android:background="@color/fanfan_second"
     android:paddingTop="@dimen/rigister_margin_top"
     android:paddingLeft="@dimen/horizontal_padding_xlarge"
     android:paddingRight="@dimen/vertical_padding_xlarge" >

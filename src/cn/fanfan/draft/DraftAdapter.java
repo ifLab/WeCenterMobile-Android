@@ -46,7 +46,7 @@ public class DraftAdapter extends BaseAdapter {
 		if (convertView == null) {
 			viewHodler = new ViewHodler();
 			convertView = LayoutInflater.from(context).inflate(
-					R.layout.listitem_draft, null);
+					R.layout.list_item_draft, null);
 			viewHodler.draftUsr = (TextView) convertView
 					.findViewById(R.id.draft_title);
 			viewHodler.yourDraft = (TextView) convertView

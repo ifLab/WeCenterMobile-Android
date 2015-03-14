@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">fanfan</string>
+    <string name="app_name">饭饭</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -30,17 +30,18 @@
         <item>首页</item>
         <item>发现</item>
         <item>关注</item>
-        <item>收藏</item>
-        <item>草稿</item>
+       <!--  <item>收藏</item>
+        <item>草稿</item> -->
         <item>提问</item>
     </string-array>
     <string-array name="nologindrawerliststring">
-        <item>关注</item>
+        <item>热门话题</item>
     </string-array>
 
     <string name="drawer_login">饭饭登录</string>
-    
     <string name="net_break">网络错误!</string>
+    <string name="net_notconnect">没有网络耶!</string>
+    <string name="login_wrong">暂时无法修改头像!</string>
     <string name="get_user_info">获取用户信息失败，请重试!</string>
 
 </resources>

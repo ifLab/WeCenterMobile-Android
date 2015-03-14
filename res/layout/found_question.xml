@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="10dp" >
+
+    <cn.fanfan.common.image.SmartImageView
+        android:id="@+id/userimage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_avatar_default" />
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+             <TextView 
+               android:id="@+id/username"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/username"
+        />
+             <TextView 
+               android:id="@+id/tag"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="10dp"
+               android:textColor="@color/text_color_gray"
+
+        />
+        </LinearLayout>
+       <TextView 
+               android:id="@+id/quescontent"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+        />
+         <cn.fanfan.common.NoScrollGridView 
+             android:id="@+id/gridView"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:horizontalSpacing="1dp"
+             android:layout_marginTop="10dp"
+             android:layout_marginBottom="10dp"
+             android:numColumns="3"
+             android:stretchMode="columnWidth"
+             android:visibility="gone"
+             android:verticalSpacing="1dp">             
+         </cn.fanfan.common.NoScrollGridView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+    <ListView
+        android:id="@+id/comlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+   </LinearLayout>
+   <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="#dcdcdc" />
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1"
+            android:hint="写下评论">
+
+            <requestFocus />
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/publish"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="#ffffff"
+            android:src="@drawable/btn_send_normal" />
+        
+    </LinearLayout>
+</LinearLayout>

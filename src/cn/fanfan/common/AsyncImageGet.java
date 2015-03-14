@@ -1,5 +1,8 @@
 package cn.fanfan.common;
 
+import java.io.IOException;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ public class AsyncImageGet extends AsyncTask<String, Integer, Bitmap> {
 
 	private ImageView imageView;
 	private String url;
+	private Bitmap bitmap;
 
 	public AsyncImageGet(String url, ImageView imageView) {
 		// TODO Auto-generated constructor stub
@@ -38,7 +42,20 @@ public class AsyncImageGet extends AsyncTask<String, Integer, Bitmap> {
 	@Override
 	protected void onPostExecute(Bitmap result) {
 		// TODO Auto-generated method stub
+		bitmap = result;
 		imageView.setImageBitmap(result);
 		super.onPostExecute(result);
+	}
+	
+	public void SaveBitmap(Context context){
+		if (bitmap != null) {
+			ImageFileUtils fileUtils = new ImageFileUtils(context);
+			try {
+				fileUtils.saveBitmap(url, bitmap);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

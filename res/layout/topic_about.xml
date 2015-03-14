@@ -23,8 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/register" />
-            
+                android:src="@drawable/ic_avatar_default" />
         </FrameLayout>
 
         <TextView
@@ -35,7 +34,7 @@
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/topic_about_avatar"
             android:padding="3dp"
-            android:text="鲜奶油"
+            android:text=""
             android:textColor="@color/text_color_really_black"
             android:textSize="@dimen/text_size_medium" />
 
@@ -49,7 +48,7 @@
             android:ellipsize="end"
             android:lineSpacingMultiplier="1.2"
             android:padding="3dp"
-            android:text="人见人爱的海绵蛋糕空间的副本还不如恶恶法呢如妃哦我儿女覅个 分俄方额丰富非法违法我few访问国外俄方围观围观俄官方伟哥伟哥  俄方汪峰汪峰"
+            android:text=""
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_large" />
 
@@ -64,7 +63,7 @@
         <RelativeLayout
             android:id="@+id/topic_about_below_bar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_below="@id/line"
             android:background="@color/text_color_light_gray"
             android:orientation="horizontal" >
@@ -73,24 +72,40 @@
                 android:id="@+id/topic_about_followers"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="2dp"
                 android:drawableLeft="@drawable/ic_followers"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-                android:text="1102624人关注"
+                android:text="人关注"
                 android:textColor="@color/text_color_gray" />
 
-            <Button
-                android:id="@+id/topic_about_follow"
-                android:layout_width="90dp"
-                android:layout_height="35dp"
+            <FrameLayout
+                android:layout_width="125dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="7.5dp"
-                android:background="@drawable/btn_silver_normal"
-                android:text="已关注"
-                android:textSize="15sp"
-                android:textColor="@color/text_color_gray" />
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="2dp" >
+
+                <Button
+                    android:id="@+id/topic_about_follow"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_silver_normal"
+                    android:text="取消关注"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="15sp" />
+
+                <ProgressBar
+                    android:id="@+id/pb_change_follow"
+                    style="@android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
         </RelativeLayout>
 
         <View

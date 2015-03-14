@@ -1,14 +1,24 @@
 package cn.fanfan.main;
 
+import com.loopj.android.http.PersistentCookieStore;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.fb.FeedbackAgent;
+import com.umeng.update.UmengUpdateAgent;
+
+import cn.fanfan.asking.AskingFragmentActivity;
 import cn.fanfan.common.FanfanSharedPreferences;
-import cn.fanfan.draft.Draft;
-import cn.fanfan.found.FoundFrg;
-import cn.fanfan.question.Question;
-import cn.fanfan.topic.Fragment_topic;
+import cn.fanfan.common.GlobalVariables;
+import cn.fanfan.common.ImageFileUtils;
+import cn.fanfan.draft.DraftFragment;
+import cn.fanfan.found.FoundFragment;
+import cn.fanfan.homepage.HomePageFragment;
+import cn.fanfan.topic.TopicFragment;
+import cn.fanfan.topic.imageload.FileUtils;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +29,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -27,7 +38,7 @@ public class MainActivity extends FragmentActivity implements
 	 * Fragment managing the behaviors, interactions and presentation of the
 	 * navigation drawer.
 	 */
-	private NavigationDrawerFragment mNavigationDrawerFragment;
+	public static NavigationDrawerFragment mNavigationDrawerFragment;
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -35,19 +46,23 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	private CharSequence mTitle;
 	private String[] draweritems;
+	private long exitTime = 0;
+	private FanfanSharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		FanfanSharedPreferences sharedPreferences = new FanfanSharedPreferences(
-				MainActivity.this);
+		sharedPreferences = new FanfanSharedPreferences(MainActivity.this);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
 		if (!sharedPreferences.getLogInStatus(false)) {
 			draweritems = this.getResources().getStringArray(
 					R.array.nologindrawerliststring);
 		} else {
 			draweritems = this.getResources().getStringArray(
 					R.array.drawerliststring);
+			// Login();
 		}
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
@@ -56,33 +71,71 @@ public class MainActivity extends FragmentActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+		// 调用友盟自动更新组件
+		UmengUpdateAgent.update(MainActivity.this);
+		// 用户反馈：后台检查是否有新的来自开发者的回复。
+		FeedbackAgent mAgent = new FeedbackAgent(MainActivity.this);
+		mAgent.sync();
+		MobclickAgent.updateOnlineConfig(MainActivity.this);
 	}
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		if (position == 1) {
+		if (position == 0) {
+			// 如果未登录，replace TopicFragment
+			if (!GlobalVariables.IsLogin) {
+				Fragment fragment = new TopicFragment();
+				Bundle bundle = new Bundle();
+				bundle.putInt("isFocus", GlobalVariables.HOT_TOPIC);
+				bundle.putInt("position", position + 1);
+				fragment.setArguments(bundle);
+				fragmentManager.beginTransaction()
+						.replace(R.id.container, fragment).commit();
+			} else {
+				// 如果已经登录，replace HomePageFragment
+				sharedPreferences = new FanfanSharedPreferences(
+						MainActivity.this);
+				Fragment fragment = new HomePageFragment();
+				Bundle bundle = new Bundle();
+				bundle.putString("uid", sharedPreferences.getUid(""));
+				bundle.putInt("position", position + 1);
+				fragment.setArguments(bundle);
+				fragmentManager.beginTransaction()
+						.replace(R.id.container, fragment).commit();
+				mTitle = "首页";
+			}
+		} else if (position == 1) {
+			// 发现
 			fragmentManager.beginTransaction()
-			.replace(R.id.container, (new FoundFrg())).commit();
+					.replace(R.id.container, (new FoundFragment())).commit();
 			mTitle = draweritems[position];
-		}else if (position == 2) {
+		} else if (position == 2) {
+			// 话题
+			Fragment fragment = new TopicFragment();
+			Bundle bundle = new Bundle();
+			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
+			bundle.putInt("position", position + 1);
+			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction()
-					.replace(R.id.container, (new Fragment_topic())).commit();
+					.replace(R.id.container, fragment).commit();
 			mTitle = draweritems[position];
-		} else if (position ==4) {
+		} else if (position == 4) {
 			fragmentManager.beginTransaction()
-			.replace(R.id.container, (new Draft())).commit();
+					.replace(R.id.container, (new DraftFragment())).commit();
 			mTitle = draweritems[position];
-		}else if (position == 5) {
-			Intent intent = new Intent(MainActivity.this,Question.class);
+		} else if (position == 3) {
+			// 提问
+			Intent intent = new Intent(MainActivity.this,
+					AskingFragmentActivity.class);
 			startActivity(intent);
-		}else {
+		} else {
 			fragmentManager
-			.beginTransaction()
-			.replace(R.id.container,
-					PlaceholderFragment.newInstance(position + 1))
-			.commit();
+					.beginTransaction()
+					.replace(R.id.container,
+							PlaceholderFragment.newInstance(position + 1))
+					.commit();
 		}
 	}
 
@@ -103,7 +156,9 @@ public class MainActivity extends FragmentActivity implements
 			// Only show items in the action bar relevant to this screen
 			// if the drawer is not showing. Otherwise, let the drawer
 			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.main, menu);
+			if (sharedPreferences.getLogInStatus(false)) {
+				getMenuInflater().inflate(R.menu.main, menu);
+			}
 			restoreActionBar();
 			return true;
 		}
@@ -116,7 +171,19 @@ public class MainActivity extends FragmentActivity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		// 用户反馈按钮
+		if (id == R.id.feedback) {
+			FeedbackAgent agent = new FeedbackAgent(MainActivity.this);
+			agent.startFeedbackActivity();
+		}
+		if (id == R.id.logout) {
+			sharedPreferences.clear();
+			PersistentCookieStore cookieStore = new PersistentCookieStore(
+					MainActivity.this);
+			cookieStore.clear();
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -164,6 +231,51 @@ public class MainActivity extends FragmentActivity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
+
+	}
+
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			ExitApp(); // 调用双击退出函数
+		}
+		return false;
+	}
+
+	public void ExitApp() {
+
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
+			FileUtils fileUtils = new FileUtils(MainActivity.this);
+			ImageFileUtils imageFileUtils = new ImageFileUtils(
+					MainActivity.this);
+			fileUtils.deleteFile();
+			imageFileUtils.deleteFile();
+			finish();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		if (GlobalVariables.ISFANFANLOGIN == true) {
+			GlobalVariables.ISFANFANLOGIN = false;
+			finish();
+		} else {
+		}
+		super.onStop();
+	}
+
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 }
