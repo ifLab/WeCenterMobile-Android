@@ -74,7 +74,6 @@ public class FoundPagerFragment extends Fragment {
 		bundle = getArguments();
 		type = bundle.getString("type");
 		commend = bundle.getString("commend");
-		System.out.println(type+"````````````````"+commend);
 		isFirstEnter = true;
 		listView.addFooterView(footerLinearLayout, "", false);
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -178,6 +177,7 @@ public class FoundPagerFragment extends Fragment {
 			pagrtag = page;
 			RequestParams params = new RequestParams();
 			//String url = Config.getValue("FoundList");
+			//TODO 
 			String url = "http://w.hihwei.com/?/api/explore_v2/";
 			AsyncHttpClient client = new AsyncHttpClient();
 			Log.v(FoundPagerFragment.TAG, page+type);

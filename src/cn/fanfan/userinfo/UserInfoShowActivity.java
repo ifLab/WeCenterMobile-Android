@@ -38,6 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//逻辑实现：获取其他Activity传递的值》根据值初始化界面》从网络获取数据》解析数据并设置到对应的bean》将数据填充到界面
 public class UserInfoShowActivity extends Activity implements OnClickListener {
 	private int haveFrocus = NO;// 1是已关注 。0未关注
 	private static final int YES = 1;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<!--
+     File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -14,12 +15,12 @@
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
-     limitations under the License.
+     limitations under the License.
 -->
 
 <resources>
 
-    <style name="Theme.Fanfan_origin" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.Fanfan_origin" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_fanfan_origin</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Fanfan_origin</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Fanfan_origin</item>
@@ -29,10 +30,9 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_fanfan_origin</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_fanfan_origin</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Fanfan_origin</item>
-        
-                <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Fanfan_origin.Widget</item>
 
+        <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Fanfan_origin.Widget</item>
     </style>
 
     <style name="ActionBar.Solid.Fanfan_origin" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -48,7 +48,7 @@
     </style>
 
     <style name="PopupMenu.Fanfan_origin" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_fanfan_origin</item>	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_fanfan_origin</item>
     </style>
 
     <style name="DropDownListView.Fanfan_origin" parent="@android:style/Widget.Holo.ListView.DropDown">
@@ -64,11 +64,11 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_fanfan_origin</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_fanfan_origin</item>
     </style>
-    
+
     <style name="ProgressBar.Fanfan_origin" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_fanfan_origin</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Fanfan_origin" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_fanfan_origin</item>
     </style>

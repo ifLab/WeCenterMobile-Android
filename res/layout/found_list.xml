@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/text_color_white" >
     </ListView>
+
     <RelativeLayout
         android:id="@+id/rlHomePageLoading"
         android:layout_width="wrap_content"
@@ -24,4 +25,5 @@
             android:textColor="#808080"
             android:textSize="20sp" />
     </RelativeLayout>
+
 </RelativeLayout>

@@ -84,6 +84,7 @@ public class MainActivity extends FragmentActivity implements
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		if (position == 0) {
+			// 如果未登录，replace TopicFragment
 			if (!GlobalVariables.IsLogin) {
 				Fragment fragment = new TopicFragment();
 				Bundle bundle = new Bundle();
@@ -93,6 +94,7 @@ public class MainActivity extends FragmentActivity implements
 				fragmentManager.beginTransaction()
 						.replace(R.id.container, fragment).commit();
 			} else {
+				// 如果已经登录，replace HomePageFragment
 				sharedPreferences = new FanfanSharedPreferences(
 						MainActivity.this);
 				Fragment fragment = new HomePageFragment();
@@ -105,10 +107,12 @@ public class MainActivity extends FragmentActivity implements
 				mTitle = "首页";
 			}
 		} else if (position == 1) {
+			// 发现
 			fragmentManager.beginTransaction()
 					.replace(R.id.container, (new FoundFragment())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 2) {
+			// 话题
 			Fragment fragment = new TopicFragment();
 			Bundle bundle = new Bundle();
 			bundle.putInt("isFocus", GlobalVariables.FOCUS_TOPIC);
@@ -122,6 +126,7 @@ public class MainActivity extends FragmentActivity implements
 					.replace(R.id.container, (new DraftFragment())).commit();
 			mTitle = draweritems[position];
 		} else if (position == 3) {
+			// 提问
 			Intent intent = new Intent(MainActivity.this,
 					AskingFragmentActivity.class);
 			startActivity(intent);
@@ -272,5 +277,5 @@ public class MainActivity extends FragmentActivity implements
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
-	
+
 }
