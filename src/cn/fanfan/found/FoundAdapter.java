@@ -1,54 +1,46 @@
 package cn.fanfan.found;
 
-import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import cn.fanfan.common.Config;
-import cn.fanfan.common.MyGridAdapter;
-import cn.fanfan.common.ShowPic;
 import cn.fanfan.common.image.SmartImageView;
 import cn.fanfan.detail.essay.EssayDetailActivity;
 import cn.fanfan.detail.question.QuestionDetailActivity;
 import cn.fanfan.main.R;
-import cn.fanfan.topic.imageload.ImageDownLoader;
 import cn.fanfan.userinfo.UserInfoShowActivity;
 
 public class FoundAdapter extends BaseAdapter {
 	private static final String TAG = "FoundAdapter";
-	private List<FoundItem> newitems;
+	private List<FoundItem> items;
 	private Context context;
 
-	public FoundAdapter(List<FoundItem> comitems, Context context,
-			ImageDownLoader imageDownLoader) {
+	public FoundAdapter(List<FoundItem> comitems, Context context) {
 		// TODO Auto-generated constructor stub
 
 		super();
-		this.newitems = comitems;
+		this.items = comitems;
 		this.context = context;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return newitems.size();
+		return items.size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
 		// TODO Auto-generated method stub
-		return newitems.get(arg0);
+		return items.get(arg0);
 	}
 
 	@Override
@@ -61,8 +53,8 @@ public class FoundAdapter extends BaseAdapter {
 	public View getView(final int position, View contentView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHodler hodler;
-		final String mImageUrl = Config.getValue("userImageBaseUrl")
-				+ newitems.get(position).getAvatar_file();
+		String avatarUrl;
+
 		if (contentView == null) {
 			hodler = new ViewHodler();
 			contentView = LayoutInflater.from(context).inflate(
@@ -80,50 +72,60 @@ public class FoundAdapter extends BaseAdapter {
 		} else {
 			hodler = (ViewHodler) contentView.getTag();
 		}
-		hodler.gridView.setTag(newitems.get(position).getQuestion_id()
-				+ "gridview");
-		hodler.userimage.setTag(mImageUrl);
-		contentView.setOnClickListener(new OnClickListener() {
 
+		// hodler.gridView.setTag(items.get(position).getQuestion_id()
+		// + "gridview");
+		// 判断Object类型
+		if (items.get(position) instanceof Question) {
+			Question item = (Question) items.get(position);
+			hodler.question.setText(item.getQuestion_content());
+		} else if (items.get(position) instanceof Article) {
+			Article item = (Article) items.get(position);
+			hodler.question.setText(item.getTitle());
+		}
+		hodler.name.setText(items.get(position).getUser_info().getUser_name());
+		// 设置头像
+		if (items.get(position).getUser_info().getAvatar_file().isEmpty()) {
+			avatarUrl = "";
+			Log.d("foundAvatarUrl:", avatarUrl);
+		} else {
+			avatarUrl = Config.getValue("userImageBaseUrl")
+					+ items.get(position).getUser_info().getAvatar_file();
+			hodler.userimage.setImageUrl(avatarUrl);
+		}
+		hodler.userimage.setTag(avatarUrl);
+
+		contentView.setOnClickListener(new OnClickListener() {
+			//
 			@Override
 			public void onClick(View view) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				// TODO Auto-generated method stub
-				if (newitems.get(position).getType().equals("question")) {
-					intent.putExtra("questionid", newitems.get(position)
-							.getQuestion_id());
+				if (items.get(position) instanceof Question) {
+					Question item = (Question) items.get(position);
+					intent.putExtra("questionid",
+							String.valueOf(item.getQuestion_id()));
 					intent.setClass(context, QuestionDetailActivity.class);
-
-				} else {
-					intent.putExtra("eid", newitems.get(position)
-							.getQuestion_id());
+				} else if (items.get(position) instanceof Article) {
+					Article item = (Article) items.get(position);
+					intent.putExtra("eid", String.valueOf(item.getId()));
 					intent.setClass(context, EssayDetailActivity.class);
 				}
-
 				context.startActivity(intent);
 			}
 		});
-		hodler.name.setText(newitems.get(position).getName());
-		hodler.question.setText(newitems.get(position).getQuestion());
-		switch (newitems.get(position).getInttag()) {
-		case 0:
-			hodler.tag.setText("发起了问题");
-			break;
-		case 1:
-			hodler.tag.setText("回复了问题");
-			break;
-		case 2:
-			hodler.tag.setText("发表了文章");
-			break;
-		default:
-			break;
-		}
-		if (!TextUtils.isEmpty(mImageUrl)) {
-			hodler.userimage.setImageUrl(mImageUrl);
-		} else {
-			Log.d(TAG, "imageUrl is null");
-		}
+		// switch (items.get(position).getInttag()) {
+		// case 0:
+		// hodler.tag.setText("发起了问题");
+		// break;
+		// case 1:
+		// hodler.tag.setText("回复了问题");
+		// break;
+		// case 2:
+		// hodler.tag.setText("发表了文章");
+		// break;
+		// default:
+		// break;
+		// }
 		hodler.userimage.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -131,31 +133,49 @@ public class FoundAdapter extends BaseAdapter {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(context, UserInfoShowActivity.class);
-				intent.putExtra("uid", newitems.get(position).getUid());
+				intent.putExtra("uid", items.get(position).getUser_info()
+						.getUid());
 				context.startActivity(intent);
 			}
 		});
-		final ArrayList<String> urls = newitems.get(position).getUrls();
-		if (urls != null && urls.size() > 0) {
-			hodler.gridView.setVisibility(View.VISIBLE);
-			hodler.gridView.setAdapter(new MyGridAdapter(newitems.get(position)
-					.getThumbs(), context));
-			hodler.gridView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					// TODO Auto-generated method stub
-					Intent intent = new Intent();
-					intent.putStringArrayListExtra("images", urls);
-					intent.putExtra("tag", arg2);
-					intent.setClass(context, ShowPic.class);
-					context.startActivity(intent);
-				}
-			});
-		} else {
-			hodler.gridView.setVisibility(View.GONE);
-		}
+		// urls = items.get(position).getUrls();
+		// thumbs = items.get(position).getThumbs();
+		// if (urls != null && urls.size() > 0) {
+		// hodler.gridView.setVisibility(View.VISIBLE);
+		// hodler.gridView.setAdapter(new MyGridAdapter(items.get(position)
+		// .getThumbs(), context));
+		// //
+		// if (thumbs != null && thumbs.size() > 0) {
+		// for (int j = 0; j < thumbs.size(); j++) {
+		// String thumb = thumbs.get(j);
+		// final ImageView imageView = (ImageView) hodler.gridView
+		// .findViewWithTag(thumb);
+		// mLoadImage.getBitmap(thumb, new onImageLoaderListener() {
+		//
+		// @Override
+		// public void onImageLoader(Bitmap bitmap, String url) {
+		// // TODO Auto-generated method stub
+		// imageView.setImageBitmap(bitmap);
+		// }
+		// });
+		// }
+		// }
+		// hodler.gridView.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> arg0, View arg1,
+		// int arg2, long arg3) {
+		// // TODO Auto-generated method stub
+		// Intent intent = new Intent();
+		// intent.putStringArrayListExtra("images", urls);
+		// intent.putExtra("tag", arg2);
+		// intent.setClass(context, ShowPic.class);
+		// context.startActivity(intent);
+		// }
+		// });
+		// } else {
+		// hodler.gridView.setVisibility(View.GONE);
+		// }
 		return contentView;
 	}
 

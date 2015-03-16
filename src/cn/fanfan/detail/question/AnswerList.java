@@ -21,16 +21,15 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 public class AnswerList extends Activity {
-	
+
 	private boolean isFirstEnter;
 	private int mFirstVisibleItem;
 	private int mVisibleItemCount;
-    private ArrayList<AnswerItem> arrayList;
-    private ListView answerlist;
-    private ImageDownLoader downLoader;
-    private CommentAdapter adapter;
-    private TextView tvHomePageLoading;
-    
+	private ArrayList<AnswerItem> arrayList;
+	private ListView answerlist;
+	private ImageDownLoader downLoader;
+	private CommentAdapter adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -42,14 +41,12 @@ public class AnswerList extends Activity {
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.show();
-		answerlist = (ListView)findViewById(R.id.fodlist);
+		answerlist = (ListView) findViewById(R.id.content);
 		arrayList = QuestionDetailActivity.getlist();
 		downLoader = new ImageDownLoader(this);
 		isFirstEnter = true;
-		tvHomePageLoading = (TextView)
-				findViewById(R.id.tvHomePageLoading);
 		answerlist.setOnScrollListener(new OnScrollListener() {
-			
+
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				// TODO Auto-generated method stub
@@ -59,7 +56,7 @@ public class AnswerList extends Activity {
 					cancleTask();
 				}
 			}
-			
+
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
@@ -76,43 +73,46 @@ public class AnswerList extends Activity {
 		if (arrayList != null && arrayList.size() != 0) {
 			adapter = new CommentAdapter(arrayList, this);
 			answerlist.setAdapter(adapter);
-			tvHomePageLoading.setVisibility(View.GONE);
 		} else {
-            tvHomePageLoading.setText("该问题尚无人回答！");
 		}
-		
+
 	}
-	private void showImage(int firstVisibleItem, int visibleItemCount){
-		for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount
-				; i++) {
-			 final ArrayList<String> urls = arrayList.get(i).getUrls();
-			GridView gridView = (GridView)  answerlist.findViewWithTag(arrayList.get(i).getAnswer_id()+"gridview");
-			if (urls != null && urls.size()>0 ) {
+
+	private void showImage(int firstVisibleItem, int visibleItemCount) {
+		for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+			final ArrayList<String> urls = arrayList.get(i).getUrls();
+			GridView gridView = (GridView) answerlist.findViewWithTag(arrayList
+					.get(i).getAnswer_id() + "gridview");
+			if (urls != null && urls.size() > 0) {
 				for (int j = 0; j < urls.size(); j++) {
 					String url = urls.get(j);
-					final ImageView imageView = (ImageView) gridView.findViewWithTag(url);
-					final String path = FileUtils.SAVE_PATH+"/"+url.replaceAll("[^\\w]", "");
+					final ImageView imageView = (ImageView) gridView
+							.findViewWithTag(url);
+					final String path = FileUtils.SAVE_PATH + "/"
+							+ url.replaceAll("[^\\w]", "");
 					final ImageGet imageGet = new ImageGet();
-			
-						downLoader.getBitmap(url, new onImageLoaderListener() {
-							
-							@Override
-							public void onImageLoader(Bitmap bitmap, String url) {
-								// TODO Auto-generated method stub
-								 
-							     imageView.setImageBitmap(imageGet.getBitmap(path));
-							}
-						});
-					
+
+					downLoader.getBitmap(url, new onImageLoaderListener() {
+
+						@Override
+						public void onImageLoader(Bitmap bitmap, String url) {
+							// TODO Auto-generated method stub
+
+							imageView.setImageBitmap(imageGet.getBitmap(path));
+						}
+					});
+
 				}
 			} else {
 				gridView.setVisibility(View.GONE);
 			}
 		}
 	}
-	public void cancleTask(){
+
+	public void cancleTask() {
 		downLoader.cacelTask();
 	}
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {

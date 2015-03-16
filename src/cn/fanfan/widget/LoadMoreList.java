@@ -3,6 +3,7 @@ package cn.fanfan.widget;
 import cn.fanfan.main.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -13,6 +14,7 @@ public class LoadMoreList extends ListView implements OnScrollListener {
 	private View footer; // 底部加载更多视图
 	private int mTotalItemCount;// 总数量；
 	private int mLastVisibleItem;// 最后一个可见的item；
+	private int mVisibleItemCount;// 可见item的数量
 	private boolean mIsLoading;// 正在加载；
 	private OnLoadMoreListener mLoadMoreListener;// 加载更多回调接口
 
@@ -40,13 +42,18 @@ public class LoadMoreList extends ListView implements OnScrollListener {
 		// TODO Auto-generated method stub
 		this.mLastVisibleItem = firstVisibleItem + visibleItemCount;
 		this.mTotalItemCount = totalItemCount;
+		this.mVisibleItemCount = visibleItemCount;
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
+		Log.d("LoadMoreList onScrollStateChanged:", "mTotalItemCount:"
+				+ mTotalItemCount + ";" + "mLastVisibleItem:"
+				+ mLastVisibleItem + "mVisibleItemCount:" + mVisibleItemCount);
 		if (mTotalItemCount == mLastVisibleItem
-				&& scrollState == SCROLL_STATE_IDLE) {
+				&& scrollState == SCROLL_STATE_IDLE
+				&& (mVisibleItemCount != mTotalItemCount)) {
 			if (!mIsLoading) {
 				mIsLoading = true;
 				footer.findViewById(R.id.ll_loadlist_footer).setVisibility(
@@ -76,6 +83,10 @@ public class LoadMoreList extends ListView implements OnScrollListener {
 	public void loadComplete() {
 		mIsLoading = false;
 		footer.findViewById(R.id.ll_loadlist_footer).setVisibility(View.GONE);
+	}
+
+	public Boolean isLoading() {
+		return mIsLoading;
 	}
 
 	// 设置监听

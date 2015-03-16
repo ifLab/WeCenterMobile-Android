@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,7 +93,6 @@ public class HomePageFragment extends Fragment implements
 				android.R.color.holo_green_light,
 				android.R.color.holo_orange_light,
 				android.R.color.holo_red_light);
-		// 设置正在刷新
 		mSwipeLayout.setRefreshing(true);
 		getData(mPage);
 		return fragmentView;
@@ -132,6 +132,7 @@ public class HomePageFragment extends Fragment implements
 						byte[] responseContent) {
 					// TODO Auto-generated method stub
 					parseData(responseContent);
+					mSwipeLayout.setRefreshing(false);
 				}
 			});
 		} else {
@@ -160,6 +161,7 @@ public class HomePageFragment extends Fragment implements
 					MainActivity.mNavigationDrawerFragment.selectItem(1);
 				} else {
 					mPage = mPage - 1;
+					mSwipeLayout.setRefreshing(false);
 					Toast.makeText(mActivity, "没有更多数据！", Toast.LENGTH_LONG)
 							.show();
 				}
@@ -174,8 +176,14 @@ public class HomePageFragment extends Fragment implements
 						.getJSONObject("user_info");
 				userUid = userInfoObject.getInt("uid");
 				userName = userInfoObject.getString("user_name");
-				avatarUrl = Config.getValue("AvatarPrefixUrl")
-						+ userInfoObject.getString("avatar_file");
+
+				if (!TextUtils.isEmpty(userInfoObject.getString("avatar_file"))) {
+					avatarUrl = Config.getValue("AvatarPrefixUrl")
+							+ userInfoObject.getString("avatar_file");
+				} else {
+					avatarUrl = "";
+				}
+
 				// 根据actionCode不同，不同分情况解析剩下的JSON数据
 				switch (actionCode) {
 				case 101:
@@ -252,10 +260,12 @@ public class HomePageFragment extends Fragment implements
 				itemDataList.add(item);
 				mAdapter.notifyDataSetChanged();
 				mSwipeLayout.setRefreshing(false);
+				mListView.loadComplete();
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			mSwipeLayout.setRefreshing(true);
 			Log.i(TAG, "Json解析异常");
 		}
 
@@ -265,16 +275,20 @@ public class HomePageFragment extends Fragment implements
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		itemDataList.clear();
-		mPage = 0;
-		getData(mPage);
+		if (!mListView.isLoading()) {
+			mPage++;
+			getData(mPage);
+		}
 	}
 
 	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
-		mPage++;
-		getData(mPage);
+		if (!mSwipeLayout.isRefreshing()) {
+			itemDataList.clear();
+			mPage = 0;
+			getData(mPage);
+		}
 	}
 
 	@Override
@@ -285,4 +299,12 @@ public class HomePageFragment extends Fragment implements
 					"position"));
 		}
 	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mHttpClient.cancelAllRequests(true);
+	}
+	
 }
