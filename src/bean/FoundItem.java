@@ -1,4 +1,4 @@
-package cn.fanfan.found;
+package bean;
 
 public class FoundItem {
 	public UserInfo user_info;

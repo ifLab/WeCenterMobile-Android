@@ -1,6 +1,10 @@
 package cn.fanfan.found;
 
 import java.util.List;
+
+import bean.Article;
+import bean.FoundItem;
+import bean.Question;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -19,7 +23,6 @@ import cn.fanfan.main.R;
 import cn.fanfan.userinfo.UserInfoShowActivity;
 
 public class FoundAdapter extends BaseAdapter {
-	private static final String TAG = "FoundAdapter";
 	private List<FoundItem> items;
 	private Context context;
 
@@ -73,16 +76,15 @@ public class FoundAdapter extends BaseAdapter {
 			hodler = (ViewHodler) contentView.getTag();
 		}
 
-		// hodler.gridView.setTag(items.get(position).getQuestion_id()
-		// + "gridview");
 		// 判断Object类型
-		if (items.get(position) instanceof Question) {
-			Question item = (Question) items.get(position);
-			hodler.question.setText(item.getQuestion_content());
-		} else if (items.get(position) instanceof Article) {
+		if (items.get(position) instanceof Article) {
 			Article item = (Article) items.get(position);
 			hodler.question.setText(item.getTitle());
+		} else {
+			Question item = (Question) items.get(position);
+			hodler.question.setText(item.getQuestion_content());
 		}
+
 		hodler.name.setText(items.get(position).getUser_info().getUser_name());
 		// 设置头像
 		if (items.get(position).getUser_info().getAvatar_file().isEmpty()) {
@@ -113,19 +115,6 @@ public class FoundAdapter extends BaseAdapter {
 				context.startActivity(intent);
 			}
 		});
-		// switch (items.get(position).getInttag()) {
-		// case 0:
-		// hodler.tag.setText("发起了问题");
-		// break;
-		// case 1:
-		// hodler.tag.setText("回复了问题");
-		// break;
-		// case 2:
-		// hodler.tag.setText("发表了文章");
-		// break;
-		// default:
-		// break;
-		// }
 		hodler.userimage.setOnClickListener(new OnClickListener() {
 
 			@Override

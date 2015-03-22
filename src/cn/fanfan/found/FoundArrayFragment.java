@@ -6,12 +6,15 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import bean.Article;
+import bean.FoundItem;
+import bean.Question;
+
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import cn.fanfan.asking.FileUtils;
 import cn.fanfan.common.Config;
 import cn.fanfan.main.R;
 import cn.fanfan.widget.LoadMoreList;
@@ -36,8 +39,8 @@ public class FoundArrayFragment extends Fragment implements OnLoadMoreListener {
 	private List<FoundItem> mItems;
 
 	// 这个变量干什么的我也没猜出来
-	private String pagrtag = "";
 	private FoundAdapter adapter;
+	private int mPage = 1;
 
 	/**
 	 * Create a new instance of CountingFragment
@@ -60,52 +63,48 @@ public class FoundArrayFragment extends Fragment implements OnLoadMoreListener {
 		adapter = new FoundAdapter(mItems, getActivity());
 		mListView.setAdapter(adapter);
 		mListView.setOnLoadMoreListener(this);
-		getData("1");
+		getData(mPage);
 		return rootView;
 	}
 
-	private void getData(String page) {
-		if (!pagrtag.equals(page)) {
-			pagrtag = page;
-			RequestParams params = new RequestParams();
-			String url = Config.getValue("FoundList");
-			AsyncHttpClient client = new AsyncHttpClient();
-			switch (mPosition) {
-			case 0:
-				mType = "new";
-				break;
-			case 1:
-				mType = "hot";
-				break;
-			case 2:
-				mType = "unresponsive";
-				break;
-			default:
-				return;
-			}
-			mCommend = "0";
-			params.put("page", page);
-			params.put("sort_type", mType);
-			params.put("is_recommend", mCommend);
-			client.get(url, params, new AsyncHttpResponseHandler() {
-				@Override
-				public void onSuccess(int arg0, Header[] arg1, byte[] result) {
-					// TODO Auto-generated method stub
-					String string = new String(result);
-					Log.d("FoundArrayFragment", string);
-					parseData(result);
-				}
-
-				@Override
-				public void onFailure(int arg0, Header[] arg1, byte[] arg2,
-						Throwable arg3) {
-					// TODO Auto-generated method stub
-					Toast.makeText(getActivity(), "无法获取数据，请重试！",
-							Toast.LENGTH_SHORT).show();
-				}
-			});
+	private void getData(int page) {
+		RequestParams params = new RequestParams();
+		String url = Config.getValue("FoundList");
+		AsyncHttpClient client = new AsyncHttpClient();
+		switch (mPosition) {
+		case 0:
+			mType = "new";
+			break;
+		case 1:
+			mType = "hot";
+			break;
+		case 2:
+			mType = "unresponsive";
+			break;
+		default:
+			return;
 		}
+		mCommend = "0";
+		params.put("page", page);
+		params.put("sort_type", mType);
+		params.put("is_recommend", mCommend);
+		client.get(url, params, new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] result) {
+				// TODO Auto-generated method stub
+				String string = new String(result);
+				Log.d("FoundArrayFragment : " + mType, string);
+				parseData(result);
+			}
 
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "无法获取数据，请重试！", Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 	}
 
 	/* 解析数据 */
@@ -129,7 +128,7 @@ public class FoundArrayFragment extends Fragment implements OnLoadMoreListener {
 						Article article = new Gson().fromJson(
 								jsonObject.toString(), Article.class);
 						mItems.add(article);
-					} else if (type.equals("question")) {
+					} else {
 						Question question = new Gson().fromJson(
 								jsonObject.toString(), Question.class);
 						mItems.add(question);
@@ -141,7 +140,9 @@ public class FoundArrayFragment extends Fragment implements OnLoadMoreListener {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.d("Found:", "parse error!");
+			Log.d("Found:mType:" + mType, "parse error!");
+		} finally {
+			mListView.loadComplete();
 		}
 	}
 
@@ -160,15 +161,8 @@ public class FoundArrayFragment extends Fragment implements OnLoadMoreListener {
 	}
 
 	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		FileUtils.deleteDir(FileUtils.SDPATH2);
-	}
-
-	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
-		getData("1");
+		getData(mPage++);
 	}
 }

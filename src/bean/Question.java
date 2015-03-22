@@ -1,4 +1,5 @@
-package cn.fanfan.found;
+package bean;
+
 
 public class Question extends FoundItem {
 	private int question_id;

@@ -161,9 +161,9 @@ public class HomePageFragment extends Fragment implements
 					MainActivity.mNavigationDrawerFragment.selectItem(1);
 				} else {
 					mPage = mPage - 1;
-					mSwipeLayout.setRefreshing(false);
 					Toast.makeText(mActivity, "没有更多数据！", Toast.LENGTH_LONG)
 							.show();
+					mListView.loadComplete();
 				}
 			}
 			JSONArray rows = rsm.getJSONArray("rows");
@@ -276,7 +276,8 @@ public class HomePageFragment extends Fragment implements
 	public void onRefresh() {
 		// TODO Auto-generated method stub
 		if (!mListView.isLoading()) {
-			mPage++;
+			itemDataList.clear();
+			mPage = 0;
 			getData(mPage);
 		}
 	}
@@ -285,8 +286,7 @@ public class HomePageFragment extends Fragment implements
 	public void onLoad() {
 		// TODO Auto-generated method stub
 		if (!mSwipeLayout.isRefreshing()) {
-			itemDataList.clear();
-			mPage = 0;
+			mPage++;
 			getData(mPage);
 		}
 	}
