@@ -264,7 +264,7 @@ public class QuestionDetailActivity extends Activity {
 										.getString("agree_count"));
 								answerItem.setUid(answer.getString("uid"));
 								answerItem.setName(answer.getString("user_name"));
-								//answerItem.setAvatar_file(answer.getString("avatar_file"));
+								answerItem.setAvatar_file(answer.getString("avatar_file"));
 								comlists.add(answerItem);
 								if (i==2) {
 									System.out.println(comlists.size());
@@ -297,7 +297,7 @@ public class QuestionDetailActivity extends Activity {
 	}
 
 	private void Focusorno(){
-		String url = "http://w.hihwei.com/?/question/ajax/focus/?question_id="+question_id;
+		String url = Config.getValue("QuestionFocus")+question_id;
 		client.get(url, new AsyncHttpResponseHandler(){
 
 			@Override

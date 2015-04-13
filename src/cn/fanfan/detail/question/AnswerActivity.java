@@ -268,7 +268,7 @@ public class AnswerActivity extends Activity implements OnClickListener {
 	}
 
 	private void GetAnswer() {
-		String url = "http://w.hihwei.com/?/api/question/answer_detail/?id="
+		String url = Config.getValue("Answer_detail")
 				+ answer_id;
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		client.get(url, new AsyncHttpResponseHandler() {

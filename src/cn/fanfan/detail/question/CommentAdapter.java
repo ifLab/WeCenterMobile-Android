@@ -53,6 +53,7 @@ public class CommentAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int pos, View arg1,  ViewGroup arg2) {
 		// TODO Auto-generated method stub
+		System.out.println(comitems.get(pos).getUid()+"name 123123");
 		ViewHodler hodler;
 		if (arg1 == null) {
 			hodler = new ViewHodler();

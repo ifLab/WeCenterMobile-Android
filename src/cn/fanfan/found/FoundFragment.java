@@ -50,10 +50,9 @@ public class FoundFragment extends Fragment {
 		t1 = (TextView) rootView.findViewById(R.id.text1);
 		t2 = (TextView) rootView.findViewById(R.id.text2);
 		t3 = (TextView) rootView.findViewById(R.id.text3);
-
+		viewPager = (ViewPager) rootView.findViewById(R.id.foundpager);
 		InitTextView();
 		InitImageView();
-		viewPager = (ViewPager) rootView.findViewById(R.id.foundpager);
 		InitViewPager();
 		return rootView;
 	}
@@ -115,31 +114,9 @@ public class FoundFragment extends Fragment {
 		}
 
 		@Override
-		public Fragment getItem(int arg0) {
+		public Fragment getItem(int position) {
 			// TODO Auto-generated method stub
-			Fragment fragment = new FoundPagerFragment();
-			Bundle args = new Bundle();
-			String type, commend;
-			switch (arg0) {
-			case 0:
-				type = "new";
-				commend = "0";
-				break;
-			case 1:
-				type = "hot";
-				commend = "0";
-				break;
-			case 2:
-				type = "unresponsive";
-				commend = "0";
-				break;
-			default:
-				return null;
-			}
-			args.putString("type", type);
-			args.putString("commend", commend);
-			fragment.setArguments(args);
-			return fragment;
+			return FoundArrayFragment.newInstance(position);
 		}
 	}
 

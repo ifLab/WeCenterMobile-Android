@@ -30,7 +30,7 @@ public class GetUserNamImage {
 
 	public void getuserinfo(String uid, final TextView username,
 			final ImageView userimage, final onLoaderListener listener) {
-		String url = "http://w.hihwei.com/api/user.php?uid=" + uid;
+		String url = Config.getValue("user_info") + uid;
 		client.get(url, new AsyncHttpResponseHandler() {
 
 			@Override

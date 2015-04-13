@@ -3,8 +3,9 @@ package cn.fanfan.userinfo;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
+import bean.User;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
@@ -12,12 +13,11 @@ import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.fanfan.attentionuser.AttentionUserActivity;
-import cn.fanfan.common.AsyncImageGet;
 import cn.fanfan.common.Config;
 import cn.fanfan.common.FanfanSharedPreferences;
 import cn.fanfan.common.GlobalVariables;
 import cn.fanfan.common.NetworkState;
-import cn.fanfan.common.TipsToast;
+import cn.fanfan.common.image.SmartImageView;
 import cn.fanfan.main.MainActivity;
 import cn.fanfan.main.R;
 import cn.fanfan.topic.TopicFragmentActivity;
@@ -25,14 +25,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,11 +40,12 @@ import android.widget.Toast;
 
 //逻辑实现：获取其他Activity传递的值》根据值初始化界面》从网络获取数据》解析数据并设置到对应的bean》将数据填充到界面
 public class UserInfoShowActivity extends Activity implements OnClickListener {
+	// 当前用户是否已经关注该用户
 	private int haveFrocus = NO;// 1是已关注 。0未关注
 	private static final int YES = 1;
 	private static final int NO = 0;
-	private static TipsToast tipsToast;
-	private ImageView iv_avatar;
+
+	private SmartImageView iv_avatar;
 	private Button bt_focus;
 	private TextView tv_username;
 	private TextView tv_topic;
@@ -59,26 +60,15 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 	private TextView tv_focusi_person_comment, tv_ifocus_person_comment,
 			tv_topic_comment;
 	private String uid;
-	protected String errno;
-	protected String err;
-	protected String user_name, signature;
-	protected String avatar_file = "null";
-	protected String fans_count;
-	protected String friend_count;
-	protected String question_count;
-	protected String answer_count;
-	protected String topic_focus_count;
-	protected String agree_count;
-	protected String thanks_count;
-	protected String answer_favorite_count;
 	private LinearLayout lv_topics, lv_replys, lv_search_friens, lv_news,
 			lv_asks, lv_focusi_person, lv_ifocus_person, lv_articles;
 	private ProgressBar pb_change_follow;
 	private int status;
-	private AsyncHttpClient asyncHttpClient;
+	private AsyncHttpClient mHttpClient;
 	private FanfanSharedPreferences ffGetUid;
 	private LinearLayout ll_logout;
 	private FanfanSharedPreferences sharedPreferences;
+	private User mUser;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -110,7 +100,8 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 			if (networkState.isNetworkConnected(UserInfoShowActivity.this)) {
 				getUserInfo();
 			} else {
-				showTips(R.drawable.tips_error, R.string.net_notconnect);
+				Toast.makeText(UserInfoShowActivity.this, "无网络，请设置后重试！",
+						Toast.LENGTH_LONG).show();
 			}
 
 		}
@@ -133,7 +124,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 	// 初始化界面
 	private void init() {
 		// TODO Auto-generated method stub
-		iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
+		iv_avatar = (SmartImageView) findViewById(R.id.iv_avatar);
 		tv_username = (TextView) findViewById(R.id.tv_username);
 		lv_topics = (LinearLayout) findViewById(R.id.lv_topics);
 		lv_topics.setOnClickListener(this);
@@ -192,103 +183,82 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 
 	// 获取用户数据,并解析
 	private void getUserInfo() {
-		// TODO Auto-generated method stub
-		AsyncHttpClient getUserInfo = new AsyncHttpClient();
+		if (mHttpClient == null) {
+			mHttpClient = new AsyncHttpClient();
+		}
 		PersistentCookieStore mCookieStore = new PersistentCookieStore(this);
-		getUserInfo.setCookieStore(mCookieStore);
-
+		mHttpClient.setCookieStore(mCookieStore);
 		RequestParams params = new RequestParams();
 		params.put("uid", uid);
-		getUserInfo.get(Config.getValue("UserInfoUrl"), params,
+		mHttpClient.get(Config.getValue("UserInfoUrl"), params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							byte[] responseBody) {
-						// TODO Auto-generated method stub
 						// get请求成功后处理json。
-						String responseContent = new String(responseBody);
-						JSONTokener jsonParser = new JSONTokener(
-								responseContent);
-						try {
-							JSONObject result = (JSONObject) jsonParser
-									.nextValue();
-							errno = result.getString("errno");
-							err = result.getString("err");
-							JSONObject rsm = new JSONObject();
-							rsm = result.getJSONObject("rsm");
-							JSONTokener jsonParser2 = new JSONTokener(rsm
-									.toString());
-							JSONObject rsmcontent = (JSONObject) jsonParser2
-									.nextValue();
-							user_name = rsmcontent.getString("user_name");
-							signature = rsmcontent.getString("signature");
-							avatar_file = rsmcontent.getString("avatar_file");
-							fans_count = rsmcontent.getString("fans_count");
-							friend_count = rsmcontent.getString("friend_count");
-							question_count = rsmcontent
-									.getString("question_count");
-							topic_focus_count = rsmcontent
-									.getString("topic_focus_count");
-							agree_count = rsmcontent.getString("agree_count");
-							thanks_count = rsmcontent.getString("thanks_count");
-							answer_favorite_count = rsmcontent
-									.getString("answer_favorite_count");
-							answer_count = rsmcontent.getString("answer_count");
-							haveFrocus = rsmcontent.getInt("has_focus");
-							if (haveFrocus == YES) {
-								bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
-								bt_focus.setTextColor(android.graphics.Color.BLACK);
-								bt_focus.setText("取消关注");
-							} else {
-								bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
-								bt_focus.setTextColor(android.graphics.Color.WHITE);
-								bt_focus.setText("关注");
-							}
-							// 处理完JSON后updateUI展示用户资料
-							updateUI(avatar_file);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							// showTips(R.drawable.tips_error,
-							// R.string.net_break);
-							Toast.makeText(UserInfoShowActivity.this,
-									"网络不好，请重试！", Toast.LENGTH_LONG).show();
-
-						}
+						String result = new String(responseBody);
+						parseData(result);
 					}
 
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							byte[] responseBody, Throwable error) {
 						// TODO Auto-generated method stub
-						showTips(R.drawable.tips_error, R.string.get_user_info);
+						Toast.makeText(UserInfoShowActivity.this,
+								"无法获取数据，请重试！", Toast.LENGTH_LONG).show();
 					}
 				});
 	}
 
-	// 获取数据并解析后更新界面
-	protected void updateUI(String avatarurl) {
+	protected void parseData(String result) {
 		// TODO Auto-generated method stub
-		tv_username.setText(user_name);
-		tv_focusi_person.setText(fans_count);
-		tv_ifocus_person.setText(friend_count);
-		tv_topic.setText(topic_focus_count);
-		tv_votes.setText(agree_count);
-		tv_thanks.setText(thanks_count);
-		tv_collect.setText(answer_favorite_count);
-		tv_replys.setText(answer_count);
-		tv_asks.setText(question_count);
-		if (!signature.equals("false")) {
-			tvSignature.setText(signature);
-		}
+		try {
+			JSONObject allResult = new JSONObject(result);
+			if (allResult.getInt("errno") == -1) {
+				Toast.makeText(this, allResult.getString("err"),
+						Toast.LENGTH_SHORT).show();
+			} else {
+				JSONObject rsm = allResult.getJSONObject("rsm");
+				mUser = new Gson().fromJson(rsm.toString(), User.class);
+				updateUI();
+			}
 
-		// 下载用户头像
-		if ((avatarurl != null) && (!avatarurl.equals(""))) {
-			AsyncImageGet getAvatar = new AsyncImageGet(
-					Config.getValue("AvatarPrefixUrl") + avatarurl, iv_avatar);
-			getAvatar.execute();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.e("UserInfo ERROR:", "parse data error!");
+		}
+	}
+
+	// 获取数据并解析后更新界面
+	protected void updateUI() {
+		if (mUser != null) {
+			tv_username.setText(mUser.getUser_name());
+			tv_focusi_person.setText(mUser.getFans_count());
+			tv_ifocus_person.setText(mUser.getFriend_count());
+			tv_topic.setText(mUser.getTopic_focus_count());
+			tv_votes.setText(mUser.getAgree_count());
+			tv_thanks.setText(mUser.getThanks_count());
+			tv_collect.setText(mUser.getAnswer_favorite_count());
+			tv_replys.setText(mUser.getAnswer_count());
+			tv_asks.setText(mUser.getQuestion_count());
+		}
+		if (!TextUtils.isEmpty(mUser.getAvatar_file())) {
+			String url = Config.getValue("AvatarPrefixUrl")
+					+ mUser.getAvatar_file();
+			iv_avatar.setImageUrl(url);
 		} else {
 			iv_avatar.setImageResource(R.drawable.ic_avatar_default);
+		}
+		if (haveFrocus == YES) {
+			bt_focus.setBackgroundResource(R.drawable.btn_silver_normal);
+			bt_focus.setTextColor(android.graphics.Color.BLACK);
+			bt_focus.setText("取消关注");
+		} else {
+			bt_focus.setBackgroundResource(R.drawable.btn_green_normal);
+			bt_focus.setTextColor(android.graphics.Color.WHITE);
+			bt_focus.setText("关注");
 		}
 	}
 
@@ -380,20 +350,20 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 
 	private void changeFrocusStatus() {
 		// TODO Auto-generated method stub
-		asyncHttpClient = new AsyncHttpClient();
+		mHttpClient = new AsyncHttpClient();
 		PersistentCookieStore mCookieStore = new PersistentCookieStore(this);
-		asyncHttpClient.setCookieStore(mCookieStore);
+		mHttpClient.setCookieStore(mCookieStore);
 		RequestParams followStatus = new RequestParams();
 		// 发送关注状态，如果失败提醒用户，并更改frocus按钮相关状态
 		followStatus.put("uid", uid);// 所要取消关注的uid
-		asyncHttpClient.get(Config.getValue("ChangeFollowStatus"),
-				followStatus, new AsyncHttpResponseHandler() {
+		mHttpClient.get(Config.getValue("ChangeFollowStatus"), followStatus,
+				new AsyncHttpResponseHandler() {
 
 					@Override
 					public void onSuccess(int arg0, Header[] arg1,
 							byte[] responseBody) {
 						// TODO Auto-generated method stub
-						String responseContent = new String(responseBody);
+						// String responseContent = new String(responseBody);
 						bt_focus.setClickable(true);
 						pb_change_follow.setVisibility(View.GONE);
 					}
@@ -423,21 +393,6 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 				});
 	}
 
-	// 提示模块
-	private void showTips(int iconResId, int msgResId) {
-		if (tipsToast != null) {
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-				tipsToast.cancel();
-			}
-		} else {
-			tipsToast = TipsToast.makeText(getApplication().getBaseContext(),
-					msgResId, TipsToast.LENGTH_SHORT);
-		}
-		tipsToast.show();
-		tipsToast.setIcon(iconResId);
-		tipsToast.setText(msgResId);
-	}
-
 	public void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
@@ -452,7 +407,8 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 			if (networkState.isNetworkConnected(UserInfoShowActivity.this)) {
 				getUserInfo();
 			} else {
-				showTips(R.drawable.tips_error, R.string.net_break);
+				Toast.makeText(UserInfoShowActivity.this, "无网络，请设置后重试！",
+						Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -478,7 +434,7 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 					UserInfoEditActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putString("uid", uid);
-			bundle.putString("avatar_file", avatar_file);
+			bundle.putString("avatar_file", mUser.getAvatar_file());
 			intent.putExtras(bundle);
 			startActivity(intent);
 			return true;
@@ -488,4 +444,15 @@ public class UserInfoShowActivity extends Activity implements OnClickListener {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		if (mHttpClient != null) {
+			mHttpClient.cancelAllRequests(true);
+		}
+
+	}
+
 }

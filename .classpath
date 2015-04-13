@@ -5,6 +5,8 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="D:/GitHub/WeCenterMobile-Android/libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="/library/libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="libs/android-async-http-1.4.5.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
