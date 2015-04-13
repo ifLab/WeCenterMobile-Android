@@ -3,10 +3,9 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/android-async-http-1.4.5.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/gson-2.3.1.jar"/>
-	<classpathentry kind="lib" path="/library/libs/android-support-v4.jar"/>
-	<classpathentry kind="lib" path="libs/android-async-http-1.4.5.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
